@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA747D9F0F9514B9006C5449 /* SoftwareModem_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* SoftwareModem_Prefix.pch */; };
+		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		DD06B52A12A1E33A00D902AD /* FSKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B52912A1E33A00D902AD /* FSKConstants.h */; };
+		DD06B53612A27F2A00D902AD /* SWMSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B53512A27F2A00D902AD /* SWMSocket.h */; };
+		DD06B58B12A2920F00D902AD /* SWMPhysicalSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B58A12A2920F00D902AD /* SWMPhysicalSocket.h */; };
+		DD06B5B912A296EB00D902AD /* SWMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B5B812A296EB00D902AD /* SWMConstants.h */; };
+		DD1CF91012B5BC9500E784AE /* GTMIPhoneUnitTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8F012B5BC0E00E784AE /* GTMIPhoneUnitTestDelegate.m */; };
+		DD1CF91112B5BC9500E784AE /* GTMIPhoneUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8F112B5BC0E00E784AE /* GTMIPhoneUnitTestMain.m */; };
+		DD1CF91312B5BC9500E784AE /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8F312B5BC0E00E784AE /* GTMObjC2Runtime.m */; };
+		DD1CF91512B5BC9500E784AE /* GTMRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8F512B5BC0E00E784AE /* GTMRegex.m */; };
+		DD1CF91712B5BC9500E784AE /* GTMSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8F712B5BC0E00E784AE /* GTMSenTestCase.m */; };
+		DD1CF91912B5BC9500E784AE /* GTMUnitTestDevLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8F912B5BC0E00E784AE /* GTMUnitTestDevLog.m */; };
+		DD1CF91B12B5BC9E00E784AE /* MockPHY.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8E612B5BBF800E784AE /* MockPHY.m */; };
+		DD1CF91D12B5BC9E00E784AE /* SendingSingleByteTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CF8E812B5BBF800E784AE /* SendingSingleByteTest.m */; };
+		DD1CF93912B5BD5900E784AE /* MockPHY.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8E512B5BBF800E784AE /* MockPHY.h */; };
+		DD1CF93A12B5BD5D00E784AE /* SendingSingleByteTest.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8E712B5BBF800E784AE /* SendingSingleByteTest.h */; };
+		DD1CF93B12B5BD6100E784AE /* GTMUnitTestDevLog.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8F812B5BC0E00E784AE /* GTMUnitTestDevLog.h */; };
+		DD1CF93C12B5BD6500E784AE /* GTMSenTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8F612B5BC0E00E784AE /* GTMSenTestCase.h */; };
+		DD1CF93D12B5BD6A00E784AE /* GTMRegex.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8F412B5BC0E00E784AE /* GTMRegex.h */; };
+		DD1CF93E12B5BD6F00E784AE /* GTMObjC2Runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8F212B5BC0E00E784AE /* GTMObjC2Runtime.h */; };
+		DD1CF93F12B5BD7500E784AE /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8EE12B5BC0E00E784AE /* GTMDefines.h */; };
+		DD1CF94012B5BD7500E784AE /* GTMIPhoneUnitTestDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CF8EF12B5BC0E00E784AE /* GTMIPhoneUnitTestDelegate.h */; };
+		DD1CF9CF12B5BE1A00E784AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		DD1CF9D012B5BE1A00E784AE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB20AA5129B5C740095E7E3 /* AVFoundation.framework */; };
+		DD1CF9D112B5BE1A00E784AE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB20AD2129B5C920095E7E3 /* AudioToolbox.framework */; };
+		DD1CF9D612B5BEC200E784AE /* FSKModem.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20A45129B41C70095E7E3 /* FSKModem.m */; };
+		DD1CF9D712B5BEC200E784AE /* FSKModulator.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20A49129B41D50095E7E3 /* FSKModulator.m */; };
+		DD1CF9D812B5BEC200E784AE /* AudioPHY.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20A51129B42060095E7E3 /* AudioPHY.m */; };
+		DD1CF9D912B5BEC200E784AE /* iPhoneCoreAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20AA2129B5C660095E7E3 /* iPhoneCoreAudio.m */; };
+		DD1CF9DA12B5BEC200E784AE /* FSKDemodulator.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB34035129E5A7D009DCF00 /* FSKDemodulator.m */; };
+		DD1CF9DB12B5BEDE00E784AE /* SoftwareModem_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* SoftwareModem_Prefix.pch */; };
+		DD1CF9DC12B5BEDE00E784AE /* FSKModem.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20A44129B41C70095E7E3 /* FSKModem.h */; };
+		DD1CF9DD12B5BEDE00E784AE /* FSKModulator.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20A48129B41D50095E7E3 /* FSKModulator.h */; };
+		DD1CF9DE12B5BEDE00E784AE /* AudioPHY.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20A50129B42060095E7E3 /* AudioPHY.h */; };
+		DD1CF9DF12B5BEDE00E784AE /* iPhoneCoreAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20AA1129B5C660095E7E3 /* iPhoneCoreAudio.h */; };
+		DD1CF9E012B5BEDE00E784AE /* FSKDemodulator.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB34034129E5A7D009DCF00 /* FSKDemodulator.h */; };
+		DD1CF9E112B5BEDE00E784AE /* FSKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B52912A1E33A00D902AD /* FSKConstants.h */; };
+		DD1CF9E212B5BEDE00E784AE /* SWMSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B53512A27F2A00D902AD /* SWMSocket.h */; };
+		DD1CF9E312B5BEDE00E784AE /* SWMPhysicalSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B58A12A2920F00D902AD /* SWMPhysicalSocket.h */; };
+		DD1CF9E412B5BEDE00E784AE /* SWMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DD06B5B812A296EB00D902AD /* SWMConstants.h */; };
+		DD1CFBEF12B5C0F400E784AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1CFBEE12B5C0F400E784AE /* UIKit.framework */; };
+		DD1CFBF312B5C13900E784AE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1CFBF212B5C12400E784AE /* MainWindow.xib */; };
+		DD1CFBFD12B5C20700E784AE /* TestCasesAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CFBFB12B5C20700E784AE /* TestCasesAppDelegate.h */; };
+		DD1CFC0312B5C27F00E784AE /* TestCasesAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DD1CFBFB12B5C20700E784AE /* TestCasesAppDelegate.h */; };
+		DD1CFC0412B5C28300E784AE /* TestCasesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1CFBFC12B5C20700E784AE /* TestCasesAppDelegate.m */; };
+		DD66E42412D9492E00034EF5 /* SendingTwoByteTest.h in Headers */ = {isa = PBXBuildFile; fileRef = DD66E42212D9492E00034EF5 /* SendingTwoByteTest.h */; };
+		DDB20A46129B41C70095E7E3 /* FSKModem.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20A44129B41C70095E7E3 /* FSKModem.h */; };
+		DDB20A47129B41C70095E7E3 /* FSKModem.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20A45129B41C70095E7E3 /* FSKModem.m */; };
+		DDB20A4A129B41D50095E7E3 /* FSKModulator.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20A48129B41D50095E7E3 /* FSKModulator.h */; };
+		DDB20A4B129B41D50095E7E3 /* FSKModulator.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20A49129B41D50095E7E3 /* FSKModulator.m */; };
+		DDB20A52129B42060095E7E3 /* AudioPHY.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20A50129B42060095E7E3 /* AudioPHY.h */; };
+		DDB20A53129B42060095E7E3 /* AudioPHY.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20A51129B42060095E7E3 /* AudioPHY.m */; };
+		DDB20AA3129B5C660095E7E3 /* iPhoneCoreAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB20AA1129B5C660095E7E3 /* iPhoneCoreAudio.h */; };
+		DDB20AA4129B5C660095E7E3 /* iPhoneCoreAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB20AA2129B5C660095E7E3 /* iPhoneCoreAudio.m */; };
+		DDB20AA6129B5C740095E7E3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB20AA5129B5C740095E7E3 /* AVFoundation.framework */; };
+		DDB20AD3129B5C920095E7E3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB20AD2129B5C920095E7E3 /* AudioToolbox.framework */; };
+		DDB34036129E5A7D009DCF00 /* FSKDemodulator.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB34034129E5A7D009DCF00 /* FSKDemodulator.h */; };
+		DDB34037129E5A7D009DCF00 /* FSKDemodulator.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB34035129E5A7D009DCF00 /* FSKDemodulator.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA747D9E0F9514B9006C5449 /* SoftwareModem_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoftwareModem_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D2AAC07E0554694100DB518D /* libSoftwareModem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSoftwareModem.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD06B52912A1E33A00D902AD /* FSKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSKConstants.h; sourceTree = "<group>"; };
+		DD06B53512A27F2A00D902AD /* SWMSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMSocket.h; sourceTree = "<group>"; };
+		DD06B58A12A2920F00D902AD /* SWMPhysicalSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMPhysicalSocket.h; sourceTree = "<group>"; };
+		DD06B5B812A296EB00D902AD /* SWMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMConstants.h; sourceTree = "<group>"; };
+		DD1CF8D912B5BB8200E784AE /* TestCases.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCases.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD1CF8DB12B5BB8200E784AE /* TestCases-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestCases-Info.plist"; sourceTree = "<group>"; };
+		DD1CF8E512B5BBF800E784AE /* MockPHY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockPHY.h; sourceTree = "<group>"; };
+		DD1CF8E612B5BBF800E784AE /* MockPHY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockPHY.m; sourceTree = "<group>"; };
+		DD1CF8E712B5BBF800E784AE /* SendingSingleByteTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingSingleByteTest.h; sourceTree = "<group>"; };
+		DD1CF8E812B5BBF800E784AE /* SendingSingleByteTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingSingleByteTest.m; sourceTree = "<group>"; };
+		DD1CF8EE12B5BC0E00E784AE /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		DD1CF8EF12B5BC0E00E784AE /* GTMIPhoneUnitTestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMIPhoneUnitTestDelegate.h; sourceTree = "<group>"; };
+		DD1CF8F012B5BC0E00E784AE /* GTMIPhoneUnitTestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMIPhoneUnitTestDelegate.m; sourceTree = "<group>"; };
+		DD1CF8F112B5BC0E00E784AE /* GTMIPhoneUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMIPhoneUnitTestMain.m; sourceTree = "<group>"; };
+		DD1CF8F212B5BC0E00E784AE /* GTMObjC2Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMObjC2Runtime.h; sourceTree = "<group>"; };
+		DD1CF8F312B5BC0E00E784AE /* GTMObjC2Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMObjC2Runtime.m; sourceTree = "<group>"; };
+		DD1CF8F412B5BC0E00E784AE /* GTMRegex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMRegex.h; sourceTree = "<group>"; };
+		DD1CF8F512B5BC0E00E784AE /* GTMRegex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMRegex.m; sourceTree = "<group>"; };
+		DD1CF8F612B5BC0E00E784AE /* GTMSenTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMSenTestCase.h; sourceTree = "<group>"; };
+		DD1CF8F712B5BC0E00E784AE /* GTMSenTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMSenTestCase.m; sourceTree = "<group>"; };
+		DD1CF8F812B5BC0E00E784AE /* GTMUnitTestDevLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMUnitTestDevLog.h; sourceTree = "<group>"; };
+		DD1CF8F912B5BC0E00E784AE /* GTMUnitTestDevLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMUnitTestDevLog.m; sourceTree = "<group>"; };
+		DD1CF90612B5BC1D00E784AE /* RunIPhoneUnitTest.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = RunIPhoneUnitTest.sh; sourceTree = "<group>"; };
+		DD1CFBEE12B5C0F400E784AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DD1CFBF212B5C12400E784AE /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		DD1CFBFB12B5C20700E784AE /* TestCasesAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCasesAppDelegate.h; sourceTree = "<group>"; };
+		DD1CFBFC12B5C20700E784AE /* TestCasesAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCasesAppDelegate.m; sourceTree = "<group>"; };
+		DD66E42212D9492E00034EF5 /* SendingTwoByteTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingTwoByteTest.h; sourceTree = "<group>"; };
+		DD66E42312D9492E00034EF5 /* SendingTwoByteTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingTwoByteTest.m; sourceTree = "<group>"; };
+		DDB20A44129B41C70095E7E3 /* FSKModem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSKModem.h; sourceTree = "<group>"; };
+		DDB20A45129B41C70095E7E3 /* FSKModem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSKModem.m; sourceTree = "<group>"; };
+		DDB20A48129B41D50095E7E3 /* FSKModulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSKModulator.h; sourceTree = "<group>"; };
+		DDB20A49129B41D50095E7E3 /* FSKModulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSKModulator.m; sourceTree = "<group>"; };
+		DDB20A50129B42060095E7E3 /* AudioPHY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPHY.h; sourceTree = "<group>"; };
+		DDB20A51129B42060095E7E3 /* AudioPHY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPHY.m; sourceTree = "<group>"; };
+		DDB20AA1129B5C660095E7E3 /* iPhoneCoreAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneCoreAudio.h; sourceTree = "<group>"; };
+		DDB20AA2129B5C660095E7E3 /* iPhoneCoreAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneCoreAudio.m; sourceTree = "<group>"; };
+		DDB20AA5129B5C740095E7E3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DDB20AD2129B5C920095E7E3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DDB34034129E5A7D009DCF00 /* FSKDemodulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSKDemodulator.h; sourceTree = "<group>"; };
+		DDB34035129E5A7D009DCF00 /* FSKDemodulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSKDemodulator.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D2AAC07C0554694100DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				DDB20AA6129B5C740095E7E3 /* AVFoundation.framework in Frameworks */,
+				DDB20AD3129B5C920095E7E3 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1CF8D712B5BB8200E784AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1CF9CF12B5BE1A00E784AE /* Foundation.framework in Frameworks */,
+				DD1CF9D012B5BE1A00E784AE /* AVFoundation.framework in Frameworks */,
+				DD1CF9D112B5BE1A00E784AE /* AudioToolbox.framework in Frameworks */,
+				DD1CFBEF12B5C0F400E784AE /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC07E0554694100DB518D /* libSoftwareModem.a */,
+				DD1CF8D912B5BB8200E784AE /* TestCases.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* SoftwareModem */ = {
+			isa = PBXGroup;
+			children = (
+				DD1CF8E412B5BBE500E784AE /* TestCases */,
+				DDB34052129E610D009DCF00 /* AudioPHY */,
+				DDB34051129E60F6009DCF00 /* Protocols */,
+				08FB77AEFE84172EC02AAC07 /* FSKModem */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
+				034768DFFF38A50411DB9C8B /* Products */,
+				DD1CF8DB12B5BB8200E784AE /* TestCases-Info.plist */,
+			);
+			name = SoftwareModem;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDB20AA5129B5C740095E7E3 /* AVFoundation.framework */,
+				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				DDB20AD2129B5C920095E7E3 /* AudioToolbox.framework */,
+				DD1CFBEE12B5C0F400E784AE /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* FSKModem */ = {
+			isa = PBXGroup;
+			children = (
+				DDB20A44129B41C70095E7E3 /* FSKModem.h */,
+				DDB20A45129B41C70095E7E3 /* FSKModem.m */,
+				DDB20A48129B41D50095E7E3 /* FSKModulator.h */,
+				DDB20A49129B41D50095E7E3 /* FSKModulator.m */,
+				DDB34034129E5A7D009DCF00 /* FSKDemodulator.h */,
+				DDB34035129E5A7D009DCF00 /* FSKDemodulator.m */,
+				DD06B52912A1E33A00D902AD /* FSKConstants.h */,
+			);
+			name = FSKModem;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				AA747D9E0F9514B9006C5449 /* SoftwareModem_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		DD1CF8E412B5BBE500E784AE /* TestCases */ = {
+			isa = PBXGroup;
+			children = (
+				DD1CFBF212B5C12400E784AE /* MainWindow.xib */,
+				DD1CF90612B5BC1D00E784AE /* RunIPhoneUnitTest.sh */,
+				DD1CFBFB12B5C20700E784AE /* TestCasesAppDelegate.h */,
+				DD1CFBFC12B5C20700E784AE /* TestCasesAppDelegate.m */,
+				DD1CF8ED12B5BBFD00E784AE /* GTM */,
+				DD1CF8E512B5BBF800E784AE /* MockPHY.h */,
+				DD1CF8E612B5BBF800E784AE /* MockPHY.m */,
+				DD1CF8E712B5BBF800E784AE /* SendingSingleByteTest.h */,
+				DD1CF8E812B5BBF800E784AE /* SendingSingleByteTest.m */,
+				DD66E42212D9492E00034EF5 /* SendingTwoByteTest.h */,
+				DD66E42312D9492E00034EF5 /* SendingTwoByteTest.m */,
+			);
+			name = TestCases;
+			sourceTree = "<group>";
+		};
+		DD1CF8ED12B5BBFD00E784AE /* GTM */ = {
+			isa = PBXGroup;
+			children = (
+				DD1CF8EE12B5BC0E00E784AE /* GTMDefines.h */,
+				DD1CF8EF12B5BC0E00E784AE /* GTMIPhoneUnitTestDelegate.h */,
+				DD1CF8F012B5BC0E00E784AE /* GTMIPhoneUnitTestDelegate.m */,
+				DD1CF8F112B5BC0E00E784AE /* GTMIPhoneUnitTestMain.m */,
+				DD1CF8F212B5BC0E00E784AE /* GTMObjC2Runtime.h */,
+				DD1CF8F312B5BC0E00E784AE /* GTMObjC2Runtime.m */,
+				DD1CF8F412B5BC0E00E784AE /* GTMRegex.h */,
+				DD1CF8F512B5BC0E00E784AE /* GTMRegex.m */,
+				DD1CF8F612B5BC0E00E784AE /* GTMSenTestCase.h */,
+				DD1CF8F712B5BC0E00E784AE /* GTMSenTestCase.m */,
+				DD1CF8F812B5BC0E00E784AE /* GTMUnitTestDevLog.h */,
+				DD1CF8F912B5BC0E00E784AE /* GTMUnitTestDevLog.m */,
+			);
+			name = GTM;
+			sourceTree = "<group>";
+		};
+		DDB34051129E60F6009DCF00 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				DD06B53512A27F2A00D902AD /* SWMSocket.h */,
+				DD06B58A12A2920F00D902AD /* SWMPhysicalSocket.h */,
+				DD06B5B812A296EB00D902AD /* SWMConstants.h */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		DDB34052129E610D009DCF00 /* AudioPHY */ = {
+			isa = PBXGroup;
+			children = (
+				DDB20A50129B42060095E7E3 /* AudioPHY.h */,
+				DDB20A51129B42060095E7E3 /* AudioPHY.m */,
+				DDB20AA1129B5C660095E7E3 /* iPhoneCoreAudio.h */,
+				DDB20AA2129B5C660095E7E3 /* iPhoneCoreAudio.m */,
+			);
+			name = AudioPHY;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC07A0554694100DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA747D9F0F9514B9006C5449 /* SoftwareModem_Prefix.pch in Headers */,
+				DDB20A46129B41C70095E7E3 /* FSKModem.h in Headers */,
+				DDB20A4A129B41D50095E7E3 /* FSKModulator.h in Headers */,
+				DDB20A52129B42060095E7E3 /* AudioPHY.h in Headers */,
+				DDB20AA3129B5C660095E7E3 /* iPhoneCoreAudio.h in Headers */,
+				DDB34036129E5A7D009DCF00 /* FSKDemodulator.h in Headers */,
+				DD06B52A12A1E33A00D902AD /* FSKConstants.h in Headers */,
+				DD06B53612A27F2A00D902AD /* SWMSocket.h in Headers */,
+				DD06B58B12A2920F00D902AD /* SWMPhysicalSocket.h in Headers */,
+				DD06B5B912A296EB00D902AD /* SWMConstants.h in Headers */,
+				DD1CFBFD12B5C20700E784AE /* TestCasesAppDelegate.h in Headers */,
+				DD66E42412D9492E00034EF5 /* SendingTwoByteTest.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1CF92412B5BCD100E784AE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1CF93912B5BD5900E784AE /* MockPHY.h in Headers */,
+				DD1CF93D12B5BD6A00E784AE /* GTMRegex.h in Headers */,
+				DD1CF93E12B5BD6F00E784AE /* GTMObjC2Runtime.h in Headers */,
+				DD1CF9DB12B5BEDE00E784AE /* SoftwareModem_Prefix.pch in Headers */,
+				DD1CF9DC12B5BEDE00E784AE /* FSKModem.h in Headers */,
+				DD1CFC0312B5C27F00E784AE /* TestCasesAppDelegate.h in Headers */,
+				DD1CF9DD12B5BEDE00E784AE /* FSKModulator.h in Headers */,
+				DD1CF9DE12B5BEDE00E784AE /* AudioPHY.h in Headers */,
+				DD1CF9DF12B5BEDE00E784AE /* iPhoneCoreAudio.h in Headers */,
+				DD1CF9E012B5BEDE00E784AE /* FSKDemodulator.h in Headers */,
+				DD1CF9E112B5BEDE00E784AE /* FSKConstants.h in Headers */,
+				DD1CF9E212B5BEDE00E784AE /* SWMSocket.h in Headers */,
+				DD1CF9E312B5BEDE00E784AE /* SWMPhysicalSocket.h in Headers */,
+				DD1CF9E412B5BEDE00E784AE /* SWMConstants.h in Headers */,
+				DD1CF93F12B5BD7500E784AE /* GTMDefines.h in Headers */,
+				DD1CF94012B5BD7500E784AE /* GTMIPhoneUnitTestDelegate.h in Headers */,
+				DD1CF93C12B5BD6500E784AE /* GTMSenTestCase.h in Headers */,
+				DD1CF93B12B5BD6100E784AE /* GTMUnitTestDevLog.h in Headers */,
+				DD1CF93A12B5BD5D00E784AE /* SendingSingleByteTest.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D2AAC07D0554694100DB518D /* SoftwareModem */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "SoftwareModem" */;
+			buildPhases = (
+				D2AAC07A0554694100DB518D /* Headers */,
+				D2AAC07B0554694100DB518D /* Sources */,
+				D2AAC07C0554694100DB518D /* Frameworks */,
+				DD1CF90A12B5BC2A00E784AE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SoftwareModem;
+			productName = SoftwareModem;
+			productReference = D2AAC07E0554694100DB518D /* libSoftwareModem.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DD1CF8D812B5BB8200E784AE /* TestCases */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD1CF8DE12B5BB8300E784AE /* Build configuration list for PBXNativeTarget "TestCases" */;
+			buildPhases = (
+				DD1CF8D512B5BB8200E784AE /* Resources */,
+				DD1CF8D612B5BB8200E784AE /* Sources */,
+				DD1CF8D712B5BB8200E784AE /* Frameworks */,
+				DD1CF92412B5BCD100E784AE /* Headers */,
+				DD1CF92112B5BCAC00E784AE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestCases;
+			productName = TestCases;
+			productReference = DD1CF8D912B5BB8200E784AE /* TestCases.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Reinforce Lab.";
+			};
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "SoftwareModem" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* SoftwareModem */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC07D0554694100DB518D /* SoftwareModem */,
+				DD1CF8D812B5BB8200E784AE /* TestCases */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD1CF8D512B5BB8200E784AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1CFBF312B5C13900E784AE /* MainWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DD1CF90A12B5BC2A00E784AE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+		DD1CF92112B5BCAC00E784AE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Users/rupppau/Projects/OTOduino.git/src/OTO-plug/src/obj-c/RunIPhoneUnitTest.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D2AAC07B0554694100DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB20A47129B41C70095E7E3 /* FSKModem.m in Sources */,
+				DDB20A4B129B41D50095E7E3 /* FSKModulator.m in Sources */,
+				DDB20A53129B42060095E7E3 /* AudioPHY.m in Sources */,
+				DDB20AA4129B5C660095E7E3 /* iPhoneCoreAudio.m in Sources */,
+				DDB34037129E5A7D009DCF00 /* FSKDemodulator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1CF8D612B5BB8200E784AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1CF9D612B5BEC200E784AE /* FSKModem.m in Sources */,
+				DD1CF9D712B5BEC200E784AE /* FSKModulator.m in Sources */,
+				DD1CFC0412B5C28300E784AE /* TestCasesAppDelegate.m in Sources */,
+				DD1CF9D812B5BEC200E784AE /* AudioPHY.m in Sources */,
+				DD1CF9D912B5BEC200E784AE /* iPhoneCoreAudio.m in Sources */,
+				DD1CF9DA12B5BEC200E784AE /* FSKDemodulator.m in Sources */,
+				DD1CF91B12B5BC9E00E784AE /* MockPHY.m in Sources */,
+				DD1CF91D12B5BC9E00E784AE /* SendingSingleByteTest.m in Sources */,
+				DD1CF91012B5BC9500E784AE /* GTMIPhoneUnitTestDelegate.m in Sources */,
+				DD1CF91112B5BC9500E784AE /* GTMIPhoneUnitTestMain.m in Sources */,
+				DD1CF91312B5BC9500E784AE /* GTMObjC2Runtime.m in Sources */,
+				DD1CF91512B5BC9500E784AE /* GTMRegex.m in Sources */,
+				DD1CF91712B5BC9500E784AE /* GTMSenTestCase.m in Sources */,
+				DD1CF91912B5BC9500E784AE /* GTMUnitTestDevLog.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB921F08733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/SoftwareModem.dst;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SoftwareModem_Prefix.pch;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = SoftwareModem;
+			};
+			name = Debug;
+		};
+		1DEB922008733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/SoftwareModem.dst;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SoftwareModem_Prefix.pch;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = SoftwareModem;
+			};
+			name = Release;
+		};
+		1DEB922308733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1DEB922408733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		DD1CF8DC12B5BB8200E784AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "TestCases-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestCases;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DD1CF8DD12B5BB8200E784AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "TestCases-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestCases;
+				SDKROOT = iphoneos;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "SoftwareModem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB921F08733DC00010E9CD /* Debug */,
+				1DEB922008733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "SoftwareModem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB922308733DC00010E9CD /* Debug */,
+				1DEB922408733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD1CF8DE12B5BB8300E784AE /* Build configuration list for PBXNativeTarget "TestCases" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD1CF8DC12B5BB8200E784AE /* Debug */,
+				DD1CF8DD12B5BB8200E784AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
