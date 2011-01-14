@@ -3,7 +3,7 @@
 //  SoftwareModem
 //
 //  Created by UEHARA AKIHIRO on 10/11/28.
-//  Copyright 2010 Reinforce Lab. All rights reserved.
+//  Copyright 2010 REINFORCE Lab. All rights reserved.
 //
 
 #define kSWMSamplingRate    44100.0
