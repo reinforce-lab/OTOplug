@@ -65,6 +65,8 @@
 		DDB20AD3129B5C920095E7E3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB20AD2129B5C920095E7E3 /* AudioToolbox.framework */; };
 		DDB34036129E5A7D009DCF00 /* FSKDemodulator.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB34034129E5A7D009DCF00 /* FSKDemodulator.h */; };
 		DDB34037129E5A7D009DCF00 /* FSKDemodulator.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB34035129E5A7D009DCF00 /* FSKDemodulator.m */; };
+		DDCEBE7212E2D88A00775014 /* SendingMiscPacketTest.h in Headers */ = {isa = PBXBuildFile; fileRef = DDCEBE7012E2D88A00775014 /* SendingMiscPacketTest.h */; };
+		DDCEBE7312E2D88A00775014 /* SendingMiscPacketTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCEBE7112E2D88A00775014 /* SendingMiscPacketTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +114,8 @@
 		DDB20AD2129B5C920095E7E3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DDB34034129E5A7D009DCF00 /* FSKDemodulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSKDemodulator.h; sourceTree = "<group>"; };
 		DDB34035129E5A7D009DCF00 /* FSKDemodulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSKDemodulator.m; sourceTree = "<group>"; };
+		DDCEBE7012E2D88A00775014 /* SendingMiscPacketTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingMiscPacketTest.h; sourceTree = "<group>"; };
+		DDCEBE7112E2D88A00775014 /* SendingMiscPacketTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingMiscPacketTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +214,8 @@
 				DD1CF8E812B5BBF800E784AE /* SendingSingleByteTest.m */,
 				DD66E42212D9492E00034EF5 /* SendingTwoByteTest.h */,
 				DD66E42312D9492E00034EF5 /* SendingTwoByteTest.m */,
+				DDCEBE7012E2D88A00775014 /* SendingMiscPacketTest.h */,
+				DDCEBE7112E2D88A00775014 /* SendingMiscPacketTest.m */,
 			);
 			name = TestCases;
 			sourceTree = "<group>";
@@ -299,6 +305,7 @@
 				DD1CF93C12B5BD6500E784AE /* GTMSenTestCase.h in Headers */,
 				DD1CF93B12B5BD6100E784AE /* GTMUnitTestDevLog.h in Headers */,
 				DD1CF93A12B5BD5D00E784AE /* SendingSingleByteTest.h in Headers */,
+				DDCEBE7212E2D88A00775014 /* SendingMiscPacketTest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,7 +414,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/rupppau/Projects/OTOduino.git/src/OTO-plug/src/obj-c/RunIPhoneUnitTest.sh";
+			shellScript = "/Users/rupppau/Dropbox/OTO-plug.git/src/obj-c/RunIPhoneUnitTest.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -442,6 +449,7 @@
 				DD1CF91512B5BC9500E784AE /* GTMRegex.m in Sources */,
 				DD1CF91712B5BC9500E784AE /* GTMSenTestCase.m in Sources */,
 				DD1CF91912B5BC9500E784AE /* GTMUnitTestDevLog.m in Sources */,
+				DDCEBE7312E2D88A00775014 /* SendingMiscPacketTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

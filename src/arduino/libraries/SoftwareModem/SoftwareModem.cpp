@@ -14,13 +14,15 @@
 #include <util/crc16.h>
 #include <stdbool.h>
 
+#include <HardwareSerial.h>
+
 // single instance of this class
 SoftwareModemClass SoftwareModem;
 
 // **** 
 // Parameter definitions
 // **** 
-// analog reference of ADMUX (B01000000) 1.1v internal reference voltage with external cap.
+// analog reference of ADMUX (B01000000) AVCC with external cap at AREF pin.
 #define ANALOG_REFERENCE 0x40
 // threshold level (5mv/unit)
 #define SIG_THRESHOLD 50
@@ -50,13 +52,12 @@ ISR(TIMER1_COMPA_vect)
 }
 void SoftwareModemClass::_invokeInterruptHandler()
 {
-  uint8_t high, low;
-  int adc_value;
-
   // Reading ADC
+  uint8_t high, low;
   low  = ADCL;
   high = ADCH;
-  adc_value = (high << 8) | low;
+  int adc_value = (high << 8) | low;
+  //Serial.println(adc_value, DEC);
 
   switch(_analogPinReadingStat)  {
   case startReading:
@@ -111,10 +112,12 @@ void SoftwareModemClass::_invokeInterruptHandler()
     if(_pllPhase >= 2) {
       if(_isPreviousPulseNarrow && isNarrowPulse) {
 	// set mark1
+	//Serial.println("1");
 	_pllPhase = 0;
 	byteDecode(true);
       } else if(!_isPreviousPulseNarrow && !isNarrowPulse) {
 	// set mark0
+	//Serial.println("0");
 	_pllPhase = 0;
 	byteDecode(false);
       }      
@@ -152,38 +155,39 @@ void SoftwareModemClass::byteDecode(bool isMark1)
     _decodingData |= 0x8000;
     _mark1Cnt++;    
   } else {
+    _decodingData &= 0x7fff;
     _mark1Cnt = 0;
   }
   // byte decoding
   switch(_byteDecodingStatus) {
     case START:
-//Serial.print(_decodingData, BIN);
-//Serial.print("\n");
+      //Serial.println(_decodingData, BIN);
       if(_decodingBitLength >= 8 &&  (_decodingData >> 8) == SYNC_SYMBOL) {
         _byteDecodingStatus = ReadingBit;
         _decodingBitLength = 0;
-//Serial.print("START->SYN\n");
+	//Serial.println("START->SYN");
       }
     break;    
     case ReadingBit:
        if(_decodingBitLength >= 8) {
          receiveByte( (uint8_t)(_decodingData >> 8) );
          _decodingBitLength = 0;
-//Serial.print(_decodingData);
+	 //Serial.println(_decodingData);
        } 
        if(_mark1Cnt >= MAX_MARK1_LENGTH) {
-//Serial.print("ReadingBit->StuffingBit\n");         
+	 //Serial.println("ReadingBit->StuffingBit");         
          _byteDecodingStatus = StuffingBit;
        } 
     break;
     case StuffingBit:
       if(isMark1) {
-//Serial.print("StuffingBit->SYN\n");
+	//Serial.println("StuffingBit->SYN");
         _byteDecodingStatus = START;
 	endOfFrame();
       } else {
-//Serial.print("StuffingBit->ReadingBit\n");        
+	//Serial.println("StuffingBit->ReadingBit");        
         _byteDecodingStatus = ReadingBit;
+	_decodingBitLength--;
         _decodingData <<= 1; // eliminate a stuffing bit
       }
     break;
@@ -211,6 +215,23 @@ void SoftwareModemClass::endOfFrame()
   if(IgnoreCRCCheckSum || _crcChecksum == 0) {
     (*currentReceiveCallback)(_rcvBuf, _rcvLength -1);
   }
+
+  // error packet dump code
+  /*
+  if(_crcChecksum != 0) {
+    Serial.print("CRC error: Packet len:");
+    Serial.print(_rcvLength, DEC);
+    Serial.print(" ");
+    uint8_t crc = 0;
+    for(int i=0; i < _rcvLength; i++) {
+      Serial.print(", ");
+      Serial.print(_rcvBuf[i], HEX);
+      crc = _crc_ibutton_update(crc, _rcvBuf[i]);
+    }
+    Serial.print(" expeced crc:");
+    Serial.println((int)crc, HEX);
+  }
+  */
   _crcChecksum = 0;
   _rcvLength = 0;
 }
