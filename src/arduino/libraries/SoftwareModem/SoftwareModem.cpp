@@ -14,7 +14,7 @@
 #include <util/crc16.h>
 #include <stdbool.h>
 
-#include <HardwareSerial.h>
+//#include <HardwareSerial.h>
 
 // single instance of this class
 SoftwareModemClass SoftwareModem;

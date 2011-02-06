@@ -22,9 +22,14 @@
 	AudioPHY *phy_;
 	FSKModulator   *modulator_;
 	FSKDemodulator *demodulator_;
+	
+	NSDate *lastTimePacketReceivedAt_;
+	int packetCheckCnt_;
+	bool packetReceived_;
 }
 
 @property (readonly, nonatomic, getter=getSignalLevel) AudioUnitSampleType signalLevel;
+@property (nonatomic) bool packetReceived;
 
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket;
 // !CAUTION! This initializer must be used for debug purpose only!

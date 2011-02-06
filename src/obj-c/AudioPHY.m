@@ -18,15 +18,18 @@
 -(void)prepareAudioUnit;
 @end
 
+// function declarations
+static void sessionPropertyChanged(void *inClientData,
+								   AudioSessionPropertyID inID,
+								   UInt32 inDataSize,
+								   const void *inData);
+
 @implementation AudioPHY
 #pragma mark Properties
+@synthesize outputVolume = outputVolume_;
+@synthesize isHeadsetInOut = isHeadsetInOut_;
 @synthesize isRunning;
 
--(UInt32)hardwareVolume
-{
-	// TBD
-	return 0;
-}
 #pragma mark constructor
 -(id)initWithSocket:(NSObject<SWMPhysicalSocket> *)physicalSocket audioBufferLength:(int)audioBufferLength
 {
@@ -40,8 +43,14 @@
 }
 
 -(void)dealloc {
-	// deallocating AudioUnit 
-	[self stop]; // stopping audiounit
+	// stop audio modem
+	[self stop];
+
+	// remove property listeners	
+	AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_CurrentHardwareOutputVolume, sessionPropertyChanged, self);
+	AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_AudioRouteChange, sessionPropertyChanged, self);
+
+	// release uint and session instances
 	AudioUnitUninitialize(audioUnit_);
 	AudioComponentInstanceDispose(audioUnit_);
 
@@ -91,11 +100,37 @@ static OSStatus renderCallback(void * inRefCon,
 static void sessionInterruption(void *inClientData,
 								UInt32 inInterruptionState)
 {
+	//AudioPHY *phy = (AudioPHY *)inClientData;
+	//kAudioSessionBeginInterruption
+	//kAudioSessionEndInterruption
 	if(inInterruptionState == kAudioSessionBeginInterruption) {
-		NSLog(@"Begin AudioSession interruption.");
+		//NSLog(@"Begin AudioSession interruption.");
 	} else {
-		NSLog(@"End AudioSession interruption.");
+		//NSLog(@"End AudioSession interruption.");
 		AudioSessionSetActive(YES); // re-activate and re-start audio play&recording
+	}
+}
+static void sessionPropertyChanged(void *inClientData,
+								   AudioSessionPropertyID inID,
+								   UInt32 inDataSize,
+								   const void *inData)
+{
+	AudioPHY *phy = (AudioPHY *)inClientData;
+	if(inID ==kAudioSessionProperty_CurrentHardwareOutputVolume ) {	
+		float volume = *((float *)inData);
+		dispatch_async(dispatch_get_main_queue(), ^{
+			phy.outputVolume = volume;
+//			NSLog(@"%s volume changed: %f", __func__, volume);
+		});
+	} else if( inID == kAudioSessionProperty_AudioRouteChange ) {
+		UInt32 size = sizeof(CFStringRef);
+		CFStringRef route;
+		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
+//		NSLog(@"%s route channged: %@", __func__, (NSString *)route );
+		NSString *rt = (NSString *)route;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			phy.isHeadsetInOut = [rt isEqualToString:@"HeadsetInOut"];
+		});
 	}
 }
 
@@ -110,7 +145,7 @@ static void sessionInterruption(void *inClientData,
 {
 	OSStatus error;
 	
-	error = AudioSessionInitialize(NULL, NULL, NULL, NULL);
+	error = AudioSessionInitialize(NULL, NULL, sessionInterruption, self);
 	[self checkOSStatusError:@"AudioSessionInitialize()" error:error];
 	
 	// Setting Audio Session Category (play and record)
@@ -131,6 +166,24 @@ static void sessionInterruption(void *inClientData,
 	Float32 duration = audioBufferLength / kSWMSamplingRate;
 	error = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(Float32), &duration);
 	[self checkOSStatusError:@"AudioSessionSetProperty() sets preferredHardwareIOBufferDuration" error:error];
+	
+	// read properties
+	UInt32 size = sizeof(float);
+	float volume;
+	error = AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareOutputVolume, &size, &volume);
+	[self checkOSStatusError:@"AudioSessionGetProperty() current hardware volume." error:error];	
+	self.outputVolume = volume;
+	
+	size = sizeof(CFStringRef);
+	CFStringRef route;
+	error = AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
+	[self checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
+	NSString *rt = (NSString *)route;
+	self.isHeadsetInOut = [rt isEqualToString:@"HeadsetInOut"];
+	
+	// add property listener
+	AudioSessionAddPropertyListener(kAudioSessionProperty_CurrentHardwareOutputVolume, sessionPropertyChanged, self);
+	AudioSessionAddPropertyListener(kAudioSessionProperty_AudioRouteChange, sessionPropertyChanged, self);
 	
 	// activation
 	error = AudioSessionSetActive( YES );

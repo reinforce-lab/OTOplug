@@ -15,8 +15,12 @@
 	NSObject<SWMPhysicalSocket> *socket_;
 	AudioUnit audioUnit_;
 	BOOL isRunning_;
+	
+	float outputVolume_;
+	BOOL isHeadsetInOut_;
 }
-@property(readonly,  nonatomic, getter=hardwareVolume) UInt32 HardwareVolume;
+@property(nonatomic) float outputVolume;
+@property(nonatomic) BOOL isHeadsetInOut;
 @property(readonly,  nonatomic) BOOL isRunning;
 
 //|length| audio buffer length.

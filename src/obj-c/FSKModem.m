@@ -17,6 +17,7 @@
 @implementation FSKModem
 #pragma mark Properties	
 @synthesize signalLevel;
+@synthesize packetReceived = packetReceived_;
 
 #pragma mark Constructor
 - (id)initWithSocketWithoutPHY:(NSObject<SWMSocket> *)socket
@@ -26,6 +27,8 @@
 		socket_ = [socket retain];
 		modulator_ = [[FSKModulator alloc] initWithSocket:self];
 		demodulator_ = [[FSKDemodulator alloc] initWithSocket:self];
+		
+		lastTimePacketReceivedAt_ = [NSDate distantPast];		
 	}
 	return self;
 }
@@ -77,8 +80,21 @@ Byte crc_ibutton_update(Byte crc, Byte data)
 }
 #pragma mark SWMPhysicalSocket 
 -(void)demodulate:(AudioUnitSampleType *)buf length:(int)length
-{
+{		
 	[demodulator_ demodulate:buf length:length];
+	
+	// 24-byte -> 240-bit -> 240/1200 ~ 300msec
+	// check last packet received time
+	packetCheckCnt_ = (packetCheckCnt_ +1) % 10; // 300 / 12msec / 2  ~ 10
+	if(packetCheckCnt_ == 0) {
+		NSTimeInterval interval = -1 * [lastTimePacketReceivedAt_ timeIntervalSinceNow];
+		bool received = (interval < 0.3);
+		if(received != packetReceived_) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				self.packetReceived = received;
+			});
+		}
+	}
 }
 -(void)modulate:(AudioUnitSampleType *)buf length:(UInt32)length
 {
@@ -100,6 +116,9 @@ Byte crc_ibutton_update(Byte crc, Byte data)
 }
 - (void)packetReceived:(Byte *)buf length:(int)length
 {
+	[lastTimePacketReceivedAt_ release];
+	lastTimePacketReceivedAt_ = [[NSDate alloc ] initWithTimeIntervalSinceNow:0];
+	
 	Byte cc = [self calculateCRC8:buf length:length];
 //	NSLog(@"CRC8: %02x", buf[length -1]);
 	if(cc == 0) {
