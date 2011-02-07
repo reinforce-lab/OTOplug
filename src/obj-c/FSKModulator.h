@@ -22,7 +22,10 @@
 	int mark0Length_, mark1Length_;
 	int mark1Cnt_;
 	BOOL resyncRequired_;
+	BOOL mute_;
 }
+@property (nonatomic) BOOL mute;
+
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket;
 -(int)sendPacket:(Byte[])buf length:(int)length checksum:(Byte)checksum;
 // Modem instance calls this method from audio rendering thread.

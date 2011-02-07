@@ -18,7 +18,15 @@
 #pragma mark Properties	
 @synthesize signalLevel;
 @synthesize packetReceived = packetReceived_;
-
+@dynamic mute;
+-(BOOL)getMute
+{
+	return modulator_.mute;
+}
+-(void)setMute:(BOOL)value
+{
+	modulator_.mute = value;
+}
 #pragma mark Constructor
 - (id)initWithSocketWithoutPHY:(NSObject<SWMSocket> *)socket
 {

@@ -30,6 +30,7 @@
 
 @property (readonly, nonatomic, getter=getSignalLevel) AudioUnitSampleType signalLevel;
 @property (nonatomic) bool packetReceived;
+@property (nonatomic, getter=getMute, setter=setMute:) BOOL mute;
 
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket;
 // !CAUTION! This initializer must be used for debug purpose only!

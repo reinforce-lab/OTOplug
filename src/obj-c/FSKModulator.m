@@ -21,6 +21,8 @@
 
 @implementation FSKModulator
 #pragma mark Properties
+@synthesize mute = mute_;
+
 #pragma mark Constuctor
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket
 {
@@ -109,6 +111,10 @@
 {
 	@synchronized(self)
 	{
+		if(mute_) {
+			return 0;
+		}
+		
 		// check available buffer length
 		int requiredBufferLength = (length + kNumberOfReSyncCode + 1 + 1) * 8 * kFSKMark0Samples; // 3: preamble 1: checksum 1: postamble
 		if( (kFSKModulatorBufferLength - bufWriteIndex_) < requiredBufferLength) {
