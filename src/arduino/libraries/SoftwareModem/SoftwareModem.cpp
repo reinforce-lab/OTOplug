@@ -41,7 +41,21 @@ SoftwareModemClass SoftwareModem;
 #define SYNC_SYMBOL 0x7e
 
 // IO definitions
-#define ADCSTART (_BV(ADEN)|_BV(ADSC)| 0x06) //(_BV(ADEN)|_BV(ADSC)| B0110)
+#if F_CPU >= 16000000L
+// for 16MHz clock
+// 8 oversampling. 16MHz / ((44.1kHz / 36) * OVERSAMPLING) = 1632, when clock source is clk/8 -> OCR0A is 1632 / 8 = 204
+#define OCR1A_PERIOD 203
+// ADC conversion freq is 16MHz / (13 (clock cycles/sample) * 64 (prescaler)) = 19.2k/sec. 
+// which is 16 times of FSK base frequency. (it is enough, over sampling rate is 8.)
+//(_BV(ADEN)|_BV(ADSC)| B0110), ADEN ADC Enable, 2:0 Prescaler 64
+#define ADCSTART (_BV(ADEN)|_BV(ADSC)| 0x06) 
+#else
+// for 8MHz clock
+// 8 oversampling. 8MHz  / ((44.1kHz / 36) * OVERSAMPLING) = 816,  when clock source is clk/8 -> OCR0A is 816  / 8 = 102
+#define OCR1A_PERIOD 101
+//(_BV(ADEN)|_BV(ADSC)| B0110), ADEN ADC Enable, 2:0 Prescaler 32
+#define ADCSTART (_BV(ADEN)|_BV(ADSC)| 0x05) 
+#endif
 
 // **** 
 // Interrupt handlers
@@ -57,7 +71,7 @@ void SoftwareModemClass::_invokeInterruptHandler()
   low  = ADCL;
   high = ADCH;
   int adc_value = (high << 8) | low;
-  //Serial.println(adc_value, DEC);
+//  Serial.println(adc_value, DEC);
 
   switch(_analogPinReadingStat)  {
   case startReading:
@@ -132,8 +146,6 @@ void SoftwareModemClass::_invokeInterruptHandler()
     lostCarrier();
   }
 
-
-//digitalWrite(MODEM_DOUT_PIN, _isSigHigh); // debug code to watch rising edge detection
   outModulatedSignal();
 }
 
@@ -330,14 +342,12 @@ void SoftwareModemClass::begin()
   TCCR1A = 0x00; //B00000000;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
   TCCR1B = 0x0a; //B00001010;  // clock source clk/8,
   TCNT1  = 0;
-  OCR1A  = 203;        // 8 oversampling. 16MHz / ((44.1kHz / 36) * OVERSAMPLING) = 1632, when clock source is clk/8 -> OCR0A is 1632 / 8 = 204
+  OCR1A  = OCR1A_PERIOD;
   TIMSK1 = _BV(OCIE1A); // interrupt enable
 
   // Setting ADC
   ADMUX  = ANALOG_REFERENCE | MODEM_DIN_PIN; //B01000000; // AVcc with external capactor at AREF pin, ADC0
-  // ADC conversion freq is 16MHz / (13 (clock cycles/sample) * 64 (prescaler)) = 19.2k/sec. 
-  // which is 16 times of FSK base frequency. (it is enough, over sampling rate is 8.)
-  ADCSRA = ADCSTART;  // ADEN ADC Enable, 2:0 Prescaler 64
+  ADCSRA = ADCSTART;
 }
 void SoftwareModemClass::end()
 {
