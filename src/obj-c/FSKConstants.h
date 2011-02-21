@@ -15,8 +15,12 @@
 #define kFSKMark0Samples   (kFSKMark1Samples *2)
 
 // constants for implementation
-// 12msec
-#define kFSKSliceLevel (AudioUnitSampleType)(1.0 * (1 << kAudioUnitSampleFractionBits) / 2.5)
+#if TARGET_IPHONE_SIMULATOR
+#define kFSKSliceLevel ((1 << kAudioUnitSampleFractionBits) / 800)
+#else
+#define kFSKSliceLevel ((1 << kAudioUnitSampleFractionBits) / 8)
+#endif
+
 #define kFSKAudioBufferLength 512
 #define kFSKLostCarrierDuration   (kFSKMark0Samples * 1.5)
 #define kFSKPulseWidthThreashold  (kFSKMark1Samples * 1.5)

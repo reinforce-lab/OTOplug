@@ -123,6 +123,7 @@ static void sessionPropertyChanged(void *inClientData,
 //			NSLog(@"%s volume changed: %f", __func__, volume);
 		});
 	} else if( inID == kAudioSessionProperty_AudioRouteChange ) {
+#if !(TARGET_IPHONE_SIMULATOR)
 		UInt32 size = sizeof(CFStringRef);
 		CFStringRef route;
 		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
@@ -131,6 +132,7 @@ static void sessionPropertyChanged(void *inClientData,
 		dispatch_async(dispatch_get_main_queue(), ^{
 			phy.isHeadsetInOut = [rt isEqualToString:@"HeadsetInOut"];
 		});
+#endif		
 	}
 }
 
@@ -173,13 +175,17 @@ static void sessionPropertyChanged(void *inClientData,
 	error = AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareOutputVolume, &size, &volume);
 	[self checkOSStatusError:@"AudioSessionGetProperty() current hardware volume." error:error];	
 	self.outputVolume = volume;
-	
+
+#if TARGET_IPHONE_SIMULATOR
+	self.isHeadsetInOut = true;
+#else // TARGET_IOS_IPHONE
 	size = sizeof(CFStringRef);
 	CFStringRef route;
 	error = AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 	[self checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
 	NSString *rt = (NSString *)route;
 	self.isHeadsetInOut = [rt isEqualToString:@"HeadsetInOut"];
+#endif
 	
 	// add property listener
 	AudioSessionAddPropertyListener(kAudioSessionProperty_CurrentHardwareOutputVolume, sessionPropertyChanged, self);
