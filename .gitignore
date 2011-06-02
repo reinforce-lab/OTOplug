@@ -1,8 +1,4 @@
-#ignore build files
-bin/
-obj/
 build/
-
 .DS_Store
 *.swp
 *~
@@ -13,8 +9,6 @@ build/
 *.mode1v3
 *.mode2v3
 
-# local files of VisualStudio 
-*.pidb
-*.suo
-*.userprefs
+xcuserdata
+*.xcworkspace/
 
