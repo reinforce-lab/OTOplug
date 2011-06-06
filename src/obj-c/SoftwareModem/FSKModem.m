@@ -17,7 +17,6 @@
 @implementation FSKModem
 #pragma mark Properties	
 @synthesize signalLevel;
-@synthesize packetReceived = packetReceived_;
 @dynamic mute;
 -(BOOL)getMute
 {
@@ -27,6 +26,7 @@
 {
 	modulator_.mute = value;
 }
+
 #pragma mark Constructor
 - (id)initWithSocketWithoutPHY:(NSObject<SWMSocket> *)socket
 {
@@ -35,8 +35,6 @@
 		socket_ = [socket retain];
 		modulator_ = [[FSKModulator alloc] initWithSocket:self];
 		demodulator_ = [[FSKDemodulator alloc] initWithSocket:self];
-		
-		lastTimePacketReceivedAt_ = [NSDate distantPast];		
 	}
 	return self;
 }
@@ -88,21 +86,8 @@ Byte crc_ibutton_update(Byte crc, Byte data)
 }
 #pragma mark SWMPhysicalSocket 
 -(void)demodulate:(AudioUnitSampleType *)buf length:(int)length
-{		
+{
 	[demodulator_ demodulate:buf length:length];
-	
-	// 24-byte -> 240-bit -> 240/1200 ~ 300msec
-	// check last packet received time
-	packetCheckCnt_ = (packetCheckCnt_ +1) % 10; // 300 / 12msec / 2  ~ 10
-	if(packetCheckCnt_ == 0) {
-		NSTimeInterval interval = -1 * [lastTimePacketReceivedAt_ timeIntervalSinceNow];
-		bool received = (interval < 0.3);
-		if(received != packetReceived_) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				self.packetReceived = received;
-			});
-		}
-	}
 }
 -(void)modulate:(AudioUnitSampleType *)buf length:(UInt32)length
 {
@@ -124,13 +109,10 @@ Byte crc_ibutton_update(Byte crc, Byte data)
 }
 - (void)packetReceived:(Byte *)buf length:(int)length
 {
-	[lastTimePacketReceivedAt_ release];
-	lastTimePacketReceivedAt_ = [[NSDate alloc ] initWithTimeIntervalSinceNow:0];
-	
 	Byte cc = [self calculateCRC8:buf length:length];
 //	NSLog(@"CRC8: %02x", buf[length -1]);
 	if(cc == 0) {
-		/* packet dump for debugging
+/* debug, packet dump
 		NSMutableString *sb = [[NSMutableString alloc] initWithCapacity:100];
 		[sb appendFormat:@"Packet received: %d Packet:", length];
 		 for(int i = 0; i < length; i++) {
@@ -138,7 +120,7 @@ Byte crc_ibutton_update(Byte crc, Byte data)
 		 }
 		 NSLog(@"%@", sb);
 		[sb release];
-		 */
+*/
 		int newBufLength = length -1;
 		Byte *newBuf = calloc(newBufLength, sizeof(AudioUnitSampleType));		
 		memcpy(newBuf, buf, newBufLength * sizeof(AudioUnitSampleType));
@@ -147,8 +129,7 @@ Byte crc_ibutton_update(Byte crc, Byte data)
 			free(newBuf);
 		});
 	} else {
-		/*
-//#if DEBUG
+/* debug, packet dump		
 		NSMutableString *sb = [[NSMutableString alloc] initWithCapacity:200];
 		[sb appendFormat:@"ERROR packetReceived:length:%d", length];
 		for(int i=0; i < length; i++) {
@@ -157,8 +138,7 @@ Byte crc_ibutton_update(Byte crc, Byte data)
 		[sb appendFormat:@" expected checksum %02x", [self calculateCRC8:buf length:length -1]];
 		NSLog(@"%@", sb);
 		[sb release];
-//#endif	
-		 */
+*/ 
 	}
 
 }

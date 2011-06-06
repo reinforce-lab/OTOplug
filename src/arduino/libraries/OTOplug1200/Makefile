@@ -17,7 +17,7 @@
 DEVICE     = atmega8
 CLOCK      = 8000000
 PROGRAMMER = -c stk500v2 -P avrdoper
-OBJECTS    = SoftwareModem.o
+OBJECTS    = OTOplug1200.o
 FUSES      = -U hfuse:w:0xd9:m -U lfuse:w:0x24:m
 # ATMega8 fuse bits (fuse bits for other devices are different!):
 # Example for 8 MHz internal oscillator
@@ -63,7 +63,7 @@ AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE)
 COMPILE = /usr/local/CrossPack-AVR/bin/avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 
 # symbolic targets:
-all:	SoftwareModem.hex
+all:	OTOplug1200.hex
 
 
 .c.o:
@@ -83,7 +83,7 @@ all:	SoftwareModem.hex
 	$(COMPILE) -S $< -o $@
 
 flash:	all
-	$(AVRDUDE) -U flash:w:SoftwareModem.hex:i
+	$(AVRDUDE) -U flash:w:OTOplug1200.hex:i
 
 fuse:
 	$(AVRDUDE) $(FUSES)
@@ -93,24 +93,24 @@ install: flash fuse
 
 # if you use a bootloader, change the command below appropriately:
 load: all
-	bootloadHID SoftwareModem.hex
+	bootloadHID OTOplug1200.hex
 
 clean:
-	rm -f SoftwareModem.hex SoftwareModem.elf $(OBJECTS)
+	rm -f OTOplug1200.hex OTOplug1200.elf $(OBJECTS)
 
 # file targets:
-SoftwareModem.elf: $(OBJECTS)
-	$(COMPILE) -o SoftwareModem.elf $(OBJECTS)
+OTOplug1200.elf: $(OBJECTS)
+	$(COMPILE) -o OTOplug1200.elf $(OBJECTS)
 
-SoftwareModem.hex: SoftwareModem.elf
-	rm -f SoftwareModem.hex
-	avr-objcopy -j .text -j .data -O ihex SoftwareModem.elf SoftwareModem.hex
+OTOplug1200.hex: OTOplug1200.elf
+	rm -f OTOplug1200.hex
+	avr-objcopy -j .text -j .data -O ihex OTOplug1200.elf OTOplug1200.hex
 # If you have an EEPROM section, you must also create a hex file for the
 # EEPROM and add it to the "flash" target.
 
 # Targets for code debugging and analysis:
-disasm:	SoftwareModem.elf
-	avr-objdump -d SoftwareModem.elf
+disasm:	OTOplug1200.elf
+	avr-objdump -d OTOplug1200.elf
 
 cpp:
-	$(COMPILE) -E SoftwareModem.cpp
+	$(COMPILE) -E OTOplug1200.cpp

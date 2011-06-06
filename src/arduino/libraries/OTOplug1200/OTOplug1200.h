@@ -1,13 +1,23 @@
 /*
- *  SoftwareModem.h - software sound modem library of OTO-plug project
- *  Copyright (C) 2010-2011 REINFORCE Lab. All rights reserved.
+ *  OTOplug1200.h - FSK 1200bps Arduino(TM) software sound modem library
+ *  Copyright 2010-2011 REINFORCE lab.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * 
- *  This library is free software; you can redistribute it and/or
- *  modify it under the terms of the MIT license.
  */
 
-#ifndef SoftwareModem_h
-#define SoftwareModem_h
+#ifndef OTOplug1200_h
+#define OTOplug1200_h
 
 #include <stddef.h>
 #include <inttypes.h>
@@ -22,7 +32,7 @@
 #define MODEM_DIN_PIN  0
 
 // version of this library
-#define SoftwareModem_VERSION 1 
+#define OTOplug1200_VERSION 1 
 
 // **** 
 // FSK parameter definitions
@@ -41,7 +51,7 @@ extern "C" {
 typedef enum byteDecoderStatus      { START = 0, ReadingBit = 1, StuffingBit = 2 } byteDecoderStatusType;
 typedef enum frameSenderStatus      { sendIdle = 0, PREAMBLE =1, DATA=2, POSTAMBLE =3 } frameSenderStatusType;
 typedef enum analogPinReadingStatus { modemSampling=0, startReading=1, changedADMUX=2, analogValueAvailable} analogPinReadingStatusType;
-class SoftwareModemClass
+class OTOplug1200Class
 {
  private:
   // variables of an input signal filter
@@ -66,7 +76,7 @@ class SoftwareModemClass
   // uint8_t sernder
   bool _isBusHigh;
   bool _isSendingMark1;
-  uint8_t _modulatePulseCnt;
+  int8_t _modulatePulseCnt;
 
   // frame sender
   frameSenderStatusType _frameSenderStatus;
@@ -99,7 +109,7 @@ class SoftwareModemClass
  public:  
   bool IgnoreCRCCheckSum;
 
-  SoftwareModemClass();
+  OTOplug1200Class();
 
   void begin();
   void end();
@@ -118,7 +128,7 @@ class SoftwareModemClass
 };
 
 // instance of this class (singleton is required to handle an timer interruption.)
-extern SoftwareModemClass SoftwareModem;
+extern OTOplug1200Class OTOplug1200;
 
 #endif
 

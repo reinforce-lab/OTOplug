@@ -154,7 +154,7 @@
 				DD1CF8E412B5BBE500E784AE /* TestCases */,
 				DDB34052129E610D009DCF00 /* AudioPHY */,
 				DDB34051129E60F6009DCF00 /* Protocols */,
-				08FB77AEFE84172EC02AAC07 /* FSKModem */,
+				08FB77AEFE84172EC02AAC07 /* FSK1200Modem */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
@@ -174,7 +174,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		08FB77AEFE84172EC02AAC07 /* FSKModem */ = {
+		08FB77AEFE84172EC02AAC07 /* FSK1200Modem */ = {
 			isa = PBXGroup;
 			children = (
 				DDB20A44129B41C70095E7E3 /* FSKModem.h */,
@@ -185,7 +185,7 @@
 				DDB34035129E5A7D009DCF00 /* FSKDemodulator.m */,
 				DD06B52912A1E33A00D902AD /* FSKConstants.h */,
 			);
-			name = FSKModem;
+			name = FSK1200Modem;
 			sourceTree = "<group>";
 		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
@@ -484,7 +484,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -500,7 +500,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

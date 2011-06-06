@@ -1,12 +1,22 @@
 /*
- *  SoftwareModem.cpp - software sound modem library of OTO-plug project
- *  Copyright (C) 2010-2011 REINFORCE Lab. All rights reserved.
- * 
- *  This library is free software; you can redistribute it and/or
- *  modify it under the terms of the MIT license.
+ *  OTOplug1200.cpp - FSK 1200bps Arduino(TM) software sound modem library
+ *  Copyright 2010-2011 REINFORCE lab.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  */
 
-#include "SoftwareModem.h"
+#include "OTOplug1200.h"
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -17,7 +27,7 @@
 //#include <HardwareSerial.h>
 
 // single instance of this class
-SoftwareModemClass SoftwareModem;
+OTOplug1200Class OTOplug1200;
 
 // **** 
 // Parameter definitions
@@ -62,9 +72,9 @@ SoftwareModemClass SoftwareModem;
 // **** 
 ISR(TIMER1_COMPA_vect)
 {
-  SoftwareModem._invokeInterruptHandler();
+  OTOplug1200._invokeInterruptHandler();
 }
-void SoftwareModemClass::_invokeInterruptHandler()
+void OTOplug1200Class::_invokeInterruptHandler()
 {
   // Reading ADC
   uint8_t high, low;
@@ -152,13 +162,13 @@ void SoftwareModemClass::_invokeInterruptHandler()
 // **** 
 // Construcotrs
 // **** 
-SoftwareModemClass::SoftwareModemClass() 
+OTOplug1200Class::OTOplug1200Class() 
 {
 }
 // **** 
 // Private methdods
 // **** 
-void SoftwareModemClass::byteDecode(bool isMark1)
+void OTOplug1200Class::byteDecode(bool isMark1)
 {
   // bit shifter
   _decodingBitLength++;
@@ -208,19 +218,19 @@ void SoftwareModemClass::byteDecode(bool isMark1)
     break;
   }
 }
-void SoftwareModemClass::lostCarrier() {
+void OTOplug1200Class::lostCarrier() {
   _byteDecodingStatus = START;
   endOfFrame();
 }
 // Frame data receiver
-void SoftwareModemClass::receiveByte(uint8_t data)
+void OTOplug1200Class::receiveByte(uint8_t data)
 {
   if(data == SYNC_SYMBOL) { endOfFrame(); }  
   _rcvBuf[_rcvLength++] = data;
   _crcChecksum  = _crc_ibutton_update(_crcChecksum, data);
   if(_rcvLength >= MAX_PACKET_SIZE)  { endOfFrame(); }
 }
-void SoftwareModemClass::endOfFrame()
+void OTOplug1200Class::endOfFrame()
 {
   if(_rcvLength == 0) return;
 
@@ -247,7 +257,7 @@ void SoftwareModemClass::endOfFrame()
   _crcChecksum = 0;
   _rcvLength = 0;
 }
-void SoftwareModemClass::readSendBit()
+void OTOplug1200Class::readSendBit()
 {
   switch(_frameSenderStatus)   {
   case sendIdle: 
@@ -317,7 +327,7 @@ void SoftwareModemClass::readSendBit()
   }
 }
 // this method should be called from the interrupt handler.
-void SoftwareModemClass::outModulatedSignal()
+void OTOplug1200Class::outModulatedSignal()
 {
   _modulatePulseCnt--;
   if(_modulatePulseCnt > 0) return;
@@ -336,7 +346,7 @@ void SoftwareModemClass::outModulatedSignal()
 // **** 
 // Public methods
 // **** 
-void SoftwareModemClass::begin()
+void OTOplug1200Class::begin()
 {
   // Setting Timer0,
   TCCR1A = 0x00; //B00000000;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
@@ -349,13 +359,13 @@ void SoftwareModemClass::begin()
   ADMUX  = ANALOG_REFERENCE | MODEM_DIN_PIN; //B01000000; // AVcc with external capactor at AREF pin, ADC0
   ADCSRA = ADCSTART;
 }
-void SoftwareModemClass::end()
+void OTOplug1200Class::end()
 {
   // TODO (disable Timer1 interrupt...)
 }
 
 // send a request to read an analog pin
-void SoftwareModemClass::startADConversion(uint8_t pin_number)
+void OTOplug1200Class::startADConversion(uint8_t pin_number)
 {
   if(_analogPinReadingStat == modemSampling) {
     _analogPinNumber = pin_number;
@@ -363,7 +373,7 @@ void SoftwareModemClass::startADConversion(uint8_t pin_number)
   }
 }
 // reading analog pin value , true if value is valid
-bool SoftwareModemClass::readAnalogPin(uint8_t *pinum, uint16_t *value)
+bool OTOplug1200Class::readAnalogPin(uint8_t *pinum, uint16_t *value)
 {
   if(_analogPinReadingStat != analogValueAvailable) return false;
   
@@ -374,12 +384,12 @@ bool SoftwareModemClass::readAnalogPin(uint8_t *pinum, uint16_t *value)
   return true;
 }
 
-bool SoftwareModemClass::writeAvailable()
+bool OTOplug1200Class::writeAvailable()
 {
   return (_sendBufLen == 0);
 }
 
-void SoftwareModemClass::write(const uint8_t *buf, uint8_t length)
+void OTOplug1200Class::write(const uint8_t *buf, uint8_t length)
 {
   // check whether the buffer is available
   if(_sendBufLen > 0) {
@@ -397,7 +407,7 @@ void SoftwareModemClass::write(const uint8_t *buf, uint8_t length)
 //Serial.print(_sendBufLen, DEC);
 //Serial.print("\n");
 }
-void SoftwareModemClass::attach(receiveCallbackFunction fnc)
+void OTOplug1200Class::attach(receiveCallbackFunction fnc)
 {
   currentReceiveCallback = fnc;
 }

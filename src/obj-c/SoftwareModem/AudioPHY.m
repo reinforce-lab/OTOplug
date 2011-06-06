@@ -9,10 +9,9 @@
 #import "AudioPHY.h"
 
 // Private methods
-@interface AudioPHY (Private)
-
--(UInt32)hardwareVolume;
-
+@interface AudioPHY ()
+@property(nonatomic, assign) float outputVolume;
+@property(nonatomic, assign) BOOL isHeadsetInOut;
 -(void)checkOSStatusError:(NSString*)message error:(OSStatus)error;
 -(void)prepareAudioSession:(int)audioBufferlength;
 -(void)prepareAudioUnit;
@@ -26,8 +25,8 @@ static void sessionPropertyChanged(void *inClientData,
 
 @implementation AudioPHY
 #pragma mark Properties
-@synthesize outputVolume = outputVolume_;
-@synthesize isHeadsetInOut = isHeadsetInOut_;
+@synthesize outputVolume;
+@synthesize isHeadsetInOut;
 @synthesize isRunning;
 
 #pragma mark constructor
@@ -43,14 +42,13 @@ static void sessionPropertyChanged(void *inClientData,
 }
 
 -(void)dealloc {
-	// stop audio modem
-	[self stop];
+	// deallocating AudioUnit 
+	[self stop]; // stopping audiounit
 
 	// remove property listeners	
 	AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_CurrentHardwareOutputVolume, sessionPropertyChanged, self);
 	AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_AudioRouteChange, sessionPropertyChanged, self);
-
-	// release uint and session instances
+	
 	AudioUnitUninitialize(audioUnit_);
 	AudioComponentInstanceDispose(audioUnit_);
 
@@ -100,13 +98,10 @@ static OSStatus renderCallback(void * inRefCon,
 static void sessionInterruption(void *inClientData,
 								UInt32 inInterruptionState)
 {
-	//AudioPHY *phy = (AudioPHY *)inClientData;
-	//kAudioSessionBeginInterruption
-	//kAudioSessionEndInterruption
 	if(inInterruptionState == kAudioSessionBeginInterruption) {
-		//NSLog(@"Begin AudioSession interruption.");
+		NSLog(@"Begin AudioSession interruption.");
 	} else {
-		//NSLog(@"End AudioSession interruption.");
+		NSLog(@"End AudioSession interruption.");
 		AudioSessionSetActive(YES); // re-activate and re-start audio play&recording
 	}
 }

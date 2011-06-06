@@ -24,7 +24,7 @@
 	BOOL resyncRequired_;
 	BOOL mute_;
 }
-@property (nonatomic) BOOL mute;
+@property (nonatomic, assign) BOOL mute;
 
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket;
 -(int)sendPacket:(Byte[])buf length:(int)length checksum:(Byte)checksum;

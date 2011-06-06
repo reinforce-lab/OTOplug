@@ -16,9 +16,9 @@
 
 // constants for implementation
 #if TARGET_IPHONE_SIMULATOR
-#define kFSKSliceLevel ((1 << kAudioUnitSampleFractionBits) / 800)
+#define kFSKSliceLevel ((1 << kAudioUnitSampleFractionBits) / 250)
 #else
-#define kFSKSliceLevel ((1 << kAudioUnitSampleFractionBits) / 8)
+#define kFSKSliceLevel ((1 << kAudioUnitSampleFractionBits) / 2.5)
 #endif
 
 #define kFSKAudioBufferLength 512
