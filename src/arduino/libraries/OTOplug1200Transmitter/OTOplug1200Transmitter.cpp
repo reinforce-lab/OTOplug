@@ -187,6 +187,8 @@ void OTOplug1200TransmitterClass::begin()
   OCR1A  = OCR1A_PERIOD;
   TIMSK1 = _BV(OCIE1A); // interrupt enable
 
+  // pin mode
+  pinMode(MODEM_DOUT_PIN, OUTPUT);
 }
 void OTOplug1200TransmitterClass::end()
 {

@@ -38,7 +38,7 @@
 #define OUTPUT_BEAT true
 #define NUM_OF_PREAMBLE  1
 #define NUM_OF_POSTAMBLE 1
-#define MAX_PACKET_SIZE 32
+#define MAX_PACKET_SIZE  128
 
 typedef enum frameSenderStatus      { sendIdle = 0, PREAMBLE =1, DATA=2, POSTAMBLE =3 } frameSenderStatusType;
 

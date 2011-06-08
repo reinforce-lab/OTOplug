@@ -355,6 +355,9 @@ void OTOplug1200Class::begin()
   OCR1A  = OCR1A_PERIOD;
   TIMSK1 = _BV(OCIE1A); // interrupt enable
 
+  // pin mode
+  pinMode(MODEM_DOUT_PIN, OUTPUT);
+
   // Setting ADC
   ADMUX  = ANALOG_REFERENCE | MODEM_DIN_PIN; //B01000000; // AVcc with external capactor at AREF pin, ADC0
   ADCSRA = ADCSTART;
