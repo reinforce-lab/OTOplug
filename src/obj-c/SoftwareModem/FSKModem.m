@@ -16,7 +16,13 @@
 // constant definisitions
 @implementation FSKModem
 #pragma mark Properties	
-@synthesize signalLevel;
+@synthesize audioPHY = phy_;
+@synthesize modulator = modulator_;
+@dynamic signalLevel;
+-(AudioUnitSampleType)getSignalLevel
+{
+	return demodulator_.signalLevel;
+}
 @dynamic mute;
 -(BOOL)getMute
 {
@@ -59,10 +65,6 @@
 	[super dealloc];
 }
 #pragma mark Private methods
--(AudioUnitSampleType)getSignalLevel
-{
-	return demodulator_.signalLevel;
-}
 Byte crc_ibutton_update(Byte crc, Byte data)
 {
 	Byte i;

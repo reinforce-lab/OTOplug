@@ -407,7 +407,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/rupppau/Projects/OTOduino.git/src/OTO-plug/src/obj-c/RunIPhoneUnitTest.sh";
+			shellScript = "${PROJECT_DIR}/RunIPhoneUnitTest.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 

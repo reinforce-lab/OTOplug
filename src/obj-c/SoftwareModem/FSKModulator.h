@@ -25,6 +25,7 @@
 	BOOL mute_;
 }
 @property (nonatomic, assign) BOOL mute;
+@property (nonatomic, assign, readonly) BOOL isBufferEmtpy;
 
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket;
 -(int)sendPacket:(Byte[])buf length:(int)length checksum:(Byte)checksum;

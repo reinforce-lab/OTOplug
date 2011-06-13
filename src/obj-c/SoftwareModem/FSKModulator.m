@@ -11,7 +11,9 @@
 #import "FSKModulator.h"
 
 // Private method declarations
-@interface FSKModulator(Private)
+@interface FSKModulator()
+@property (nonatomic, assign) BOOL isBufferEmtpy;
+
 -(AudioUnitSampleType *)allocAndInitSineWaveform:(int)length;
 -(void)addRawByte:(Byte)value;
 -(void)addByte:(Byte)value;
@@ -22,6 +24,7 @@
 @implementation FSKModulator
 #pragma mark Properties
 @synthesize mute = mute_;
+@synthesize isBufferEmtpy;
 
 #pragma mark Constuctor
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket
@@ -144,7 +147,11 @@
 {
 	// fill left channel buffer
 	@synchronized(self) {
-		if(bufReadIndex_ == bufWriteIndex_){
+		BOOL isEmpty = (bufReadIndex_ == bufWriteIndex_);
+		if(isEmpty != self.isBufferEmtpy) 
+			self.isBufferEmtpy = isEmpty;
+		
+		if(isEmpty) {
 			// waveform buffer is empty
 			bzero(buf, sizeof(AudioUnitSampleType) * length);			
 		} else {

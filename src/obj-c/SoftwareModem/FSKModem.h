@@ -23,8 +23,10 @@
 	FSKModulator   *modulator_;
 	FSKDemodulator *demodulator_;
 }
+@property (nonatomic, retain, readonly) AudioPHY *audioPHY;
+@property (nonatomic, retain, readonly) FSKModulator *modulator;
 
-@property (readonly, nonatomic, getter=getSignalLevel) AudioUnitSampleType signalLevel;
+@property (nonatomic, nonatomic, readonly, getter=getSignalLevel) AudioUnitSampleType signalLevel;
 @property (nonatomic, getter=getMute, setter=setMute:) BOOL mute;
 
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket;
