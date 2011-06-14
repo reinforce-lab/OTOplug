@@ -12,8 +12,6 @@
 
 // Private method declarations
 @interface FSKModulator()
-@property (nonatomic, assign) BOOL isBufferEmtpy;
-
 -(AudioUnitSampleType *)allocAndInitSineWaveform:(int)length;
 -(void)addRawByte:(Byte)value;
 -(void)addByte:(Byte)value;
@@ -24,7 +22,7 @@
 @implementation FSKModulator
 #pragma mark Properties
 @synthesize mute = mute_;
-@synthesize isBufferEmtpy;
+@synthesize isBufferEmtpy = isBufferEmpty_;
 
 #pragma mark Constuctor
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket
@@ -147,11 +145,8 @@
 {
 	// fill left channel buffer
 	@synchronized(self) {
-		BOOL isEmpty = (bufReadIndex_ == bufWriteIndex_);
-		if(isEmpty != self.isBufferEmtpy) 
-			self.isBufferEmtpy = isEmpty;
-		
-		if(isEmpty) {
+		isBufferEmpty_ = (bufReadIndex_ == bufWriteIndex_);
+		if(isBufferEmpty_) {
 			// waveform buffer is empty
 			bzero(buf, sizeof(AudioUnitSampleType) * length);			
 		} else {
@@ -166,12 +161,16 @@
 			memcpy(buf, &buf_[bufReadIndex_], kFSKAudioBufferLength * sizeof(AudioUnitSampleType));
 			bufReadIndex_ += kFSKAudioBufferLength;
 			// is buffer empty?
-			if(bufReadIndex_ == bufWriteIndex_) {
+			isBufferEmpty_ = (bufReadIndex_ == bufWriteIndex_);
+			if( isBufferEmpty_ ) {
 				bufReadIndex_  = 0;
 				bufWriteIndex_ = 0;
-				[socket_ sendBufferEmptyNotify];
 			}
 		}
+	}
+	// request next packet data
+	if(isBufferEmpty_) {
+		[socket_ sendBufferEmptyNotify];
 	}
 }
 @end

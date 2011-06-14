@@ -49,7 +49,7 @@
     self = [super init];
 	if(self) {
 		socket_ = [socket retain];
-		modulator_ = [[FSKModulator alloc] init];
+		modulator_ = [[FSKModulator alloc] initWithSocket:self];
 		demodulator_ = [[FSKDemodulator alloc] initWithSocket:self];
 		phy_ = [[AudioPHY alloc] initWithSocket:self audioBufferLength:kFSKAudioBufferLength];
 	}

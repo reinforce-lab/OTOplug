@@ -23,8 +23,10 @@
 	int mark1Cnt_;
 	BOOL resyncRequired_;
 	BOOL mute_;
+	BOOL isBufferEmpty_;
 }
 @property (nonatomic, assign) BOOL mute;
+// not KVO compatible
 @property (nonatomic, assign, readonly) BOOL isBufferEmtpy;
 
 -(id)initWithSocket:(NSObject<SWMSocket> *)socket;
