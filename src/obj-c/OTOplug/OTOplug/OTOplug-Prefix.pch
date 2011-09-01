@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'OTOplug' target in the 'OTOplug' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <AudioToolbox/AudioToolbox.h>
+#endif

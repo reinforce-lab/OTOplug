@@ -1,0 +1,284 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F84D745B140F5CA000D607A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D745A140F5CA000D607A5 /* UIKit.framework */; };
+		F84D745D140F5CA000D607A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D745C140F5CA000D607A5 /* Foundation.framework */; };
+		F84D7463140F5CA000D607A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F84D7461140F5CA000D607A5 /* InfoPlist.strings */; };
+		F84D7465140F5CA000D607A5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7464140F5CA000D607A5 /* main.m */; };
+		F84D7469140F5CA000D607A5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7468140F5CA000D607A5 /* AppDelegate.m */; };
+		F84D7493140F5D0E00D607A5 /* TestClientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7491140F5D0E00D607A5 /* TestClientViewController.m */; };
+		F84D7494140F5D0E00D607A5 /* TestClientViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F84D7492140F5D0E00D607A5 /* TestClientViewController.xib */; };
+		F84D74A6140F5DB600D607A5 /* libOTOplug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D74A5140F5DB600D607A5 /* libOTOplug.a */; };
+		F84D74A9140F5DC400D607A5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D74A8140F5DC400D607A5 /* AudioToolbox.framework */; };
+		F84D74AB140F5DC900D607A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D74AA140F5DC900D607A5 /* AVFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F84D7456140F5CA000D607A5 /* TestClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84D745A140F5CA000D607A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F84D745C140F5CA000D607A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F84D7460140F5CA000D607A5 /* TestClient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestClient-Info.plist"; sourceTree = "<group>"; };
+		F84D7462140F5CA000D607A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F84D7464140F5CA000D607A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F84D7466140F5CA000D607A5 /* TestClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestClient-Prefix.pch"; sourceTree = "<group>"; };
+		F84D7467140F5CA000D607A5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F84D7468140F5CA000D607A5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F84D7490140F5D0E00D607A5 /* TestClientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClientViewController.h; sourceTree = "<group>"; };
+		F84D7491140F5D0E00D607A5 /* TestClientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClientViewController.m; sourceTree = "<group>"; };
+		F84D7492140F5D0E00D607A5 /* TestClientViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestClientViewController.xib; sourceTree = "<group>"; };
+		F84D74A5140F5DB600D607A5 /* libOTOplug.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libOTOplug.a; path = "../../OTOplug/build/Release-iphoneos/libOTOplug.a"; sourceTree = "<group>"; };
+		F84D74A8140F5DC400D607A5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		F84D74AA140F5DC900D607A5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F84D7453140F5CA000D607A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D74AB140F5DC900D607A5 /* AVFoundation.framework in Frameworks */,
+				F84D74A9140F5DC400D607A5 /* AudioToolbox.framework in Frameworks */,
+				F84D74A6140F5DB600D607A5 /* libOTOplug.a in Frameworks */,
+				F84D745B140F5CA000D607A5 /* UIKit.framework in Frameworks */,
+				F84D745D140F5CA000D607A5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F84D744B140F5CA000D607A5 = {
+			isa = PBXGroup;
+			children = (
+				F84D745E140F5CA000D607A5 /* TestClient */,
+				F84D7459140F5CA000D607A5 /* Frameworks */,
+				F84D7457140F5CA000D607A5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F84D7457140F5CA000D607A5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F84D7456140F5CA000D607A5 /* TestClient.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F84D7459140F5CA000D607A5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F84D74A5140F5DB600D607A5 /* libOTOplug.a */,
+				F84D74AA140F5DC900D607A5 /* AVFoundation.framework */,
+				F84D74A8140F5DC400D607A5 /* AudioToolbox.framework */,
+				F84D745A140F5CA000D607A5 /* UIKit.framework */,
+				F84D745C140F5CA000D607A5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F84D745E140F5CA000D607A5 /* TestClient */ = {
+			isa = PBXGroup;
+			children = (
+				F84D7490140F5D0E00D607A5 /* TestClientViewController.h */,
+				F84D7491140F5D0E00D607A5 /* TestClientViewController.m */,
+				F84D7492140F5D0E00D607A5 /* TestClientViewController.xib */,
+				F84D7467140F5CA000D607A5 /* AppDelegate.h */,
+				F84D7468140F5CA000D607A5 /* AppDelegate.m */,
+				F84D745F140F5CA000D607A5 /* Supporting Files */,
+			);
+			path = TestClient;
+			sourceTree = "<group>";
+		};
+		F84D745F140F5CA000D607A5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F84D7460140F5CA000D607A5 /* TestClient-Info.plist */,
+				F84D7461140F5CA000D607A5 /* InfoPlist.strings */,
+				F84D7464140F5CA000D607A5 /* main.m */,
+				F84D7466140F5CA000D607A5 /* TestClient-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F84D7455140F5CA000D607A5 /* TestClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F84D7472140F5CA000D607A5 /* Build configuration list for PBXNativeTarget "TestClient" */;
+			buildPhases = (
+				F84D7452140F5CA000D607A5 /* Sources */,
+				F84D7453140F5CA000D607A5 /* Frameworks */,
+				F84D7454140F5CA000D607A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestClient;
+			productName = TestClient;
+			productReference = F84D7456140F5CA000D607A5 /* TestClient.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F84D744D140F5CA000D607A5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = F84D7450140F5CA000D607A5 /* Build configuration list for PBXProject "TestClient" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F84D744B140F5CA000D607A5;
+			productRefGroup = F84D7457140F5CA000D607A5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F84D7455140F5CA000D607A5 /* TestClient */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F84D7454140F5CA000D607A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7463140F5CA000D607A5 /* InfoPlist.strings in Resources */,
+				F84D7494140F5D0E00D607A5 /* TestClientViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F84D7452140F5CA000D607A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7465140F5CA000D607A5 /* main.m in Sources */,
+				F84D7469140F5CA000D607A5 /* AppDelegate.m in Sources */,
+				F84D7493140F5D0E00D607A5 /* TestClientViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F84D7461140F5CA000D607A5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F84D7462140F5CA000D607A5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F84D7470140F5CA000D607A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "../../OTOplug/**";
+			};
+			name = Debug;
+		};
+		F84D7471140F5CA000D607A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "../../OTOplug/**";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F84D7473140F5CA000D607A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestClient/TestClient-Prefix.pch";
+				INFOPLIST_FILE = "TestClient/TestClient-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F84D7474140F5CA000D607A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestClient/TestClient-Prefix.pch";
+				INFOPLIST_FILE = "TestClient/TestClient-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F84D7450140F5CA000D607A5 /* Build configuration list for PBXProject "TestClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84D7470140F5CA000D607A5 /* Debug */,
+				F84D7471140F5CA000D607A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F84D7472140F5CA000D607A5 /* Build configuration list for PBXNativeTarget "TestClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84D7473140F5CA000D607A5 /* Debug */,
+				F84D7474140F5CA000D607A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F84D744D140F5CA000D607A5 /* Project object */;
+}

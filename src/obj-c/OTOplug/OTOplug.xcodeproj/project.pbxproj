@@ -1,0 +1,512 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F84D7355140DE8CD00D607A5 /* AudioPHY.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7351140DE8CD00D607A5 /* AudioPHY.h */; };
+		F84D7356140DE8CD00D607A5 /* AudioPHY.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7352140DE8CD00D607A5 /* AudioPHY.m */; };
+		F84D7357140DE8CD00D607A5 /* iPhoneCoreAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7353140DE8CD00D607A5 /* iPhoneCoreAudio.h */; };
+		F84D7358140DE8CD00D607A5 /* iPhoneCoreAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7354140DE8CD00D607A5 /* iPhoneCoreAudio.m */; };
+		F84D735D140DE91100D607A5 /* SWMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D735A140DE91100D607A5 /* SWMConstants.h */; };
+		F84D735E140DE91100D607A5 /* SWMPhysicalSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D735B140DE91100D607A5 /* SWMPhysicalSocket.h */; };
+		F84D735F140DE91100D607A5 /* SWMSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D735C140DE91100D607A5 /* SWMSocket.h */; };
+		F84D7367140DE95700D607A5 /* FSKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7360140DE95700D607A5 /* FSKConstants.h */; };
+		F84D7368140DE95700D607A5 /* FSKDemodulator.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7361140DE95700D607A5 /* FSKDemodulator.h */; };
+		F84D7369140DE95700D607A5 /* FSKDemodulator.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7362140DE95700D607A5 /* FSKDemodulator.m */; };
+		F84D736A140DE95700D607A5 /* FSKModem.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7363140DE95700D607A5 /* FSKModem.h */; };
+		F84D736B140DE95700D607A5 /* FSKModem.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7364140DE95700D607A5 /* FSKModem.m */; };
+		F84D736C140DE95700D607A5 /* FSKModulator.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7365140DE95700D607A5 /* FSKModulator.h */; };
+		F84D736D140DE95700D607A5 /* FSKModulator.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7366140DE95700D607A5 /* FSKModulator.m */; };
+		F84D737F140DE9E400D607A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D737E140DE9E400D607A5 /* AVFoundation.framework */; };
+		F84D7381140DE9EC00D607A5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D7380140DE9EC00D607A5 /* AudioToolbox.framework */; };
+		F84D7388140F11F700D607A5 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B086F9140C93D8001632F1 /* SenTestingKit.framework */; };
+		F84D738A140F11F700D607A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D7389140F11F700D607A5 /* UIKit.framework */; };
+		F84D738B140F11F700D607A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B086EB140C93D8001632F1 /* Foundation.framework */; };
+		F84D7391140F11F700D607A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F84D738F140F11F700D607A5 /* InfoPlist.strings */; };
+		F84D7399140F125900D607A5 /* libOTOplug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B086E8140C93D8001632F1 /* libOTOplug.a */; };
+		F84D7426140F587B00D607A5 /* MockPHY.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D73FF140F56A400D607A5 /* MockPHY.m */; };
+		F84D7427140F587F00D607A5 /* SendingMiscPacketTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7401140F56A400D607A5 /* SendingMiscPacketTest.m */; };
+		F84D7428140F588C00D607A5 /* SendingSingleByteTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7403140F56A500D607A5 /* SendingSingleByteTest.m */; };
+		F84D7429140F589100D607A5 /* SendingTwoByteTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7405140F56A500D607A5 /* SendingTwoByteTest.m */; };
+		F84D742A140F58EE00D607A5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D7380140DE9EC00D607A5 /* AudioToolbox.framework */; };
+		F84D742B140F58F200D607A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D737E140DE9E400D607A5 /* AVFoundation.framework */; };
+		F8B086EC140C93D8001632F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B086EB140C93D8001632F1 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F84D739A140F125D00D607A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8B086DF140C93D8001632F1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B086E7140C93D8001632F1;
+			remoteInfo = OTOplug;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F84D7351140DE8CD00D607A5 /* AudioPHY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioPHY.h; path = AudioPHY/AudioPHY.h; sourceTree = "<group>"; };
+		F84D7352140DE8CD00D607A5 /* AudioPHY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioPHY.m; path = AudioPHY/AudioPHY.m; sourceTree = "<group>"; };
+		F84D7353140DE8CD00D607A5 /* iPhoneCoreAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iPhoneCoreAudio.h; path = AudioPHY/iPhoneCoreAudio.h; sourceTree = "<group>"; };
+		F84D7354140DE8CD00D607A5 /* iPhoneCoreAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iPhoneCoreAudio.m; path = AudioPHY/iPhoneCoreAudio.m; sourceTree = "<group>"; };
+		F84D735A140DE91100D607A5 /* SWMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWMConstants.h; path = Protocols/SWMConstants.h; sourceTree = "<group>"; };
+		F84D735B140DE91100D607A5 /* SWMPhysicalSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWMPhysicalSocket.h; path = Protocols/SWMPhysicalSocket.h; sourceTree = "<group>"; };
+		F84D735C140DE91100D607A5 /* SWMSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWMSocket.h; path = Protocols/SWMSocket.h; sourceTree = "<group>"; };
+		F84D7360140DE95700D607A5 /* FSKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSKConstants.h; path = FSK1200Modem/FSKConstants.h; sourceTree = "<group>"; };
+		F84D7361140DE95700D607A5 /* FSKDemodulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSKDemodulator.h; path = FSK1200Modem/FSKDemodulator.h; sourceTree = "<group>"; };
+		F84D7362140DE95700D607A5 /* FSKDemodulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSKDemodulator.m; path = FSK1200Modem/FSKDemodulator.m; sourceTree = "<group>"; };
+		F84D7363140DE95700D607A5 /* FSKModem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSKModem.h; path = FSK1200Modem/FSKModem.h; sourceTree = "<group>"; };
+		F84D7364140DE95700D607A5 /* FSKModem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSKModem.m; path = FSK1200Modem/FSKModem.m; sourceTree = "<group>"; };
+		F84D7365140DE95700D607A5 /* FSKModulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSKModulator.h; path = FSK1200Modem/FSKModulator.h; sourceTree = "<group>"; };
+		F84D7366140DE95700D607A5 /* FSKModulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSKModulator.m; path = FSK1200Modem/FSKModulator.m; sourceTree = "<group>"; };
+		F84D737E140DE9E400D607A5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F84D7380140DE9EC00D607A5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		F84D7387140F11F700D607A5 /* OTOplugLogicTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OTOplugLogicTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84D7389140F11F700D607A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F84D738E140F11F700D607A5 /* OTOplugLogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OTOplugLogicTests-Info.plist"; sourceTree = "<group>"; };
+		F84D7390140F11F700D607A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F84D7395140F11F700D607A5 /* OTOplugLogicTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OTOplugLogicTests-Prefix.pch"; sourceTree = "<group>"; };
+		F84D73FE140F56A400D607A5 /* MockPHY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockPHY.h; sourceTree = "<group>"; };
+		F84D73FF140F56A400D607A5 /* MockPHY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockPHY.m; sourceTree = "<group>"; };
+		F84D7400140F56A400D607A5 /* SendingMiscPacketTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingMiscPacketTest.h; sourceTree = "<group>"; };
+		F84D7401140F56A400D607A5 /* SendingMiscPacketTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingMiscPacketTest.m; sourceTree = "<group>"; };
+		F84D7402140F56A500D607A5 /* SendingSingleByteTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingSingleByteTest.h; sourceTree = "<group>"; };
+		F84D7403140F56A500D607A5 /* SendingSingleByteTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingSingleByteTest.m; sourceTree = "<group>"; };
+		F84D7404140F56A500D607A5 /* SendingTwoByteTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingTwoByteTest.h; sourceTree = "<group>"; };
+		F84D7405140F56A500D607A5 /* SendingTwoByteTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingTwoByteTest.m; sourceTree = "<group>"; };
+		F8B086E8140C93D8001632F1 /* libOTOplug.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOTOplug.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B086EB140C93D8001632F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F8B086EF140C93D8001632F1 /* OTOplug-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OTOplug-Prefix.pch"; sourceTree = "<group>"; };
+		F8B086F9140C93D8001632F1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F84D7383140F11F700D607A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7399140F125900D607A5 /* libOTOplug.a in Frameworks */,
+				F84D7388140F11F700D607A5 /* SenTestingKit.framework in Frameworks */,
+				F84D738A140F11F700D607A5 /* UIKit.framework in Frameworks */,
+				F84D738B140F11F700D607A5 /* Foundation.framework in Frameworks */,
+				F84D742A140F58EE00D607A5 /* AudioToolbox.framework in Frameworks */,
+				F84D742B140F58F200D607A5 /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B086E5140C93D8001632F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7381140DE9EC00D607A5 /* AudioToolbox.framework in Frameworks */,
+				F84D737F140DE9E400D607A5 /* AVFoundation.framework in Frameworks */,
+				F8B086EC140C93D8001632F1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F84D738C140F11F700D607A5 /* OTOplugLogicTests */ = {
+			isa = PBXGroup;
+			children = (
+				F84D73FE140F56A400D607A5 /* MockPHY.h */,
+				F84D73FF140F56A400D607A5 /* MockPHY.m */,
+				F84D7400140F56A400D607A5 /* SendingMiscPacketTest.h */,
+				F84D7401140F56A400D607A5 /* SendingMiscPacketTest.m */,
+				F84D7402140F56A500D607A5 /* SendingSingleByteTest.h */,
+				F84D7403140F56A500D607A5 /* SendingSingleByteTest.m */,
+				F84D7404140F56A500D607A5 /* SendingTwoByteTest.h */,
+				F84D7405140F56A500D607A5 /* SendingTwoByteTest.m */,
+				F84D738D140F11F700D607A5 /* Supporting Files */,
+			);
+			path = OTOplugLogicTests;
+			sourceTree = "<group>";
+		};
+		F84D738D140F11F700D607A5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F84D738E140F11F700D607A5 /* OTOplugLogicTests-Info.plist */,
+				F84D738F140F11F700D607A5 /* InfoPlist.strings */,
+				F84D7395140F11F700D607A5 /* OTOplugLogicTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F8B086DD140C93D8001632F1 = {
+			isa = PBXGroup;
+			children = (
+				F8B086ED140C93D8001632F1 /* OTOplug */,
+				F84D738C140F11F700D607A5 /* OTOplugLogicTests */,
+				F8B086EA140C93D8001632F1 /* Frameworks */,
+				F8B086E9140C93D8001632F1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F8B086E9140C93D8001632F1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F8B086E8140C93D8001632F1 /* libOTOplug.a */,
+				F84D7387140F11F700D607A5 /* OTOplugLogicTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F8B086EA140C93D8001632F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F84D7380140DE9EC00D607A5 /* AudioToolbox.framework */,
+				F84D737E140DE9E400D607A5 /* AVFoundation.framework */,
+				F8B086EB140C93D8001632F1 /* Foundation.framework */,
+				F8B086F9140C93D8001632F1 /* SenTestingKit.framework */,
+				F84D7389140F11F700D607A5 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F8B086ED140C93D8001632F1 /* OTOplug */ = {
+			isa = PBXGroup;
+			children = (
+				F8B0871E140C94A1001632F1 /* FSK1200Modem */,
+				F8B0871D140C9493001632F1 /* Protocols */,
+				F8B0871B140C9480001632F1 /* AudioPHY */,
+				F8B086EE140C93D8001632F1 /* Supporting Files */,
+			);
+			path = OTOplug;
+			sourceTree = "<group>";
+		};
+		F8B086EE140C93D8001632F1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F8B086EF140C93D8001632F1 /* OTOplug-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F8B0871B140C9480001632F1 /* AudioPHY */ = {
+			isa = PBXGroup;
+			children = (
+				F84D7351140DE8CD00D607A5 /* AudioPHY.h */,
+				F84D7352140DE8CD00D607A5 /* AudioPHY.m */,
+				F84D7353140DE8CD00D607A5 /* iPhoneCoreAudio.h */,
+				F84D7354140DE8CD00D607A5 /* iPhoneCoreAudio.m */,
+			);
+			name = AudioPHY;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		F8B0871D140C9493001632F1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F84D735A140DE91100D607A5 /* SWMConstants.h */,
+				F84D735B140DE91100D607A5 /* SWMPhysicalSocket.h */,
+				F84D735C140DE91100D607A5 /* SWMSocket.h */,
+			);
+			name = Protocols;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		F8B0871E140C94A1001632F1 /* FSK1200Modem */ = {
+			isa = PBXGroup;
+			children = (
+				F84D7360140DE95700D607A5 /* FSKConstants.h */,
+				F84D7361140DE95700D607A5 /* FSKDemodulator.h */,
+				F84D7362140DE95700D607A5 /* FSKDemodulator.m */,
+				F84D7363140DE95700D607A5 /* FSKModem.h */,
+				F84D7364140DE95700D607A5 /* FSKModem.m */,
+				F84D7365140DE95700D607A5 /* FSKModulator.h */,
+				F84D7366140DE95700D607A5 /* FSKModulator.m */,
+			);
+			name = FSK1200Modem;
+			path = ..;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F8B086E6140C93D8001632F1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7355140DE8CD00D607A5 /* AudioPHY.h in Headers */,
+				F84D7357140DE8CD00D607A5 /* iPhoneCoreAudio.h in Headers */,
+				F84D735D140DE91100D607A5 /* SWMConstants.h in Headers */,
+				F84D735E140DE91100D607A5 /* SWMPhysicalSocket.h in Headers */,
+				F84D735F140DE91100D607A5 /* SWMSocket.h in Headers */,
+				F84D7367140DE95700D607A5 /* FSKConstants.h in Headers */,
+				F84D7368140DE95700D607A5 /* FSKDemodulator.h in Headers */,
+				F84D736A140DE95700D607A5 /* FSKModem.h in Headers */,
+				F84D736C140DE95700D607A5 /* FSKModulator.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F84D7386140F11F700D607A5 /* OTOplugLogicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F84D7396140F11F700D607A5 /* Build configuration list for PBXNativeTarget "OTOplugLogicTests" */;
+			buildPhases = (
+				F84D7382140F11F700D607A5 /* Sources */,
+				F84D7383140F11F700D607A5 /* Frameworks */,
+				F84D7384140F11F700D607A5 /* Resources */,
+				F84D7385140F11F700D607A5 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F84D739B140F125D00D607A5 /* PBXTargetDependency */,
+			);
+			name = OTOplugLogicTests;
+			productName = OTOplugLogicTests;
+			productReference = F84D7387140F11F700D607A5 /* OTOplugLogicTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		F8B086E7140C93D8001632F1 /* OTOplug */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8B0870E140C93D8001632F1 /* Build configuration list for PBXNativeTarget "OTOplug" */;
+			buildPhases = (
+				F8B086E4140C93D8001632F1 /* Sources */,
+				F8B086E5140C93D8001632F1 /* Frameworks */,
+				F8B086E6140C93D8001632F1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OTOplug;
+			productName = OTOplug;
+			productReference = F8B086E8140C93D8001632F1 /* libOTOplug.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F8B086DF140C93D8001632F1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = F8B086E2140C93D8001632F1 /* Build configuration list for PBXProject "OTOplug" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F8B086DD140C93D8001632F1;
+			productRefGroup = F8B086E9140C93D8001632F1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F8B086E7140C93D8001632F1 /* OTOplug */,
+				F84D7386140F11F700D607A5 /* OTOplugLogicTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F84D7384140F11F700D607A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7391140F11F700D607A5 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F84D7385140F11F700D607A5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F84D7382140F11F700D607A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7426140F587B00D607A5 /* MockPHY.m in Sources */,
+				F84D7427140F587F00D607A5 /* SendingMiscPacketTest.m in Sources */,
+				F84D7428140F588C00D607A5 /* SendingSingleByteTest.m in Sources */,
+				F84D7429140F589100D607A5 /* SendingTwoByteTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B086E4140C93D8001632F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84D7356140DE8CD00D607A5 /* AudioPHY.m in Sources */,
+				F84D7358140DE8CD00D607A5 /* iPhoneCoreAudio.m in Sources */,
+				F84D7369140DE95700D607A5 /* FSKDemodulator.m in Sources */,
+				F84D736B140DE95700D607A5 /* FSKModem.m in Sources */,
+				F84D736D140DE95700D607A5 /* FSKModulator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F84D739B140F125D00D607A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8B086E7140C93D8001632F1 /* OTOplug */;
+			targetProxy = F84D739A140F125D00D607A5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F84D738F140F11F700D607A5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F84D7390140F11F700D607A5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F84D7397140F11F700D607A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OTOplugLogicTests/OTOplugLogicTests-Prefix.pch";
+				INFOPLIST_FILE = "OTOplugLogicTests/OTOplugLogicTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		F84D7398140F11F700D607A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OTOplugLogicTests/OTOplugLogicTests-Prefix.pch";
+				INFOPLIST_FILE = "OTOplugLogicTests/OTOplugLogicTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		F8B0870C140C93D8001632F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F8B0870D140C93D8001632F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F8B0870F140C93D8001632F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/OTOplug.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OTOplug/OTOplug-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F8B08710140C93D8001632F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/OTOplug.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OTOplug/OTOplug-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F84D7396140F11F700D607A5 /* Build configuration list for PBXNativeTarget "OTOplugLogicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84D7397140F11F700D607A5 /* Debug */,
+				F84D7398140F11F700D607A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F8B086E2140C93D8001632F1 /* Build configuration list for PBXProject "OTOplug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B0870C140C93D8001632F1 /* Debug */,
+				F8B0870D140C93D8001632F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8B0870E140C93D8001632F1 /* Build configuration list for PBXNativeTarget "OTOplug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B0870F140C93D8001632F1 /* Debug */,
+				F8B08710140C93D8001632F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F8B086DF140C93D8001632F1 /* Project object */;
+}
