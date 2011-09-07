@@ -7,29 +7,41 @@
 //
 
 #import "SendingMiscPacketTest.h"
+#import "PWMModem.h"
+
+#import "AudioPHY.h"
 
 @implementation SendingMiscPacketTest
-
-- (void)packetReceived:(Byte *)buf length:(int)length;
+#pragma mark - OTOplugDelegate
+- (void) readBytesAvailable:(int)length
 {
-	if(buf_ != NULL) {
-		free(buf_);
-		buf_ = NULL;
-	}		
-	if(length > 0) {
-		buf_ = calloc(length, sizeof(AudioUnitSampleType));
-		memcpy(buf_, buf, length * sizeof(AudioUnitSampleType));
-	}
-	bufLength_ = length;
-}
+    NSLog(@"%s is called", __func__);
+   bufLength_ = [socket_ read:buf_ length:[modem_ getMaxPacketSize]];    
+}		
+
 -(void)sendBufferEmptyNotify
 {
 }
 
 -(void)setUp
-{	
-	modem_ = [[FSKModem alloc] initWithSocketWithoutPHY:self];
-	phy_ = [[MockPHY alloc] initWithSocket:modem_];
+{
+	modem_ = [PWMModem new];
+    
+    buf_ = calloc([modem_ getMaxPacketSize], sizeof(uint8_t));
+    bufLength_ = 0;
+    
+    phy_ = [[MockPHY alloc] 
+            initWithParameters:[modem_ getAudioSamplingRate]
+            audioBufferSize:[modem_ getAudioBufferSize]];
+    socket_ = [[OTORawSocket alloc] initWithModem:modem_];
+    
+    AudioPHY *phy = socket_.audioPHY;
+    [phy stop];
+
+    phy_.modem = modem_;
+    phy_.delegate = socket_;
+    
+    [phy_ start];
 }
 -(void)tearDown
 {
@@ -42,14 +54,15 @@
 		packet[i] = 0;
 	}
 	// send/receive packet
-	[modem_ sendPacket:packet length:length];
-	bufLength_ = 0;
-	[phy_ transfer:kFSKModulatorBufferLength];
-	[[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-	
+    bufLength_ = 0;
+    [socket_ write:packet length:length];
+	[phy_ transfer:kPWMModulatorBufferLength];
+
+    // read
+//	[[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];	    
+    
 	// confirmation
-	STAssertTrue(buf_ != NULL, @"receive buffer must not be nil.");
-	STAssertEquals(length, bufLength_,@"Packet length should be 1.");
+	STAssertEquals(length, bufLength_,@"Packet length should be 10.");
 	for(int i=0; i < length; i++) {
 		STAssertEquals(packet[i], buf_[i],[NSString stringWithFormat:@"Packet %dth data is not expected one.", i]);		
 	}

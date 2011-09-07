@@ -9,15 +9,15 @@
 #import "SenTestingKit/SenTestingKit.h"
 #import "SWMSocket.h"
 #import "SWMConstants.h"
-#import "FSKConstants.h"
-#import "FSKModem.h"
+#import "PWMConstants.h"
+#import "PWMModem.h"
 #import "MockPHY.h"
 
 @interface SendingTwoByteTest : SenTestCase<SWMSocket> {
 	Byte *buf_;
 	int bufLength_;
 	
-	FSKModem *modem_;
+	PWMModem *modem_;
 	MockPHY *phy_;
 }
 -(void)testSendingTwoByte;

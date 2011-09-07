@@ -1,30 +1,47 @@
 //
-//  FSKDemodulator.m
+//  PWMDemodulator.m
 //  SoftwareModem
 //
 //  Created by UEHARA AKIHIRO on 10/11/25.
 //  Copyright 2010 REINFORCE Lab. All rights reserved.
 //
 
-#import "FSKDemodulator.h"
+#import "PWMDemodulator.h"
+#import "PWMConstants.h"
+#import "SWMModem.h"
 
-@interface FSKDemodulator(Private)
+enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
+
+@interface PWMDemodulator () 
+{
+	__weak id<SWMModem> modem_;
+	
+	AudioUnitSampleType lpfSig_, sliceLevel_;
+	BOOL isSignHigh_, lostCarrier_, isPreviousPulseNarrow_;
+	int clockPhase_, pllPhase_;
+	enum PWMByteReceiverState rcvState_;
+	u_int16_t rcvShiftReg_;
+	int rcvBitLength_, rcvMark1Count_;
+	uint8_t *rcvBuf_;
+	int rcvBufLength_;
+	AudioUnitSampleType signalLevel_;
+}
 -(void)receiveBit:(BOOL)value;
 -(void)lostCarrier;
 @end
 
-@implementation FSKDemodulator
+@implementation PWMDemodulator
 #pragma mark Properties
 @synthesize signalLevel = signalLevel_;
 
 #pragma mark Constructor
--(id)initWithSocket:(NSObject<SWMSocket> *)socket
+-(id)initWithModem:(id<SWMModem>)modem
 {
     self= [super init];
 	if(self) {
-		sliceLevel_ = kFSKSliceLevel;
-		socket_ = socket;
-		rcvBuf_   = malloc(kFSKMaxFrameLength);
+		sliceLevel_ = kPWMSliceLevel;
+		modem_ = modem;
+		rcvBuf_   = malloc(kPWMMaxPacketSize);
 	}
 	return self;
 }
@@ -61,9 +78,9 @@
 				rcvBitLength_ = 0;
 				// receive byte data
 				rcvBuf_[rcvBufLength_++] = (Byte)(rcvShiftReg_ >> 8);
-				if(rcvBufLength_ >= kFSKMaxFrameLength) {
+				if(rcvBufLength_ >= kPWMMaxPacketSize) {
 					// buffer overflow, send EOP
-					[socket_ packetReceived:rcvBuf_ length:rcvBufLength_];
+					[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 					rcvBufLength_ = 0;
 				}
 //				NSLog(@"             ByteReceived:%d",(Byte)(rcvShiftReg_ >>8) );
@@ -79,7 +96,7 @@
 				rcvState_ = Start;
 				if(rcvBufLength_ > 0) {
 //					NSLog(@"Packet: length:%d", rcvBufLength_ );
-					[socket_ packetReceived:rcvBuf_ length:rcvBufLength_];
+					[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 					rcvBufLength_ = 0;
 				}				
 //				NSLog(@"            StuffingBit->Start");
@@ -98,14 +115,14 @@
 -(void)lostCarrier
 {
 	if(rcvBufLength_ > 0) {
-		[socket_ packetReceived:rcvBuf_ length:rcvBufLength_];
+		[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 		rcvBufLength_ = 0;
 	}
 }
 #pragma mark Public methods
--(void)demodulate:(AudioUnitSampleType *)buf length:(int)length
+-(void)demodulate:(UInt32)length buf:(AudioUnitSampleType *)buf
 {	
-	assert(kFSKAudioBufferLength == length);
+	assert(kPWMAudioBufferSize == length);
 	
 	AudioUnitSampleType sigLevel = self.signalLevel;
 	for(int i=0; i < length;i++) {
@@ -134,7 +151,7 @@
 //		NSLog(@"AMP:%d", diff);
 		// bit decoding
 		if(edgeDetection) {
-			BOOL isNarrowPulse = (clockPhase_ <= (kFSKPulseWidthThreashold /2));
+			BOOL isNarrowPulse = (clockPhase_ <= (kPWMPulseWidthThreashold /2));
 			
 			lostCarrier_ = FALSE;
 			clockPhase_ = 0;
@@ -161,7 +178,7 @@
 		clockPhase_++;
 		
 		// lost carrier?
-		if(clockPhase_ == kFSKLostCarrierDuration) {
+		if(clockPhase_ == kPWMLostCarrierDuration) {
 			lostCarrier_ = TRUE;
 			[self lostCarrier];
 		}

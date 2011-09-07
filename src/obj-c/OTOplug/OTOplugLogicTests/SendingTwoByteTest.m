@@ -28,7 +28,7 @@
 
 -(void)setUp
 {	
-	modem_ = [[FSKModem alloc] initWithSocketWithoutPHY:self];
+	modem_ = [[PWMModem alloc] initWithSocketWithoutPHY:self];
 	phy_ = [[MockPHY alloc] initWithSocket:modem_];
 }
 -(void)tearDown
@@ -46,7 +46,7 @@
 		// send/receive packet
 		[modem_ sendPacket:packet length:2];
 		bufLength_ = 0;
-		[phy_ transfer:kFSKModulatorBufferLength];
+		[phy_ transfer:kPWMModulatorBufferLength];
 		[[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
 		
 		// confirmation

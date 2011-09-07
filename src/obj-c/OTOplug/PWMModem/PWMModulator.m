@@ -1,5 +1,5 @@
 //
-//  FSKModulator.m
+//  PWMModulator.m
 //  SoftwareModem
 //
 //  Created by UEHARA AKIHIRO on 10/11/23.
@@ -7,11 +7,24 @@
 //
 #import <math.h>
 #import <strings.h>
-#import "FSKConstants.h"
-#import "FSKModulator.h"
+#import "PWMModulator.h"
+#import "PWMConstants.h"
+#import "SWMModem.h"
 
 // Private method declarations
-@interface FSKModulator()
+@interface PWMModulator() {	
+	__weak id<SWMModem> modem_;
+    
+	AudioUnitSampleType *buf_;
+	int bufReadIndex_, bufWriteIndex_;
+	AudioUnitSampleType *mark0_, *mark1_;
+	int mark0Length_, mark1Length_;
+	int mark1Cnt_;
+	BOOL resyncRequired_;
+	BOOL mute_;
+	BOOL isBufferEmpty_;
+}
+
 -(AudioUnitSampleType *)allocAndInitSineWaveform:(int)length;
 -(void)addRawByte:(Byte)value;
 -(void)addByte:(Byte)value;
@@ -19,25 +32,26 @@
 -(void)addWaveform:(AudioUnitSampleType *)buf length:(int)length;
 @end
 
-@implementation FSKModulator
+@implementation PWMModulator
 #pragma mark Properties
-@synthesize mute = mute_;
 @synthesize isBufferEmtpy = isBufferEmpty_;
+@synthesize mute = mute_;
 
 #pragma mark Constuctor
--(id)initWithSocket:(NSObject<SWMSocket> *)socket
+-(id)initWithModem:(id<SWMModem>)modem
 {
     self = [super init];
 	if(self) {
+        mute_ = YES;
 		resyncRequired_ = TRUE;
-		socket_ = socket;
+		modem_ = modem;
 		mark1Cnt_ = 0;
-		buf_ = calloc(kFSKModulatorBufferLength, sizeof(AudioUnitSampleType));
+		buf_ = calloc(kPWMModulatorBufferLength, sizeof(AudioUnitSampleType));
 		
 		// template waveform, '1' , '0', preamble (0xA5)
-		mark0Length_ = kFSKMark0Samples;
+		mark0Length_ = kPWMMark0Samples;
 		mark0_ = [self allocAndInitSineWaveform:mark0Length_];
-		mark1Length_ = kFSKMark1Samples;
+		mark1Length_ = kPWMMark1Samples;
 		mark1_ = [self allocAndInitSineWaveform:mark1Length_];		
 	}
 	return self;
@@ -104,17 +118,13 @@
 	mark1Cnt_ = 0;
 }
 #pragma mark Public methods
--(int)sendPacket:(Byte[])buf length:(int)length checksum:(Byte)checksum
+-(int)sendPacket:(Byte[])buf length:(int)length
 {
 	@synchronized(self)
-	{
-		if(mute_) {
-			return 0;
-		}
-		
+	{		
 		// check available buffer length
-		int requiredBufferLength = (length + kNumberOfReSyncCode + 1 + 1) * 8 * kFSKMark0Samples; // 3: preamble 1: checksum 1: postamble
-		if( (kFSKModulatorBufferLength - bufWriteIndex_) < requiredBufferLength) {
+		int requiredBufferLength = (length + kNumberOfReSyncCode + 1) * 8 * kPWMMark0Samples; // 3: preamble 1: postamble
+		if( (kPWMModulatorBufferLength - bufWriteIndex_) < requiredBufferLength) {
 			return 0;
 		}
 		
@@ -128,7 +138,6 @@
 
 		// write waveform
 		[self addBytes:buf length:length];
-		[self addByte:checksum];
 
 		// postamble
 		[self addRawByte:kSWMSyncCode];
@@ -137,25 +146,25 @@
 	}
 }
 // This method is invoked on audio rendering thread
-- (void)modulate:(AudioUnitSampleType [])buf length:(UInt32)length
+-(void)modulate:(UInt32)length leftBuf:(AudioUnitSampleType *)leftBuf rightBuf:(AudioUnitSampleType *)rightBuf
 {
 	// fill left channel buffer
 	@synchronized(self) {
 		isBufferEmpty_ = (bufReadIndex_ == bufWriteIndex_);
-		if(isBufferEmpty_) {
+		if(isBufferEmpty_ || mute_) {
 			// waveform buffer is empty
-			bzero(buf, sizeof(AudioUnitSampleType) * length);			
+			bzero(leftBuf, sizeof(AudioUnitSampleType) * length);
 		} else {
 			// fill buffer tail
-			int fill_size = (bufReadIndex_ + kFSKAudioBufferLength) - bufWriteIndex_;
+			int fill_size = (bufReadIndex_ + kPWMAudioBufferSize) - bufWriteIndex_;
 			if(fill_size > 0) {
 				bzero(&buf_[bufWriteIndex_] , fill_size * sizeof(AudioUnitSampleType));
 				bufWriteIndex_ += fill_size;
 				resyncRequired_ = TRUE;
 			}
 			// copy buffer setment
-			memcpy(buf, &buf_[bufReadIndex_], kFSKAudioBufferLength * sizeof(AudioUnitSampleType));
-			bufReadIndex_ += kFSKAudioBufferLength;
+			memcpy(leftBuf, &buf_[bufReadIndex_], kPWMAudioBufferSize * sizeof(AudioUnitSampleType));
+			bufReadIndex_ += kPWMAudioBufferSize;
 			// is buffer empty?
 			isBufferEmpty_ = (bufReadIndex_ == bufWriteIndex_);
 			if( isBufferEmpty_ ) {
@@ -163,10 +172,12 @@
 				bufWriteIndex_ = 0;
 			}
 		}
+        // clear right buffer
+        bzero(rightBuf, length * sizeof(AudioUnitSampleType));
 	}
 	// request next packet data
 	if(isBufferEmpty_) {
-		[socket_ sendBufferEmptyNotify];
+		[modem_ sendBufferEmptyNotify];
 	}
 }
 @end

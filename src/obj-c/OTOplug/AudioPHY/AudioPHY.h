@@ -6,22 +6,23 @@
 //  Copyright 2010 REINFORCE Lab.. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import "SWMConstants.h"
-#import "SWMPhysicalSocket.h"
+
+@protocol AudioPHYDelegate, SWMModem;
 
 // Audio physical interface class
-@interface AudioPHY : NSObject {
-	NSObject<SWMPhysicalSocket> *socket_;
-	AudioUnit audioUnit_;
-	BOOL isRunning_;
-}
-@property(nonatomic, readonly, assign) float outputVolume;
-@property(nonatomic, readonly, assign) BOOL isHeadsetInOut;
+@interface AudioPHY : NSObject 
+
+@property(weak, nonatomic) id<AudioPHYDelegate> delegate;
+@property(weak, nonatomic) id<SWMModem> modem;
+
+@property(nonatomic, readonly) float outputVolume;
+@property(nonatomic, readonly) BOOL isHeadsetIn;
+@property(nonatomic, readonly) BOOL isInterrupted;
+
 @property(readonly,  nonatomic) BOOL isRunning;
 
 //|length| audio buffer length.
--(id)initWithSocket:(NSObject<SWMPhysicalSocket> *)physicalSocket audioBufferLength:(int)audioBufferLength;
+-(id)initWithParameters:(float)samplingRate audioBufferSize:(int)audioBufferSize;
 -(void) start;
 -(void) stop;
 @end

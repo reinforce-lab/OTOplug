@@ -6,15 +6,39 @@
 //  Copyright 2010 REINFORCE Lab.. All rights reserved.
 //
 
+#import <AudioToolbox/AudioToolbox.h>
+#import "AudioPHYDelegate.h"
 #import "AudioPHY.h"
+#import "SWMModem.h"
 
 // Private methods
 @interface AudioPHY ()
-@property(nonatomic, assign) float outputVolume;
-@property(nonatomic, assign) BOOL isHeadsetInOut;
+{
+    AudioUnit audioUnit_;
+    float outputVolume_;
+    BOOL isHeadsetIn_;
+    BOOL isInterrupted_; 
+}
+
+@property(nonatomic, assign, getter = getOutputVolume, setter = setOutputVolume:)   float outputVolume;
+@property(nonatomic, assign, getter = getIsHeadsetIn,  setter = setIsHeadsetIn:)    BOOL isHeadsetIn;
+@property(nonatomic, assign, getter = getIsInterrpted, setter = setIsInterrupted: ) BOOL isInterrupted;
+@property(nonatomic, assign) BOOL isRunning;
+
+-(void)setIsHeadSetInWP:(NSNumber *)isHeadsetIn;
+-(void)setVolumeWP:(NSNumber *)volume;
+-(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInterrupted;
+
+-(float)getOutputVolume;
+-(void)setOutputVolume:(float)outputVolume;
+-(BOOL)getIsHeadsetIn;
+-(void)setIsHeadsetIn:(BOOL)isHeadsetIn;
+-(BOOL)getIsInterrupted;
+-(void)setIsInterrupted:(BOOL)isInterrupted;
+
 -(void)checkOSStatusError:(NSString*)message error:(OSStatus)error;
--(void)prepareAudioSession:(int)audioBufferlength;
--(void)prepareAudioUnit;
+-(void)prepareAudioSession:(float)samplingRate audioBufferSize:(int)audioBufferSize;
+-(void)prepareAudioUnit:(float)samplingRate;
 @end
 
 // function declarations
@@ -24,19 +48,54 @@ static void sessionPropertyChanged(void *inClientData,
 								   const void *inData);
 
 @implementation AudioPHY
-#pragma mark Properties
-@synthesize outputVolume;
-@synthesize isHeadsetInOut;
+#pragma mark - Properties
+@synthesize delegate;
+@synthesize modem;
+
+@dynamic outputVolume;
+@dynamic isHeadsetIn;
+@dynamic isInterrupted;
+
 @synthesize isRunning;
 
-#pragma mark constructor
--(id)initWithSocket:(NSObject<SWMPhysicalSocket> *)physicalSocket audioBufferLength:(int)audioBufferLength
+-(float)getOutputVolume
+{
+    return outputVolume_;
+}
+-(void)setOutputVolume:(float)outputVolume
+{
+    outputVolume_ = outputVolume;
+    [self.modem outputVolumeChanged:outputVolume_];
+    [self.delegate outputVolumeChanged:outputVolume_];
+}
+-(BOOL)getIsHeadsetIn
+{
+    return isHeadsetIn_;
+}
+-(void)setIsHeadsetIn:(BOOL)isHeadsetIn
+{
+    isHeadsetIn_ = isHeadsetIn;
+    [self.modem headSetInOutChanged:isHeadsetIn_];
+    [self.delegate headSetInOutChanged:isHeadsetIn_];
+}
+-(BOOL)getIsInterrupted
+{
+    return isInterrupted_;
+}
+-(void)setIsInterrupted:(BOOL)isInterrupted
+{
+    isInterrupted_ = isInterrupted;
+    [self.modem audioSessionInterrupted:isInterrupted_];
+    [self.delegate audioSessionInterrupted:isInterrupted_];
+}
+
+#pragma mark - Constructor
+-(id)initWithParameters:(float)samplingRate audioBufferSize:(int)audioBufferSize
 {
     self = [super init];
 	if(self) {
-		socket_ = physicalSocket;
-		[self prepareAudioSession:audioBufferLength];
-		[self prepareAudioUnit];
+		[self prepareAudioSession:samplingRate audioBufferSize:audioBufferSize];
+		[self prepareAudioUnit:samplingRate];
 	}
 	return self;
 }
@@ -59,9 +118,10 @@ static OSStatus renderCallback(void * inRefCon,
 							   const AudioTimeStamp* inTimeStamp,
 							   UInt32 inBusNumber,
 							   UInt32 inNumberFrames,
-							   AudioBufferList* ioData) {
+							   AudioBufferList* ioData) 
+{
 	AudioPHY* phy = (__bridge AudioPHY*) inRefCon;
-	if(!phy->isRunning_) {
+	if(!phy.isRunning) {
 		return kAudioUnitErr_CannotDoInCurrentContext;
 	}
 	
@@ -83,22 +143,31 @@ static OSStatus renderCallback(void * inRefCon,
 	// demodulate
 	AudioUnitSampleType *outL = ioData->mBuffers[0].mData;
 	AudioUnitSampleType *outR = ioData->mBuffers[1].mData;
-	bzero(outR, inNumberFrames * sizeof(AudioUnitSampleType));
-	[phy->socket_ demodulate:outL length:inNumberFrames];
+	[phy.modem demodulate:inNumberFrames buf:outL];
 	
 	// modulate
-	[phy->socket_ modulate:outL length:inNumberFrames]; 
+	[phy.modem modulate:inNumberFrames leftBuf:outL rightBuf:outR];
 	
+    // clear right channel
+	bzero(outR, inNumberFrames * sizeof(AudioUnitSampleType));
+    
 	return noErr;
 }
 static void sessionInterruption(void *inClientData,
 								UInt32 inInterruptionState)
 {
+    AudioPHY *phy = (__bridge AudioPHY *)inClientData;
 	if(inInterruptionState == kAudioSessionBeginInterruption) {
+        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterrupted:) 
+                              withObject:[NSNumber numberWithBool:YES]
+                              waitUntilDone:NO];
 		NSLog(@"Begin AudioSession interruption.");
 	} else {
 		NSLog(@"End AudioSession interruption.");
 		AudioSessionSetActive(YES); // re-activate and re-start audio play&recording
+        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterrupted:) 
+                              withObject:[NSNumber numberWithBool:NO]
+                           waitUntilDone:NO];        
 	}
 }
 static void sessionPropertyChanged(void *inClientData,
@@ -109,32 +178,48 @@ static void sessionPropertyChanged(void *inClientData,
 	AudioPHY *phy = (__bridge AudioPHY *)inClientData;
 	if(inID ==kAudioSessionProperty_CurrentHardwareOutputVolume ) {	
 		float volume = *((float *)inData);
-		dispatch_async(dispatch_get_main_queue(), ^{
-			phy.outputVolume = volume;
-//			NSLog(@"%s volume changed: %f", __func__, volume);
-		});
+        [phy performSelectorOnMainThread:@selector(setVolume:) 
+                              withObject:[NSNumber numberWithFloat:volume]
+                           waitUntilDone:false];        
 	} else if( inID == kAudioSessionProperty_AudioRouteChange ) {
 #if !(TARGET_IPHONE_SIMULATOR)
 		UInt32 size = sizeof(CFStringRef);
 		CFStringRef route;
 		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 //		NSLog(@"%s route channged: %@", __func__, (NSString *)route );
-		NSString *rt = (__bridge NSString *)route;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			phy.isHeadsetInOut = [rt isEqualToString:@"HeadsetInOut"];
-		});
+		NSString *rt = (__bridge NSString *)route;        
+        [phy performSelectorOnMainThread:@selector(setIsHeadSetIn:) 
+                              withObject:[NSNumber numberWithBool:[rt isEqualToString:@"HeadsetInOut"]]
+                           waitUntilDone:false];
 #endif		
 	}
 }
 
-#pragma mark private methods
+#pragma mark - private methods
+-(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInt
+{
+    BOOL val = [isInt boolValue];
+    [self setIsInterrupted:val];
+}
+-(void)setIsHeadSetInWP:(NSNumber *)num
+{
+    bool val = [num boolValue];
+    self.isHeadsetIn = val;
+    [self.delegate headSetInOutChanged:val];
+}
+-(void)setVolumeWP:(NSNumber *)volume
+{
+    float val = [volume floatValue];
+    self.outputVolume = val;
+    [self.delegate outputVolumeChanged:val];
+}
 -(void)checkOSStatusError:(NSString *)message error:(OSStatus)error
 {
 	if(error) {
 		NSLog(@"AudioPHY error message:%@ OSStatus:%d.",message, (int)error);
 	}
 }
--(void)prepareAudioSession:(int)audioBufferLength
+-(void)prepareAudioSession:(float)samplingRate audioBufferSize:(int)audioBufferSize
 {
 	OSStatus error;
 	
@@ -156,7 +241,7 @@ static void sessionPropertyChanged(void *inClientData,
 	*/
 	
 	// set audio buffer size
-	Float32 duration = audioBufferLength / kSWMSamplingRate;
+	Float32 duration = audioBufferSize / samplingRate;
 	error = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(Float32), &duration);
 	[self checkOSStatusError:@"AudioSessionSetProperty() sets preferredHardwareIOBufferDuration" error:error];
 	
@@ -168,14 +253,14 @@ static void sessionPropertyChanged(void *inClientData,
 	self.outputVolume = volume;
 
 #if TARGET_IPHONE_SIMULATOR
-	self.isHeadsetInOut = true;
+	self.isHeadsetIn = true;
 #else // TARGET_IOS_IPHONE
 	size = sizeof(CFStringRef);
 	CFStringRef route;
 	error = AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 	[self checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
 	NSString *rt = (__bridge NSString *)route;
-	self.isHeadsetInOut = [rt isEqualToString:@"HeadsetInOut"];
+	self.isHeadsetIn = [rt isEqualToString:@"HeadsetInOut"];
 #endif
 	
 	// add property listener
@@ -186,7 +271,7 @@ static void sessionPropertyChanged(void *inClientData,
 	error = AudioSessionSetActive( YES );
 	[self checkOSStatusError:@"AudioSessionSetActive()" error:error];
 }
--(void)prepareAudioUnit
+-(void)prepareAudioUnit:(float)samplingRate
 {
 	OSStatus error;
 	//Getting RemoteIO Audio Unit (speaker out) AudioComponentDescription
@@ -231,7 +316,7 @@ static void sessionPropertyChanged(void *inClientData,
 	// applying speaker-out audio format, stereo channels
     AudioStreamBasicDescription audioFormat;
 	{
-		audioFormat.mSampleRate         = kSWMSamplingRate;
+		audioFormat.mSampleRate         = samplingRate;
 		audioFormat.mFormatID           = kAudioFormatLinearPCM;
 		audioFormat.mFormatFlags        = kAudioFormatFlagsAudioUnitCanonical;
 		audioFormat.mChannelsPerFrame   = 2;
@@ -271,16 +356,16 @@ static void sessionPropertyChanged(void *inClientData,
 #pragma mark public methods
 -(void)start
 {
-	if(!isRunning_){
+	if(!self.isRunning){
 		AudioOutputUnitStart(audioUnit_);
-		isRunning_ = TRUE;
+        self.isRunning = YES;
 	}
 }
 -(void)stop
 {
-	if(isRunning_) {
+	if(self.isRunning) {
 		AudioOutputUnitStop(audioUnit_);
-		isRunning_ = FALSE;
+		self.isRunning = NO;
 	}
 }
 @end

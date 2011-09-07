@@ -8,21 +8,24 @@
 
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "SWMConstants.h"
-#import "SWMPhysicalSocket.h"
-#import "FSKConstants.h"
+
+@protocol AudioPHYDelegate, SWMModem;
 
 // Audio physical interface class
-@interface MockPHY : NSObject {
-	NSObject<SWMPhysicalSocket> *socket_;
-	BOOL isRunning_;
-	float gain_;
-}
-@property(readonly,  nonatomic) BOOL isRunning;
+@interface MockPHY : NSObject
 
--(id)initWithSocket:(NSObject<SWMPhysicalSocket> *)socket;
--(void)transfer:(int)length;
--(void) setGain:(float)gain;
+@property(weak, nonatomic) id<AudioPHYDelegate> delegate;
+@property(weak, nonatomic) id<SWMModem> modem;
+@property(nonatomic, assign) float gain;
+
+@property(nonatomic, readonly) float outputVolume;
+@property(nonatomic, readonly) BOOL isHeadsetIn;
+@property(nonatomic, readonly) BOOL isInterrupted;
+
+//|length| audio buffer length.
+-(id)initWithParameters:(float)samplingRate audioBufferSize:(int)audioBufferSize;
 -(void) start;
 -(void) stop;
+
+-(void)transfer:(int)length;
 @end

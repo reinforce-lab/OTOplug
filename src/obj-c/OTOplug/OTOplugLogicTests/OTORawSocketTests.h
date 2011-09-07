@@ -8,17 +8,21 @@
 
 #import "SenTestingKit/SenTestingKit.h"
 #import "SWMSocket.h"
-#import "SWMConstants.h"
-#import "FSKConstants.h"
-#import "FSKModem.h"
+#import "PWMConstants.h"
+#import "PWMModem.h"
+#import "OTORawSocket.h"
 #import "MockPHY.h"
 
-@interface SendingSingleByteTest : SenTestCase<SWMSocket> {
+@interface SendingSingleByteTest : SenTestCase<OTOplugDelegate> {
 	Byte *buf_;
 	int bufLength_;
 	
-	FSKModem *modem_;
+    OTORawSocket *socket_;
+	PWMModem *modem_;
 	MockPHY *phy_;
 }
+
 -(void)testSendingSingleByte;
+-(void)testSendingLongestPacket;
+-(void)testInsensitiveToSignalPolarity;
 @end
