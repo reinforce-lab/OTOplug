@@ -1,5 +1,5 @@
 //
-//  OTORawSocket.h
+//  OTOPacketSocket.h
 //  OTOplug
 //
 //  Created by Uehara Akihiro on 11/09/02.
@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import "AudioPHYDelegate.h"
 #import "SWMSocket.h"
 #import "OTOplugDelegate.h"
@@ -18,7 +17,7 @@
 // Raw packet modem. 
 // Every written packet is simply sent to a client without packet error detection.
 // If reliable communication is necessary, use OTOPacketSocket.
-@interface OTORawSocket : NSObject<AudioPHYDelegate, SWMSocket>
+@interface OTOPacketSocket : NSObject<AudioPHYDelegate, SWMSocket>
 
 @property (weak,   nonatomic) id<OTOplugDelegate> delegate;
 @property (strong, nonatomic) AudioPHY *audioPHY;

@@ -158,14 +158,14 @@ static void sessionInterruption(void *inClientData,
 {
     AudioPHY *phy = (__bridge AudioPHY *)inClientData;
 	if(inInterruptionState == kAudioSessionBeginInterruption) {
-        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterrupted:) 
+        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:) 
                               withObject:[NSNumber numberWithBool:YES]
                               waitUntilDone:NO];
 		NSLog(@"Begin AudioSession interruption.");
 	} else {
 		NSLog(@"End AudioSession interruption.");
 		AudioSessionSetActive(YES); // re-activate and re-start audio play&recording
-        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterrupted:) 
+        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:) 
                               withObject:[NSNumber numberWithBool:NO]
                            waitUntilDone:NO];        
 	}
@@ -178,7 +178,7 @@ static void sessionPropertyChanged(void *inClientData,
 	AudioPHY *phy = (__bridge AudioPHY *)inClientData;
 	if(inID ==kAudioSessionProperty_CurrentHardwareOutputVolume ) {	
 		float volume = *((float *)inData);
-        [phy performSelectorOnMainThread:@selector(setVolume:) 
+        [phy performSelectorOnMainThread:@selector(setVolumeWP:) 
                               withObject:[NSNumber numberWithFloat:volume]
                            waitUntilDone:false];        
 	} else if( inID == kAudioSessionProperty_AudioRouteChange ) {
@@ -188,7 +188,7 @@ static void sessionPropertyChanged(void *inClientData,
 		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 //		NSLog(@"%s route channged: %@", __func__, (NSString *)route );
 		NSString *rt = (__bridge NSString *)route;        
-        [phy performSelectorOnMainThread:@selector(setIsHeadSetIn:) 
+        [phy performSelectorOnMainThread:@selector(setIsHeadSetInWP:) 
                               withObject:[NSNumber numberWithBool:[rt isEqualToString:@"HeadsetInOut"]]
                            waitUntilDone:false];
 #endif		
@@ -205,13 +205,11 @@ static void sessionPropertyChanged(void *inClientData,
 {
     bool val = [num boolValue];
     self.isHeadsetIn = val;
-    [self.delegate headSetInOutChanged:val];
 }
 -(void)setVolumeWP:(NSNumber *)volume
 {
     float val = [volume floatValue];
     self.outputVolume = val;
-    [self.delegate outputVolumeChanged:val];
 }
 -(void)checkOSStatusError:(NSString *)message error:(OSStatus)error
 {

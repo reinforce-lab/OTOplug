@@ -3,7 +3,7 @@
 //  OTOplug
 //
 //  Created by Uehara Akihiro on 11/09/02.
-//  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 REINFORCE Lab.. All rights reserved.
 //
 
 @protocol OTOplugDelegate

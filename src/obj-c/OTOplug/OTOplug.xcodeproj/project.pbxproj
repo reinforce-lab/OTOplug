@@ -25,9 +25,9 @@
 		F89088F11410DAE00038E6C0 /* OTORawSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F89088EF1410DAE00038E6C0 /* OTORawSocket.h */; };
 		F89088F21410DAE00038E6C0 /* OTORawSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F89088F01410DAE00038E6C0 /* OTORawSocket.m */; };
 		F89088F31410DAE00038E6C0 /* OTORawSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F89088F01410DAE00038E6C0 /* OTORawSocket.m */; };
-		F89088F61410DAF70038E6C0 /* OTOSerialSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F89088F41410DAF70038E6C0 /* OTOSerialSocket.h */; };
-		F89088F71410DAF70038E6C0 /* OTOSerialSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F89088F51410DAF70038E6C0 /* OTOSerialSocket.m */; };
-		F89088F81410DAF70038E6C0 /* OTOSerialSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F89088F51410DAF70038E6C0 /* OTOSerialSocket.m */; };
+		F89088F61410DAF70038E6C0 /* OTOPacketSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F89088F41410DAF70038E6C0 /* OTOPacketSocket.h */; };
+		F89088F71410DAF70038E6C0 /* OTOPacketSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F89088F51410DAF70038E6C0 /* OTOPacketSocket.m */; };
+		F89088F81410DAF70038E6C0 /* OTOPacketSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F89088F51410DAF70038E6C0 /* OTOPacketSocket.m */; };
 		F89089011410E3470038E6C0 /* SWMModem.h in Headers */ = {isa = PBXBuildFile; fileRef = F89088FF1410E3470038E6C0 /* SWMModem.h */; };
 		F89089291410ECE50038E6C0 /* OTOplugDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F89089281410ECE50038E6C0 /* OTOplugDelegate.h */; };
 		F89089311410F44C0038E6C0 /* PWMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = F890892A1410F44C0038E6C0 /* PWMConstants.h */; };
@@ -72,8 +72,8 @@
 		F84D73FF140F56A400D607A5 /* MockPHY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockPHY.m; sourceTree = "<group>"; };
 		F89088EF1410DAE00038E6C0 /* OTORawSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTORawSocket.h; sourceTree = "<group>"; };
 		F89088F01410DAE00038E6C0 /* OTORawSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTORawSocket.m; sourceTree = "<group>"; };
-		F89088F41410DAF70038E6C0 /* OTOSerialSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTOSerialSocket.h; sourceTree = "<group>"; };
-		F89088F51410DAF70038E6C0 /* OTOSerialSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTOSerialSocket.m; sourceTree = "<group>"; };
+		F89088F41410DAF70038E6C0 /* OTOPacketSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTOPacketSocket.h; sourceTree = "<group>"; };
+		F89088F51410DAF70038E6C0 /* OTOPacketSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTOPacketSocket.m; sourceTree = "<group>"; };
 		F89088FF1410E3470038E6C0 /* SWMModem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWMModem.h; path = Protocols/SWMModem.h; sourceTree = "<group>"; };
 		F89089281410ECE50038E6C0 /* OTOplugDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTOplugDelegate.h; sourceTree = "<group>"; };
 		F890892A1410F44C0038E6C0 /* PWMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWMConstants.h; path = PWMModem/PWMConstants.h; sourceTree = SOURCE_ROOT; };
@@ -204,8 +204,8 @@
 				F89089281410ECE50038E6C0 /* OTOplugDelegate.h */,
 				F89088EF1410DAE00038E6C0 /* OTORawSocket.h */,
 				F89088F01410DAE00038E6C0 /* OTORawSocket.m */,
-				F89088F41410DAF70038E6C0 /* OTOSerialSocket.h */,
-				F89088F51410DAF70038E6C0 /* OTOSerialSocket.m */,
+				F89088F41410DAF70038E6C0 /* OTOPacketSocket.h */,
+				F89088F51410DAF70038E6C0 /* OTOPacketSocket.m */,
 				F8B086EE140C93D8001632F1 /* Supporting Files */,
 			);
 			path = OTOplug;
@@ -251,7 +251,7 @@
 				F84D7357140DE8CD00D607A5 /* iPhoneCoreAudio.h in Headers */,
 				F84D735F140DE91100D607A5 /* SWMSocket.h in Headers */,
 				F89088F11410DAE00038E6C0 /* OTORawSocket.h in Headers */,
-				F89088F61410DAF70038E6C0 /* OTOSerialSocket.h in Headers */,
+				F89088F61410DAF70038E6C0 /* OTOPacketSocket.h in Headers */,
 				F89089011410E3470038E6C0 /* SWMModem.h in Headers */,
 				F89089291410ECE50038E6C0 /* OTOplugDelegate.h in Headers */,
 				F89089311410F44C0038E6C0 /* PWMConstants.h in Headers */,
@@ -361,7 +361,7 @@
 			files = (
 				F84D7426140F587B00D607A5 /* MockPHY.m in Sources */,
 				F89088F31410DAE00038E6C0 /* OTORawSocket.m in Sources */,
-				F89088F81410DAF70038E6C0 /* OTOSerialSocket.m in Sources */,
+				F89088F81410DAF70038E6C0 /* OTOPacketSocket.m in Sources */,
 				F89089341410F44C0038E6C0 /* PWMDemodulator.m in Sources */,
 				F89089371410F44C0038E6C0 /* PWMModem.m in Sources */,
 				F890893A1410F44C0038E6C0 /* PWMModulator.m in Sources */,
@@ -376,7 +376,7 @@
 				F84D7356140DE8CD00D607A5 /* AudioPHY.m in Sources */,
 				F84D7358140DE8CD00D607A5 /* iPhoneCoreAudio.m in Sources */,
 				F89088F21410DAE00038E6C0 /* OTORawSocket.m in Sources */,
-				F89088F71410DAF70038E6C0 /* OTOSerialSocket.m in Sources */,
+				F89088F71410DAF70038E6C0 /* OTOPacketSocket.m in Sources */,
 				F89089331410F44C0038E6C0 /* PWMDemodulator.m in Sources */,
 				F89089361410F44C0038E6C0 /* PWMModem.m in Sources */,
 				F89089391410F44C0038E6C0 /* PWMModulator.m in Sources */,

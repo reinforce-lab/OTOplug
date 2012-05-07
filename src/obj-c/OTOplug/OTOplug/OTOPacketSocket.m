@@ -1,18 +1,18 @@
 //
-//  OTORawSocket.m
+//  OTOPacketSocket.m
 //  OTOplug
 //
 //  Created by Uehara Akihiro on 11/09/02.
 //  Copyright (c) 2011 REINFORCE Lab.. All rights reserved.
 //
 
-#import "OTORawSocket.h"
+#import "OTOPacketSocket.h"
 #import "OTOplugDelegate.h"
 #import "SWMModem.h"
 #import "AudioPHY.h"
 #include "math.h"
 
-@interface OTORawSocket()
+@interface OTOPacketSocket()
 {
     int maxPacketSize_;
     int rcvSize_;
@@ -20,13 +20,12 @@
 }
 @property (strong, nonatomic) id<SWMModem> modem;
 
--(uint8_t)calculateCRC8:(uint8_t [])buf length:(int)length;
+-(uint16_t)calculateCRC_CCITT:(uint8_t [])buf length:(int)length;
 -(void)onReceivePacket;
 @end
 
-uint8_t crc_ibutton_update(uint8_t crc, uint8_t data);
 
-@implementation OTORawSocket
+@implementation OTOPacketSocket
 @synthesize delegate;
 @synthesize audioPHY;
 @synthesize modem;
@@ -49,7 +48,7 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data);
         self.audioPHY = [[AudioPHY alloc] initWithParameters:samplingRate audioBufferSize:audioBufferSize];
         self.audioPHY.delegate = self;
         self.audioPHY.modem = _modem;
-
+        
         [self.audioPHY start];
     }
     return self;
