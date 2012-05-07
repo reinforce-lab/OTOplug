@@ -5,7 +5,8 @@ Software modem runs on both iPhone and microcontrollers (currently ATMEL AVR ser
 This project is licenced under the Apache Licence, Version 2.0.
 
 #License
-Copyright 2010-2011 REINFORCE lab.
+Copyright 2010-2011 REINFORCE lab.  
+Copyright 2012 WA-FU-U, LLC.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,7 +21,7 @@ Copyright 2010-2011 REINFORCE lab.
   limitations under the License.
 
 #Contact
-Akihiro UEHARA
-REINFORCE Lab.
-e-mail: u-akihiro@reinforce-lab.com
-Web: http://www.reinforce-lab.com/ (written in Japanese)
+Akihiro UEHARA  
+WA-FU-U, LLC.  
+e-mail: u-akihiro@reinforce-lab.com  
+
