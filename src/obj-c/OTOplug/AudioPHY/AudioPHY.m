@@ -20,20 +20,20 @@
     BOOL isInterrupted_; 
 }
 
-@property(nonatomic, assign, getter = getOutputVolume, setter = setOutputVolume:)   float outputVolume;
-@property(nonatomic, assign, getter = getIsHeadsetIn,  setter = setIsHeadsetIn:)    BOOL isHeadsetIn;
-@property(nonatomic, assign, getter = getIsInterrpted, setter = setIsInterrupted: ) BOOL isInterrupted;
+@property(nonatomic, assign) float outputVolume;
+@property(nonatomic, assign) BOOL isHeadsetIn;
+@property(nonatomic, assign) BOOL isInterrupted;
 @property(nonatomic, assign) BOOL isRunning;
 
 -(void)setIsHeadSetInWP:(NSNumber *)isHeadsetIn;
 -(void)setVolumeWP:(NSNumber *)volume;
 -(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInterrupted;
 
--(float)getOutputVolume;
+-(float)outputVolume;
 -(void)setOutputVolume:(float)outputVolume;
--(BOOL)getIsHeadsetIn;
+-(BOOL)isHeadsetIn;
 -(void)setIsHeadsetIn:(BOOL)isHeadsetIn;
--(BOOL)getIsInterrupted;
+-(BOOL)isInterrupted;
 -(void)setIsInterrupted:(BOOL)isInterrupted;
 
 -(void)checkOSStatusError:(NSString*)message error:(OSStatus)error;
@@ -58,7 +58,7 @@ static void sessionPropertyChanged(void *inClientData,
 
 @synthesize isRunning;
 
--(float)getOutputVolume
+-(float)outputVolume
 {
     return outputVolume_;
 }
@@ -68,7 +68,7 @@ static void sessionPropertyChanged(void *inClientData,
     [self.modem outputVolumeChanged:outputVolume_];
     [self.delegate outputVolumeChanged:outputVolume_];
 }
--(BOOL)getIsHeadsetIn
+-(BOOL)isHeadsetIn
 {
     return isHeadsetIn_;
 }
@@ -78,7 +78,7 @@ static void sessionPropertyChanged(void *inClientData,
     [self.modem headSetInOutChanged:isHeadsetIn_];
     [self.delegate headSetInOutChanged:isHeadsetIn_];
 }
--(BOOL)getIsInterrupted
+-(BOOL)isInterrupted
 {
     return isInterrupted_;
 }

@@ -9,12 +9,16 @@
 #import "TestClientViewController.h"
 
 #import "ctype.h"
-#import "FSKModem.h"
-#import "SWMSocket.h"
+#import "OTOPacketSocket.h"
+#import "PWMModem.h"
+#import "AudioPHY.h"
 
-@interface TestClientViewController()
-@property (nonatomic, retain) FSKModem *modem;
-@property (nonatomic, retain) NSMutableString *logText;
+@interface TestClientViewController() {
+    OTOPacketSocket *socket_;
+    PWMModem *modem_;
+    NSMutableString *logText_;
+    uint8_t *buf_;
+}
 
 -(void)updateConnectionStateLabel;
 -(void)dumpPacket:(Byte *)buf length:(int)length;
@@ -23,8 +27,6 @@
 
 @implementation TestClientViewController
 #pragma mark - Properties
-@synthesize modem;
-@synthesize logText;
 
 #pragma mark - Constructor
 - (void)dealloc
@@ -38,25 +40,29 @@
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
-	self.logText = [NSMutableString stringWithCapacity:1000];
-
-	self.modem = [[FSKModem alloc] initWithSocket:self];
-	[self.modem addObserver:self forKeyPath:@"isHeadsetInOut" options:NSKeyValueObservingOptionNew context:(__bridge void*)modem];
-	self.modem.mute = YES;
-	[self updateConnectionStateLabel];
-	[self.modem start];
-	
     [super viewDidLoad];
+    
+	logText_ = [NSMutableString stringWithCapacity:1000];
+    textView_.text = @"";
+
+	modem_ = [[PWMModem alloc] init];
+    
+    buf_ = calloc([modem_ getMaxPacketSize], sizeof(uint8_t));
+    
+    socket_ = [[OTOPacketSocket alloc] initWithModem:modem_];
+    socket_.delegate = self;
+
+    [socket_.audioPHY addObserver:self forKeyPath:@"isHeadsetIn" options:NSKeyValueObservingOptionNew context:nil];
+
+	[self updateConnectionStateLabel]; 	
 }
 
 - (void)viewDidUnload
 {
-	[self.modem stop];
-	[self.modem removeObserver:self forKeyPath:@"isHeadsetInOut"];	
-	self.modem = nil;
-	self.logText = nil;
-	
     [super viewDidUnload];
+    
+    [socket_.audioPHY removeObserver:self forKeyPath:@"isHeadsetIn"];	
+    free(buf_);
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -64,14 +70,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - SWMSocket
-- (void)packetReceived:(Byte *)buf length:(int)length
-{
-	[self dumpPacket:buf length:length];
-}
-- (void)sendBufferEmptyNotify
-{
-}
 #pragma mark - Event handler
 -(IBAction)clearButtonTouchUpInside:(id)sender
 {
@@ -80,34 +78,45 @@
 #pragma mark - Private methods
 -(void)updateConnectionStateLabel
 {
-//	statusLabelView_.text =self.modem.isHeadsetInOut ? @"Connected" : @"Not connected";
+    AudioPHY *phy = socket_.audioPHY;
+//    BOOL isss = [phy getIsHeadesetIn];
+    NSLog(@"%d", phy.isHeadsetIn);
+	statusLabelView_.text = socket_.audioPHY.isHeadsetIn ? @"Connected" : @"Not connected";
 }
 -(void)clearTextView
 {
-	self.logText = [NSMutableString stringWithCapacity:1000];
-	textView_.text = self.logText;
+	logText_ = [NSMutableString stringWithCapacity:1000];
+	textView_.text = logText_;
 }
 -(void)dumpPacket:(Byte *)buf length:(int)length
 {
 	NSMutableString *lineText = [NSMutableString stringWithCapacity:(length *4)];
-	for(int i = 0; i < length; i++) {
+	for(int i = 0; i < length -1; i++) {
 		if(isascii( buf[i])) {
 			[lineText appendFormat:@"%c", buf[i]];
 		} else {
-			[lineText appendFormat:@"% 0x%02X ", buf[i]];
+			[lineText appendFormat:@"% (0x%02X) ", buf[i]];
 		}
 	}
-	[self.logText appendString:lineText];
-	textView_.text = self.logText;
+	[logText_ appendString:lineText];
+	textView_.text = logText_;
+}
+
+#pragma mark - OTOplugDelegate
+- (void) readBytesAvailable:(int)length
+{
+    [socket_ read:buf_ length:length];
+	[self dumpPacket:buf_ length:length]; 
 }
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ((__bridge FSKModem *)context == self.modem) {
-       	// isHeadsetInOut
+    if (object == socket_.audioPHY) {
+       	// isHeadsetIn is changed
 		[self updateConnectionStateLabel];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
+
 #pragma mark - Public methods
 @end

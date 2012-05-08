@@ -32,7 +32,7 @@
 		F84D7490140F5D0E00D607A5 /* TestClientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClientViewController.h; sourceTree = "<group>"; };
 		F84D7491140F5D0E00D607A5 /* TestClientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClientViewController.m; sourceTree = "<group>"; };
 		F84D7492140F5D0E00D607A5 /* TestClientViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestClientViewController.xib; sourceTree = "<group>"; };
-		F84D74A5140F5DB600D607A5 /* libOTOplug.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libOTOplug.a; path = "../../OTOplug/build/Release-iphoneos/libOTOplug.a"; sourceTree = "<group>"; };
+		F84D74A5140F5DB600D607A5 /* libOTOplug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOTOplug.a; path = "../../OTOplug/build/Release-iphoneos/libOTOplug.a"; sourceTree = "<group>"; };
 		F84D74A8140F5DC400D607A5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F84D74AA140F5DC900D607A5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -132,7 +132,7 @@
 		F84D744D140F5CA000D607A5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = F84D7450140F5CA000D607A5 /* Build configuration list for PBXProject "TestClient" */;
 			compatibilityVersion = "Xcode 3.2";

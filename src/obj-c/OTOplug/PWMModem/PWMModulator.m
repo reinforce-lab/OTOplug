@@ -12,9 +12,7 @@
 #import "SWMModem.h"
 
 // Private method declarations
-@interface PWMModulator() {	
-	__weak id<SWMModem> modem_;
-    
+@interface PWMModulator() {		    
 	AudioUnitSampleType *buf_;
 	int bufReadIndex_, bufWriteIndex_;
 	AudioUnitSampleType *mark0_, *mark1_;
@@ -24,6 +22,8 @@
 	BOOL mute_;
 	BOOL isBufferEmpty_;
 }
+
+@property (unsafe_unretained, nonatomic) id<SWMModem> modem;
 
 -(AudioUnitSampleType *)allocAndInitSineWaveform:(int)length;
 -(void)addRawByte:(Byte)value;
@@ -36,15 +36,16 @@
 #pragma mark Properties
 @synthesize isBufferEmtpy = isBufferEmpty_;
 @synthesize mute = mute_;
+@synthesize modem;
 
 #pragma mark Constuctor
--(id)initWithModem:(id<SWMModem>)modem
+-(id)initWithModem:(id<SWMModem>)_modem
 {
     self = [super init];
 	if(self) {
         mute_ = YES;
 		resyncRequired_ = TRUE;
-		modem_ = modem;
+		self.modem = _modem;
 		mark1Cnt_ = 0;
 		buf_ = calloc(kPWMModulatorBufferLength, sizeof(AudioUnitSampleType));
 		
@@ -177,7 +178,7 @@
 	}
 	// request next packet data
 	if(isBufferEmpty_) {
-		[modem_ sendBufferEmptyNotify];
+		[self.modem sendBufferEmptyNotify];
 	}
 }
 @end

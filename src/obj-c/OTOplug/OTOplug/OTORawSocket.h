@@ -26,7 +26,7 @@
     uint8_t *rcvBuf_;
 }
 
-@property (weak,   nonatomic) id<OTOplugDelegate> delegate;
+@property (unsafe_unretained, nonatomic) id<OTOplugDelegate> delegate;
 @property (strong, nonatomic) AudioPHY *audioPHY;
 
 // initializer

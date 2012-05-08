@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWMSocket.h"
+#import "OTOplugDelegate.h"
 
-@interface TestClientViewController : UIViewController<SWMSocket> {
+@interface TestClientViewController : UIViewController<OTOplugDelegate> {
     IBOutlet UITextView *textView_;
 	IBOutlet UILabel *statusLabelView_;
 }
