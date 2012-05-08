@@ -13,18 +13,10 @@
 #include "math.h"
 
 @interface OTORawSocket()
-{
-    int maxPacketSize_;
-    int rcvSize_;
-    uint8_t *rcvBuf_;
-}
 @property (strong, nonatomic) id<SWMModem> modem;
 
--(uint8_t)calculateCRC8:(uint8_t [])buf length:(int)length;
 -(void)onReceivePacket;
 @end
-
-uint8_t crc_ibutton_update(uint8_t crc, uint8_t data);
 
 @implementation OTORawSocket
 @synthesize delegate;
@@ -60,27 +52,6 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data);
     free(rcvBuf_);
 }
 #pragma mark - Private methods
-uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
-{
-	uint8_t i;
-	crc = (uint8_t)(crc ^ data);
-	for (i = 0; i < 8; i++)
-	{
-		if ((crc & 0x01) != 0)
-			crc = (uint8_t)((crc >> 1) ^ 0x8c);
-		else
-			crc >>= 1;
-	}
-	return crc;
-}
--(uint8_t)calculateCRC8:(uint8_t [])buf length:(int)length
-{
-	uint8_t cc = 0;
-	for(int i=0; i < length;i++) {
-		cc = crc_ibutton_update(cc, buf[i]);
-	}
-	return cc;
-}
 -(void)onReceivePacket
 {
     [self.delegate readBytesAvailable:rcvSize_];

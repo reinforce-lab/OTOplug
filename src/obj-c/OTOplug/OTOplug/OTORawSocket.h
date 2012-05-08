@@ -19,6 +19,12 @@
 // Every written packet is simply sent to a client without packet error detection.
 // If reliable communication is necessary, use OTOPacketSocket.
 @interface OTORawSocket : NSObject<AudioPHYDelegate, SWMSocket>
+{
+@protected
+    int maxPacketSize_;
+    int rcvSize_;
+    uint8_t *rcvBuf_;
+}
 
 @property (weak,   nonatomic) id<OTOplugDelegate> delegate;
 @property (strong, nonatomic) AudioPHY *audioPHY;

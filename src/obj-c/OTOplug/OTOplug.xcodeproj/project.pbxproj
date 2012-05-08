@@ -156,13 +156,6 @@
 			path = OTOplug;
 			sourceTree = "<group>";
 		};
-		F89088F91410DE5D0038E6C0 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Utils;
-			sourceTree = "<group>";
-		};
 		F8B086DD140C93D8001632F1 = {
 			isa = PBXGroup;
 			children = (
@@ -170,7 +163,6 @@
 				F8B0871B140C9480001632F1 /* AudioPHY */,
 				F8B0871D140C9493001632F1 /* Protocols */,
 				F89088C11410BB760038E6C0 /* PWMModem */,
-				F89088F91410DE5D0038E6C0 /* Utils */,
 				F84D738C140F11F700D607A5 /* OTOplugLogicTests */,
 				F8B086EA140C93D8001632F1 /* Frameworks */,
 				F8B086E9140C93D8001632F1 /* Products */,
