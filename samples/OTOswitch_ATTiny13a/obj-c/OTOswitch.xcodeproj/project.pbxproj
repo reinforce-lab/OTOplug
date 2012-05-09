@@ -50,7 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F86F854D1557E51D001D8E89 /* OTOswitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OTOswitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F86F854D1557E51D001D8E89 /* OTOswitchTiny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OTOswitchTiny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F86F85511557E51D001D8E89 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F86F85531557E51D001D8E89 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F86F85551557E51D001D8E89 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -112,7 +112,7 @@
 		F86F854E1557E51D001D8E89 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F86F854D1557E51D001D8E89 /* OTOswitch.app */,
+				F86F854D1557E51D001D8E89 /* OTOswitchTiny.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,7 +198,7 @@
 			);
 			name = OTOswitchTiny;
 			productName = OTOswitch;
-			productReference = F86F854D1557E51D001D8E89 /* OTOswitch.app */;
+			productReference = F86F854D1557E51D001D8E89 /* OTOswitchTiny.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

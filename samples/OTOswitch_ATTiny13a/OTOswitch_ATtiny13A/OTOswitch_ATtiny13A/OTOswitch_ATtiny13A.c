@@ -1,5 +1,5 @@
 /*
- * SoundKey 
+ * OTOswitch
  * ATMEL ATtiny13a firmware
  *
  * *** Fuse settings ***

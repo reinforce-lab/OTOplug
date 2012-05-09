@@ -89,15 +89,16 @@
     
     [socket_ read:buf_ length:maxPacketSize_];
     
-
     // dump packet
+    /*
     NSMutableString *sb = [[NSMutableString alloc] initWithCapacity:100];    
     [sb appendFormat:@"Packet received: %d Packet:", length];
     for(int i = 0; i < length; i++) {
         [sb appendFormat:@"%02X,", buf_[i]];
      }
      NSLog(@"%@", sb);
-
+     */
+    
     // port
     if(length == 2) {
         uint8_t mask = 0x04;

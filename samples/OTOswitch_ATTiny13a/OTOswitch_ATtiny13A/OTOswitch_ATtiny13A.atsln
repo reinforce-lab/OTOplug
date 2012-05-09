@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "OTOswitch_ATtiny13A", "OTOswitch_ATtiny13A\OTOswitch_ATtiny13A.cproj", "{FE554849-ED2F-4123-8868-7BFC8E572152}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE554849-ED2F-4123-8868-7BFC8E572152}.Debug|AVR.ActiveCfg = Debug|AVR
+		{FE554849-ED2F-4123-8868-7BFC8E572152}.Debug|AVR.Build.0 = Debug|AVR
+		{FE554849-ED2F-4123-8868-7BFC8E572152}.Release|AVR.ActiveCfg = Release|AVR
+		{FE554849-ED2F-4123-8868-7BFC8E572152}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
