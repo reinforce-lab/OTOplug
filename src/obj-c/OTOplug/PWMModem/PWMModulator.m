@@ -21,9 +21,8 @@
 	BOOL resyncRequired_;
 	BOOL mute_;
 	BOOL isBufferEmpty_;
+    __unsafe_unretained id<SWMModem> modem_;
 }
-
-@property (unsafe_unretained, nonatomic) id<SWMModem> modem;
 
 -(AudioUnitSampleType *)allocAndInitSineWaveform:(int)length;
 -(void)addRawByte:(Byte)value;
@@ -36,16 +35,15 @@
 #pragma mark Properties
 @synthesize isBufferEmtpy = isBufferEmpty_;
 @synthesize mute = mute_;
-@synthesize modem;
 
 #pragma mark Constuctor
--(id)initWithModem:(id<SWMModem>)_modem
+-(id)initWithModem:(id<SWMModem>)m
 {
     self = [super init];
 	if(self) {
         mute_ = YES;
 		resyncRequired_ = TRUE;
-		self.modem = _modem;
+		modem_ = m;
 		mark1Cnt_ = 0;
 		buf_ = calloc(kPWMModulatorBufferLength, sizeof(AudioUnitSampleType));
 		
@@ -178,7 +176,7 @@
 	}
 	// request next packet data
 	if(isBufferEmpty_) {
-		[self.modem sendBufferEmptyNotify];
+		[modem_ sendBufferEmptyNotify];
 	}
 }
 @end

@@ -26,6 +26,9 @@
 		F86F85A51558A3DE001D8E89 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86F85A41558A3DE001D8E89 /* AVFoundation.framework */; };
 		F86F85A61558A3F3001D8E89 /* libOTOplug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F86F85A01558A3AD001D8E89 /* libOTOplug.a */; };
 		F86F85AD1558B95F001D8E89 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86F85AC1558B95F001D8E89 /* AudioToolbox.framework */; };
+		F8FA35A61559ED620076052F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F8FA35A51559ED620076052F /* icon.png */; };
+		F8FA35A81559ED680076052F /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8FA35A71559ED680076052F /* icon@2x.png */; };
+		F8FA35AC1559EDB50076052F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8FA35AB1559EDB50076052F /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,9 @@
 		F86F85971558A3AD001D8E89 /* OTOplug.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OTOplug.xcodeproj; path = "../../../src/obj-c/OTOplug/OTOplug.xcodeproj"; sourceTree = "<group>"; };
 		F86F85A41558A3DE001D8E89 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F86F85AC1558B95F001D8E89 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		F8FA35A51559ED620076052F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../icon.png; sourceTree = "<group>"; };
+		F8FA35A71559ED680076052F /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../../icon@2x.png"; sourceTree = "<group>"; };
+		F8FA35AB1559EDB50076052F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../../Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +161,9 @@
 				F86F857C1557EB6D001D8E89 /* connected_icon.png */,
 				F86F857D1557EB6D001D8E89 /* disconnected_icon.png */,
 				F86F857E1557EB6D001D8E89 /* redball_icon.png */,
+				F8FA35AB1559EDB50076052F /* Default@2x.png */,
+				F8FA35A71559ED680076052F /* icon@2x.png */,
+				F8FA35A51559ED620076052F /* icon.png */,
 			);
 			name = images;
 			path = OTOswitch/images;
@@ -253,6 +262,9 @@
 				F86F85891557EC3D001D8E89 /* connected_icon@2x.png in Resources */,
 				F86F858A1557EC3D001D8E89 /* disconnected_icon@2x.png in Resources */,
 				F86F858B1557EC3D001D8E89 /* redball_icon@2x.png in Resources */,
+				F8FA35A61559ED620076052F /* icon.png in Resources */,
+				F8FA35A81559ED680076052F /* icon@2x.png in Resources */,
+				F8FA35AC1559EDB50076052F /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

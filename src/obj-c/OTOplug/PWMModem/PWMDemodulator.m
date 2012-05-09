@@ -23,9 +23,10 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 	uint8_t *rcvBuf_;
 	int rcvBufLength_;
 	AudioUnitSampleType signalLevel_;
+
+    __unsafe_unretained id<SWMModem> modem_;
 }
 
-@property (unsafe_unretained, nonatomic) id<SWMModem> modem;
 -(void)receiveBit:(BOOL)value;
 -(void)lostCarrier;
 @end
@@ -33,15 +34,14 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 @implementation PWMDemodulator
 #pragma mark Properties
 @synthesize signalLevel = signalLevel_;
-@synthesize modem;
 
 #pragma mark Constructor
--(id)initWithModem:(id<SWMModem>)_modem
+-(id)initWithModem:(id<SWMModem>)m
 {
     self= [super init];
 	if(self) {
 		sliceLevel_ = kPWMSliceLevel;
-		self.modem = _modem;
+		modem_ = m;
 		rcvBuf_   = malloc(kPWMMaxPacketSize);
 	}
 	return self;
@@ -81,7 +81,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 				rcvBuf_[rcvBufLength_++] = (Byte)(rcvShiftReg_ >> 8);
 				if(rcvBufLength_ >= kPWMMaxPacketSize) {
 					// buffer overflow, send EOP
-					[self.modem packetReceived:rcvBuf_ length:rcvBufLength_];
+					[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 					rcvBufLength_ = 0;
 				}
 //				NSLog(@"             ByteReceived:%d",(Byte)(rcvShiftReg_ >>8) );
@@ -97,7 +97,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 				rcvState_ = Start;
 				if(rcvBufLength_ > 0) {
 //					NSLog(@"Packet: length:%d", rcvBufLength_ );
-					[self.modem packetReceived:rcvBuf_ length:rcvBufLength_];
+					[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 					rcvBufLength_ = 0;
 				}				
 //				NSLog(@"            StuffingBit->Start");
@@ -116,7 +116,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 -(void)lostCarrier
 {
 	if(rcvBufLength_ > 0) {
-		[self.modem packetReceived:rcvBuf_ length:rcvBufLength_];
+		[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 		rcvBufLength_ = 0;
 	}
 }

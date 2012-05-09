@@ -199,7 +199,7 @@ static void sessionPropertyChanged(void *inClientData,
 -(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInt
 {
     BOOL val = [isInt boolValue];
-    [self setIsInterrupted:val];
+    self.isInterrupted = val;
 }
 -(void)setIsHeadSetInWP:(NSNumber *)num
 {

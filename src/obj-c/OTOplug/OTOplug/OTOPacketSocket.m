@@ -58,6 +58,12 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
 	}
 	return cc;
 }
+#pragma mark - Private methods
+-(void)onReceivePacket
+{
+    [self.delegate readBytesAvailable:(rcvSize_ -1)];
+}
+
 #pragma mark - Public methods
 
 #pragma mark - AudioPHYDelegate protocol
@@ -73,7 +79,7 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
             // check CRC8 checksum
             uint8_t crcsum = [self calculateCRC8:rcvBuf_ length:length];            
             
-            if(crcsum == 0) {
+            if(crcsum == 0 && rcvSize_ > 0) {
                 [self performSelectorOnMainThread:@selector(onReceivePacket) withObject:nil waitUntilDone:NO];
             }
         }
