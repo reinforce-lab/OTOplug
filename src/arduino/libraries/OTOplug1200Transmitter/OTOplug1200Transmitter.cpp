@@ -20,7 +20,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <wiring.h>
+#include <Arduino.h>
 #include <util/crc16.h>
 #include <stdbool.h>
 

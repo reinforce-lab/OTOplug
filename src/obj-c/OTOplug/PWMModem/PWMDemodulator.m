@@ -13,9 +13,7 @@
 enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 
 @interface PWMDemodulator () 
-{
-	__weak id<SWMModem> modem_;
-	
+{	
 	AudioUnitSampleType lpfSig_, sliceLevel_;
 	BOOL isSignHigh_, lostCarrier_, isPreviousPulseNarrow_;
 	int clockPhase_, pllPhase_;
@@ -25,7 +23,10 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 	uint8_t *rcvBuf_;
 	int rcvBufLength_;
 	AudioUnitSampleType signalLevel_;
+
+    __unsafe_unretained id<SWMModem> modem_;
 }
+
 -(void)receiveBit:(BOOL)value;
 -(void)lostCarrier;
 @end
@@ -35,12 +36,12 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 @synthesize signalLevel = signalLevel_;
 
 #pragma mark Constructor
--(id)initWithModem:(id<SWMModem>)modem
+-(id)initWithModem:(id<SWMModem>)m
 {
     self= [super init];
 	if(self) {
 		sliceLevel_ = kPWMSliceLevel;
-		modem_ = modem;
+		modem_ = m;
 		rcvBuf_   = malloc(kPWMMaxPacketSize);
 	}
 	return self;
