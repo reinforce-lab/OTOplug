@@ -1,0 +1,335 @@
+
+SoundKeyATtiny13a.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000014a  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .eeprom       00000001  00810000  00810000  000001be  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .stab         00000774  00000000  00000000  000001c0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      00000148  00000000  00000000  00000934  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_aranges 00000020  00000000  00000000  00000a7c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_pubnames 0000004b  00000000  00000000  00000a9c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000001dd  00000000  00000000  00000ae7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000000ff  00000000  00000000  00000cc4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000001f3  00000000  00000000  00000dc3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000050  00000000  00000000  00000fb8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000000f2  00000000  00000000  00001008  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000001b3  00000000  00000000  000010fa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_pubtypes 0000001e  00000000  00000000  000012ad  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_ranges 00000018  00000000  00000000  000012cb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
+   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	35 d0       	rcall	.+106    	; 0x88 <main>
+  1e:	89 c0       	rjmp	.+274    	; 0x132 <exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <delay>:
+uint8_t EEMEM devide_id[1] = {
+ 0x01, // ID
+  };
+
+void delay(uint8_t time)
+{
+  22:	df 93       	push	r29
+  24:	cf 93       	push	r28
+  26:	0f 92       	push	r0
+  28:	cd b7       	in	r28, 0x3d	; 61
+  2a:	de b7       	in	r29, 0x3e	; 62
+  2c:	02 c0       	rjmp	.+4      	; 0x32 <delay+0x10>
+	volatile uint8_t cnt = time;
+	while(cnt > 0) {cnt--;}
+  2e:	89 81       	ldd	r24, Y+1	; 0x01
+  30:	81 50       	subi	r24, 0x01	; 1
+  32:	89 83       	std	Y+1, r24	; 0x01
+  34:	89 81       	ldd	r24, Y+1	; 0x01
+  36:	88 23       	and	r24, r24
+  38:	d1 f7       	brne	.-12     	; 0x2e <delay+0xc>
+}
+  3a:	0f 90       	pop	r0
+  3c:	cf 91       	pop	r28
+  3e:	df 91       	pop	r29
+  40:	08 95       	ret
+
+00000042 <cnv2b4b>:
+
+// convert 2-bit data into encoded 4-bit data
+uint8_t cnv2b4b(uint8_t data) 
+{
+    switch( data & 0x03) {
+  42:	90 e0       	ldi	r25, 0x00	; 0
+  44:	83 70       	andi	r24, 0x03	; 3
+  46:	90 70       	andi	r25, 0x00	; 0
+  48:	82 30       	cpi	r24, 0x02	; 2
+  4a:	91 05       	cpc	r25, r1
+  4c:	41 f0       	breq	.+16     	; 0x5e <cnv2b4b+0x1c>
+  4e:	83 30       	cpi	r24, 0x03	; 3
+  50:	91 05       	cpc	r25, r1
+  52:	39 f0       	breq	.+14     	; 0x62 <cnv2b4b+0x20>
+  54:	81 30       	cpi	r24, 0x01	; 1
+  56:	91 05       	cpc	r25, r1
+  58:	31 f0       	breq	.+12     	; 0x66 <cnv2b4b+0x24>
+		case 0x00: return 0x05;
+  5a:	85 e0       	ldi	r24, 0x05	; 5
+  5c:	08 95       	ret
+		case 0x01: return 0x09;
+		case 0x02: return 0x06;
+  5e:	86 e0       	ldi	r24, 0x06	; 6
+  60:	08 95       	ret
+		case 0x03: return 0x0a;
+  62:	8a e0       	ldi	r24, 0x0A	; 10
+  64:	08 95       	ret
+// convert 2-bit data into encoded 4-bit data
+uint8_t cnv2b4b(uint8_t data) 
+{
+    switch( data & 0x03) {
+		case 0x00: return 0x05;
+		case 0x01: return 0x09;
+  66:	89 e0       	ldi	r24, 0x09	; 9
+		case 0x02: return 0x06;
+		case 0x03: return 0x0a;
+	}
+}
+  68:	08 95       	ret
+
+0000006a <cnv4b8b>:
+
+uint8_t cnv4b8b(uint8_t data)
+{
+  6a:	0f 93       	push	r16
+  6c:	1f 93       	push	r17
+  6e:	18 2f       	mov	r17, r24
+	return cnv2b4b(data) << 4 | cnv2b4b(data >> 2);
+  70:	e8 df       	rcall	.-48     	; 0x42 <cnv2b4b>
+  72:	08 2f       	mov	r16, r24
+  74:	81 2f       	mov	r24, r17
+  76:	86 95       	lsr	r24
+  78:	86 95       	lsr	r24
+  7a:	e3 df       	rcall	.-58     	; 0x42 <cnv2b4b>
+  7c:	02 95       	swap	r16
+  7e:	00 7f       	andi	r16, 0xF0	; 240
+}
+  80:	80 2b       	or	r24, r16
+  82:	1f 91       	pop	r17
+  84:	0f 91       	pop	r16
+  86:	08 95       	ret
+
+00000088 <main>:
+
+int main()
+{
+  88:	8f 92       	push	r8
+  8a:	9f 92       	push	r9
+  8c:	af 92       	push	r10
+  8e:	bf 92       	push	r11
+  90:	cf 92       	push	r12
+  92:	df 92       	push	r13
+  94:	ef 92       	push	r14
+  96:	ff 92       	push	r15
+  98:	0f 93       	push	r16
+  9a:	1f 93       	push	r17
+  9c:	df 93       	push	r29
+  9e:	cf 93       	push	r28
+  a0:	cd b7       	in	r28, 0x3d	; 61
+  a2:	de b7       	in	r29, 0x3e	; 62
+  a4:	c9 50       	subi	r28, 0x09	; 9
+  a6:	cd bf       	out	0x3d, r28	; 61
+//	cli();
+
+	// Set power reduction register. disable timer and adc.
+	// Set Pin In/Out directions
+	DDRB  = 0x10; // PB<4> output, PB5, PB<3:0> input
+  a8:	80 e1       	ldi	r24, 0x10	; 16
+  aa:	87 bb       	out	0x17, r24	; 23
+	PORTB = 0x2f; // pull-up enable
+  ac:	8f e2       	ldi	r24, 0x2F	; 47
+  ae:	88 bb       	out	0x18, r24	; 24
+	 
+	// load prom data
+	uint8_t ram_data[8];
+	for(int i=0; i < 8; i++) {
+		ram_data[i] = 0xff;
+  b0:	8f ef       	ldi	r24, 0xFF	; 255
+  b2:	89 83       	std	Y+1, r24	; 0x01
+  b4:	8b 83       	std	Y+3, r24	; 0x03
+  b6:	8c 83       	std	Y+4, r24	; 0x04
+  b8:	8d 83       	std	Y+5, r24	; 0x05
+  ba:	8e 83       	std	Y+6, r24	; 0x06
+  bc:	8f 83       	std	Y+7, r24	; 0x07
+  be:	88 87       	std	Y+8, r24	; 0x08
+	}
+	ram_data[1] = 0x7e; // SYNC char
+  c0:	8e e7       	ldi	r24, 0x7E	; 126
+  c2:	8a 83       	std	Y+2, r24	; 0x02
+	uint8_t id = eeprom_read_byte((unsigned char *)0);
+  c4:	80 e0       	ldi	r24, 0x00	; 0
+  c6:	90 e0       	ldi	r25, 0x00	; 0
+  c8:	36 d0       	rcall	.+108    	; 0x136 <__eerd_byte_tn13a>
+  ca:	08 2f       	mov	r16, r24
+	ram_data[2] = cnv4b8b(id);
+  cc:	ce df       	rcall	.-100    	; 0x6a <cnv4b8b>
+  ce:	8b 83       	std	Y+3, r24	; 0x03
+	ram_data[3] = cnv4b8b(id >> 4);
+  d0:	80 2f       	mov	r24, r16
+  d2:	82 95       	swap	r24
+  d4:	8f 70       	andi	r24, 0x0F	; 15
+  d6:	c9 df       	rcall	.-110    	; 0x6a <cnv4b8b>
+  d8:	8c 83       	std	Y+4, r24	; 0x04
+	uint8_t j = 0;
+	uint8_t pattern = 0;
+
+	for(;;) {
+	uint8_t portb_data = PINB & 0x0f;
+	ram_data[4] = cnv4b8b(portb_data);
+  da:	6e 01       	movw	r12, r28
+  dc:	08 94       	sec
+  de:	c1 1c       	adc	r12, r1
+  e0:	d1 1c       	adc	r13, r1
+uint8_t cnv4b8b(uint8_t data)
+{
+	return cnv2b4b(data) << 4 | cnv2b4b(data >> 2);
+}
+
+int main()
+  e2:	39 e0       	ldi	r19, 0x09	; 9
+  e4:	e3 2e       	mov	r14, r19
+  e6:	f1 2c       	mov	r15, r1
+  e8:	ec 0e       	add	r14, r28
+  ea:	fd 1e       	adc	r15, r29
+		for(j =0; j < 8; j++) {
+			// read a bit
+			delta_t = (pattern & 0x01) ? (23 -1): 46; //
+				
+			// output a pulse
+			PORTB = 0x2f;
+  ec:	2f e2       	ldi	r18, 0x2F	; 47
+  ee:	82 2e       	mov	r8, r18
+			delay(delta_t);
+			pattern >>= 1;
+				
+			PORTB = 0x3f;
+  f0:	9f e3       	ldi	r25, 0x3F	; 63
+  f2:	99 2e       	mov	r9, r25
+	uint8_t delta_t = 0;
+	uint8_t j = 0;
+	uint8_t pattern = 0;
+
+	for(;;) {
+	uint8_t portb_data = PINB & 0x0f;
+  f4:	86 b3       	in	r24, 0x16	; 22
+	ram_data[4] = cnv4b8b(portb_data);
+  f6:	8f 70       	andi	r24, 0x0F	; 15
+  f8:	b8 df       	rcall	.-144    	; 0x6a <cnv4b8b>
+  fa:	8d 83       	std	Y+5, r24	; 0x05
+  fc:	86 01       	movw	r16, r12
+
+	for(uint8_t i = 0; i < 8; i++) {
+		pattern = ram_data[i];
+  fe:	f8 01       	movw	r30, r16
+ 100:	a1 90       	ld	r10, Z+
+ 102:	8f 01       	movw	r16, r30
+ 104:	88 e0       	ldi	r24, 0x08	; 8
+ 106:	b8 2e       	mov	r11, r24
+		for(j =0; j < 8; j++) {
+			// read a bit
+			delta_t = (pattern & 0x01) ? (23 -1): 46; //
+ 108:	a0 fe       	sbrs	r10, 0
+ 10a:	02 c0       	rjmp	.+4      	; 0x110 <__stack+0x71>
+ 10c:	96 e1       	ldi	r25, 0x16	; 22
+ 10e:	01 c0       	rjmp	.+2      	; 0x112 <__stack+0x73>
+ 110:	9e e2       	ldi	r25, 0x2E	; 46
+				
+			// output a pulse
+			PORTB = 0x2f;
+ 112:	88 ba       	out	0x18, r8	; 24
+			delay(delta_t);
+ 114:	89 2f       	mov	r24, r25
+ 116:	99 87       	std	Y+9, r25	; 0x09
+ 118:	84 df       	rcall	.-248    	; 0x22 <delay>
+			pattern >>= 1;
+				
+			PORTB = 0x3f;
+ 11a:	98 ba       	out	0x18, r9	; 24
+			delay(delta_t);
+ 11c:	99 85       	ldd	r25, Y+9	; 0x09
+ 11e:	89 2f       	mov	r24, r25
+ 120:	80 df       	rcall	.-256    	; 0x22 <delay>
+ 122:	ba 94       	dec	r11
+	uint8_t portb_data = PINB & 0x0f;
+	ram_data[4] = cnv4b8b(portb_data);
+
+	for(uint8_t i = 0; i < 8; i++) {
+		pattern = ram_data[i];
+		for(j =0; j < 8; j++) {
+ 124:	11 f0       	breq	.+4      	; 0x12a <__stack+0x8b>
+			delta_t = (pattern & 0x01) ? (23 -1): 46; //
+				
+			// output a pulse
+			PORTB = 0x2f;
+			delay(delta_t);
+			pattern >>= 1;
+ 126:	a6 94       	lsr	r10
+ 128:	ef cf       	rjmp	.-34     	; 0x108 <__stack+0x69>
+
+	for(;;) {
+	uint8_t portb_data = PINB & 0x0f;
+	ram_data[4] = cnv4b8b(portb_data);
+
+	for(uint8_t i = 0; i < 8; i++) {
+ 12a:	0e 15       	cp	r16, r14
+ 12c:	1f 05       	cpc	r17, r15
+ 12e:	39 f7       	brne	.-50     	; 0xfe <__stack+0x5f>
+ 130:	e1 cf       	rjmp	.-62     	; 0xf4 <__stack+0x55>
+
+00000132 <exit>:
+ 132:	f8 94       	cli
+ 134:	08 c0       	rjmp	.+16     	; 0x146 <_exit>
+
+00000136 <__eerd_byte_tn13a>:
+ 136:	e1 99       	sbic	0x1c, 1	; 28
+ 138:	fe cf       	rjmp	.-4      	; 0x136 <__eerd_byte_tn13a>
+ 13a:	1f ba       	out	0x1f, r1	; 31
+ 13c:	8e bb       	out	0x1e, r24	; 30
+ 13e:	e0 9a       	sbi	0x1c, 0	; 28
+ 140:	99 27       	eor	r25, r25
+ 142:	8d b3       	in	r24, 0x1d	; 29
+ 144:	08 95       	ret
+
+00000146 <_exit>:
+ 146:	f8 94       	cli
+
+00000148 <__stop_program>:
+ 148:	ff cf       	rjmp	.-2      	; 0x148 <__stop_program>

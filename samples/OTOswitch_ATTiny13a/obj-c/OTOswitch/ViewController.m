@@ -11,21 +11,20 @@
 #import "PWMModem.h"
 //#import "PWMConstants.h"
 
-#define IOPORT_WIDTH 13
-
 @interface ViewController () {
-    OTOPacketSocket *socket_;
-//    OTORawSocket *socket_;
+    OTORawSocket *socket_;
     int maxPacketSize_;
     Byte *buf_;
     NSTimer *timer_;
     BOOL isPacketReceived_;
-    UIImageView *portStatus_[IOPORT_WIDTH];
+    UIImageView *portStatus_[4];
 }
 
+- (uint8_t) decodePacketOctet:(uint8_t)data;
 @end
 
 @implementation ViewController
+@synthesize idTextLabel;
 @synthesize connectStatusIcon;
 @synthesize portStatusImageViews;
 @synthesize connectStatusLabel;
@@ -35,8 +34,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    for(int i=2; i < IOPORT_WIDTH; i++) {
-        portStatus_[i] = (UIImageView*)[self.view viewWithTag:i];
+    for(int i=1; i <= 4; i++) {
+        portStatus_[i -1] = (UIImageView*)[self.view viewWithTag:i];
     }
     
     // setup modem 
@@ -45,8 +44,7 @@
     maxPacketSize_ = [modem getMaxPacketSize];    
     buf_ = calloc(maxPacketSize_, sizeof(Byte));
     
-    socket_ = [[OTOPacketSocket alloc] initWithModem:modem];
-//    socket_ = [[OTORawSocket alloc] initWithModem:modem];
+    socket_ = [[OTORawSocket alloc] initWithModem:modem];
     socket_.delegate = self;
     
     timer_ = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(checkConnection:) userInfo:nil repeats:YES];
@@ -57,6 +55,7 @@
     [self setConnectStatusIcon:nil];
     [self setConnectStatusLabel:nil];
     [self setPortStatusImageViews:nil];
+    [self setIdTextLabel:nil];
     [super viewDidUnload];
 
     // Release any retained subviews of the main view.
@@ -68,18 +67,41 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-#pragma mark Private methods
+#pragma mark - Private methods
 -(void)checkConnection:(NSTimer *)timer
 {
     if(isPacketReceived_ != connectStatusIcon.highlighted ) { // update view status
         connectStatusIcon.highlighted = isPacketReceived_;
         connectStatusLabel.text = isPacketReceived_ ? @"Connected" : @"Disconnected";
         double alpha = isPacketReceived_ ? 1.0 : 0.3;
-        for(int i=0; i < IOPORT_WIDTH; i++) {
+        for(int i=0; i < 4; i++) {
             portStatus_[i].alpha = alpha;
         }        
     }
     isPacketReceived_ = false;
+}
+
+-(uint8_t) decodePacketOctet:(uint8_t) data
+{
+    uint8_t mask = 0x03;
+    uint8_t bitp = 0x08;
+    uint8_t b = 0;
+    
+    for(int i=0; i < 4; i++) {
+        uint8_t b2 = (data & mask) >> ( i * 2);
+        if(b2 == 0x00 || b2 == 0x03) {
+            return 0xff; // bit error               
+        }
+        
+        if((b2 & 0x02) != 0) {
+            b |= bitp;   
+        }
+        
+        mask <<= 2;
+        bitp >>= 1;
+    }
+
+    return  b;
 }
 
 #pragma mark OTOplugDelegate
@@ -87,31 +109,33 @@
 {
     isPacketReceived_ = YES;
     
-    [socket_ read:buf_ length:maxPacketSize_];
-    
+    [socket_ read:buf_ length:maxPacketSize_];    
 
-    // dump packet
+    // raw packet dump
+    /*
     NSMutableString *sb = [[NSMutableString alloc] initWithCapacity:100];    
     [sb appendFormat:@"Packet received: %d Packet:", length];
     for(int i = 0; i < length; i++) {
         [sb appendFormat:@"%02X,", buf_[i]];
      }
-     NSLog(@"%@", sb);
+     NSLog(@"%@", sb);*/
+    
+    // decoded packet dump
+    /*
+    sb = [[NSMutableString alloc] initWithCapacity:100];    
+    for(int i = 0; i < length; i++) {
+        [sb appendFormat:@"%02X,", [self decodePacketOctet:buf_[i]]];
+    }
+    NSLog(@"%@", sb);*/
 
-    // port
-    if(length == 2) {
-        uint8_t mask = 0x04;
-        uint8_t val = buf_[0];
-        for(int i=2; i < 8; i++) {
-            portStatus_[i].highlighted = ((mask & val) != 0);
-            mask <<= 1;
-        }
+    if(length == 3) {
+        uint8_t id0 = [self decodePacketOctet:buf_[0]];
+        uint8_t id1 = [self decodePacketOctet:buf_[1]];
+        idTextLabel.text = [NSString stringWithFormat:@"%02X", (id1 << 4 | id0)];
         
-        mask = 0x01;
-        val = buf_[1];
-        for(int i=8; i < 13; i++) {
-            portStatus_[i].highlighted = ((mask & val) != 0);
-            mask <<= 1;
+        uint8_t portb = [self decodePacketOctet:buf_[2]];
+        for(int i=0; i < 4; i++) {
+            portStatus_[i].highlighted = ((portb & (0x01 << i)) != 0);
         }
     }
 }
