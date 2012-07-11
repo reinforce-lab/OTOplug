@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		F84D7355140DE8CD00D607A5 /* AudioPHY.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7351140DE8CD00D607A5 /* AudioPHY.h */; };
 		F84D7356140DE8CD00D607A5 /* AudioPHY.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7352140DE8CD00D607A5 /* AudioPHY.m */; };
-		F84D7357140DE8CD00D607A5 /* iPhoneCoreAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D7353140DE8CD00D607A5 /* iPhoneCoreAudio.h */; };
-		F84D7358140DE8CD00D607A5 /* iPhoneCoreAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7354140DE8CD00D607A5 /* iPhoneCoreAudio.m */; };
 		F84D735F140DE91100D607A5 /* SWMSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F84D735C140DE91100D607A5 /* SWMSocket.h */; };
 		F84D737F140DE9E400D607A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D737E140DE9E400D607A5 /* AVFoundation.framework */; };
 		F84D7381140DE9EC00D607A5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D7380140DE9EC00D607A5 /* AudioToolbox.framework */; };
@@ -58,8 +56,6 @@
 /* Begin PBXFileReference section */
 		F84D7351140DE8CD00D607A5 /* AudioPHY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioPHY.h; path = AudioPHY/AudioPHY.h; sourceTree = "<group>"; };
 		F84D7352140DE8CD00D607A5 /* AudioPHY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioPHY.m; path = AudioPHY/AudioPHY.m; sourceTree = "<group>"; };
-		F84D7353140DE8CD00D607A5 /* iPhoneCoreAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iPhoneCoreAudio.h; path = AudioPHY/iPhoneCoreAudio.h; sourceTree = "<group>"; };
-		F84D7354140DE8CD00D607A5 /* iPhoneCoreAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iPhoneCoreAudio.m; path = AudioPHY/iPhoneCoreAudio.m; sourceTree = "<group>"; };
 		F84D735C140DE91100D607A5 /* SWMSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWMSocket.h; path = Protocols/SWMSocket.h; sourceTree = "<group>"; };
 		F84D737E140DE9E400D607A5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F84D7380140DE9EC00D607A5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -217,8 +213,6 @@
 				F890893B14126F2B0038E6C0 /* AudioPHYDelegate.h */,
 				F84D7351140DE8CD00D607A5 /* AudioPHY.h */,
 				F84D7352140DE8CD00D607A5 /* AudioPHY.m */,
-				F84D7353140DE8CD00D607A5 /* iPhoneCoreAudio.h */,
-				F84D7354140DE8CD00D607A5 /* iPhoneCoreAudio.m */,
 			);
 			name = AudioPHY;
 			sourceTree = "<group>";
@@ -240,7 +234,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F84D7355140DE8CD00D607A5 /* AudioPHY.h in Headers */,
-				F84D7357140DE8CD00D607A5 /* iPhoneCoreAudio.h in Headers */,
 				F84D735F140DE91100D607A5 /* SWMSocket.h in Headers */,
 				F89088F11410DAE00038E6C0 /* OTORawSocket.h in Headers */,
 				F89088F61410DAF70038E6C0 /* OTOPacketSocket.h in Headers */,
@@ -366,7 +359,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F84D7356140DE8CD00D607A5 /* AudioPHY.m in Sources */,
-				F84D7358140DE8CD00D607A5 /* iPhoneCoreAudio.m in Sources */,
 				F89088F21410DAE00038E6C0 /* OTORawSocket.m in Sources */,
 				F89088F71410DAF70038E6C0 /* OTOPacketSocket.m in Sources */,
 				F89089331410F44C0038E6C0 /* PWMDemodulator.m in Sources */,

@@ -63,7 +63,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 		rcvMark1Count_ = 0;
 	}
 
-//	NSLog(@"RB:%d ST:%d BLEN:%d SREG:%x", value, rcvState_, rcvBitLength_, rcvShiftReg_);
+//NSLog(@"RB:%d ST:%d BLEN:%d SREG:%x", value, rcvState_, rcvBitLength_, rcvShiftReg_);
 	
 	// state machine
 	switch (rcvState_) {
@@ -71,7 +71,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 			if(rcvBitLength_ >= 8 && (Byte)(rcvShiftReg_ >> 8) == kSWMSyncCode) {
 				rcvState_ = BitReceiving;
 				rcvBitLength_ = 0;
-//				NSLog(@"             Start->BitReceiving");
+//NSLog(@"             Start->BitReceiving");
 			}
 			break;
 		case BitReceiving:
@@ -84,11 +84,11 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 					[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 					rcvBufLength_ = 0;
 				}
-//				NSLog(@"             ByteReceived:%d",(Byte)(rcvShiftReg_ >>8) );
+//NSLog(@"             ByteReceived:%d",(Byte)(rcvShiftReg_ >>8) );
 			}
 			if(rcvMark1Count_ >= kSWMMaxMark1Length) {
 				rcvState_ = StuffingBit;
-//				NSLog(@"             BitReceiving->StuffingBit");
+//NSLog(@"             BitReceiving->StuffingBit");
 			}
 			break;
 		case StuffingBit:
@@ -96,16 +96,16 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 				// End of packet
 				rcvState_ = Start;
 				if(rcvBufLength_ > 0) {
-//					NSLog(@"Packet: length:%d", rcvBufLength_ );
+//NSLog(@"Packet: length:%d", rcvBufLength_ );
 					[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 					rcvBufLength_ = 0;
 				}				
-//				NSLog(@"            StuffingBit->Start");
+//NSLog(@"            StuffingBit->Start");
 			} else {
 				rcvState_ = BitReceiving;
 				rcvShiftReg_ <<= 1;
 				rcvBitLength_ --;
-//				NSLog(@"            StuffingBit->BitReceiving");
+//NSLog(@"            StuffingBit->BitReceiving");
 			}
 			break;
 		default:
@@ -149,7 +149,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 			} 
 		}
 
-//		NSLog(@"AMP:%d", diff);
+//NSLog(@"AMP:%ld", diff);
 		// bit decoding
 		if(edgeDetection) {
 			BOOL isNarrowPulse = (clockPhase_ <= (kPWMPulseWidthThreashold /2));
@@ -161,16 +161,16 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 			if(pllPhase_ >= 2) {
 				if(isPreviousPulseNarrow_ && isNarrowPulse) {
 					// set mark1
-//					NSLog(@"mark1:%d", clockPhase_);
+//NSLog(@"mark1:%d", clockPhase_);
 					pllPhase_ = 0;
 					[self receiveBit:TRUE];
 				} else if(!isPreviousPulseNarrow_ && !isNarrowPulse) {					
 					// set mark0
-//					NSLog(@"mark0:%d", clockPhase_);
+//NSLog(@"mark0:%d", clockPhase_);
 					pllPhase_ = 0;
 					[self receiveBit:FALSE];
 				} else {
-//					NSLog(@"wrong bit detection. isPreviousPulseNarrow:%d isNarrowPulse:%d", isPreviousPulseNarrow_, isNarrowPulse);
+//NSLog(@"wrong bit detection. isPreviousPulseNarrow:%d isNarrowPulse:%d", isPreviousPulseNarrow_, isNarrowPulse);
 				}
 
 			}
