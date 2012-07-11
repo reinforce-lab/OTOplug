@@ -12,8 +12,8 @@
 #import "AudioPHY.h"
 #include "math.h"
 
-@interface OTOPacketSocket()
-{
+@interface OTOPacketSocket() {
+    uint8_t *sndBuf_;
 }
 -(uint8_t)calculateCRC8:(uint8_t [])buf length:(int)length;
 @end
@@ -29,13 +29,14 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data);
 {
     self = [super initWithModem:_modem];
     if(self) {
+        sndBuf_ = calloc(maxPacketSize_, sizeof(uint8_t));
     }
     return self;
 }
 -(void)dealloc
 {
+    free(sndBuf_);
 }
-
 #pragma mark - Private methods
 uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
 {
@@ -65,7 +66,21 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
 }
 
 #pragma mark - Public methods
+-(int)write:(uint8_t *)buf length:(int)length
+{
+    // exceeding the maximum packet size
+    if(length >= maxPacketSize_) return 0; 
 
+    // copy to buffer and calculate the CRC8 checksum
+    memcpy(sndBuf_, buf, length * sizeof(uint8_t));  
+    sndBuf_[length] = [self calculateCRC8:sndBuf_ length:length];
+    
+    return [modem_ sendPacket:sndBuf_ length:(length +1)];
+}
+
+int maxPacketSize_;
+int rcvSize_;
+uint8_t *rcvBuf_;
 #pragma mark - AudioPHYDelegate protocol
 
 #pragma mark - SWMSocket protocol
@@ -85,7 +100,5 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
         }
     }
 }
-- (void)sendBufferEmptyNotify
-{
-}
+
 @end

@@ -21,12 +21,13 @@
 @interface OTORawSocket : NSObject<AudioPHYDelegate, SWMSocket>
 {
 @protected
+    id<SWMModem> modem_;
     int maxPacketSize_;
     int rcvSize_;
     uint8_t *rcvBuf_;
 }
 
-@property (unsafe_unretained, nonatomic) id<OTOplugDelegate> delegate;
+@property (unsafe_unretained, nonatomic) NSObject<OTOplugDelegate> *delegate;
 @property (strong, nonatomic) AudioPHY *audioPHY;
 
 // initializer

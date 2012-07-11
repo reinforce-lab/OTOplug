@@ -1,0 +1,12 @@
+Receiverを参考に、アナログピンの宣言、変換を追加。
+割り込みベクター。LeonardはTimer2を持っていない。
+Timer0はmills、Timer1はServoが使う。
+Timer2はToneが使うけど、Tone使う人少ないからいけるかなと思った。
+
+**まとめ**
+leonardo はTimer2を持たない。
+ServoはTimer1, 3, 4に割り込みベクターを登録する。
+leonardo のTimer4はちょっと変わった子(らしい)。
+
+Uno以前ならば、Timer2で(Toneは動かないが)OK。
+Leonardoは、Timer0かTimer1。Timer1を使うと、Servoが使えぬ。Timer0を使うとmills()が使えぬ。

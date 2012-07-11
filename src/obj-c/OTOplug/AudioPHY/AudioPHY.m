@@ -22,10 +22,11 @@
 
 @property(nonatomic, assign) float outputVolume;
 @property(nonatomic, assign) BOOL isHeadsetIn;
+@property(nonatomic, assign) BOOL isMicAvailable;
 @property(nonatomic, assign) BOOL isInterrupted;
 @property(nonatomic, assign) BOOL isRunning;
 
--(void)setIsHeadSetInWP:(NSNumber *)isHeadsetIn;
+-(void)setIsHeadSetInWP:(NSString *)route;
 -(void)setVolumeWP:(NSNumber *)volume;
 -(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInterrupted;
 
@@ -54,6 +55,7 @@ static void sessionPropertyChanged(void *inClientData,
 
 @dynamic outputVolume;
 @dynamic isHeadsetIn;
+@synthesize isMicAvailable;
 @dynamic isInterrupted;
 
 @synthesize isRunning;
@@ -148,8 +150,8 @@ static OSStatus renderCallback(void * inRefCon,
 	// modulate
 	[phy.modem modulate:inNumberFrames leftBuf:outL rightBuf:outR];
 	
-    // clear right channel
-	bzero(outR, inNumberFrames * sizeof(AudioUnitSampleType));
+// clear right channel
+//	bzero(outR, inNumberFrames * sizeof(AudioUnitSampleType));
     
 	return noErr;
 }
@@ -187,9 +189,9 @@ static void sessionPropertyChanged(void *inClientData,
 		CFStringRef route;
 		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 //		NSLog(@"%s route channged: %@", __func__, (NSString *)route );
-		NSString *rt = (__bridge NSString *)route;        
+		NSString *rt = (__bridge NSString *)route;
         [phy performSelectorOnMainThread:@selector(setIsHeadSetInWP:) 
-                              withObject:[NSNumber numberWithBool:[rt isEqualToString:@"HeadsetInOut"]]
+                              withObject:rt
                            waitUntilDone:false];
 #endif		
 	}
@@ -198,18 +200,16 @@ static void sessionPropertyChanged(void *inClientData,
 #pragma mark - private methods
 -(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInt
 {
-    BOOL val = [isInt boolValue];
-    self.isInterrupted = val;
+    self.isInterrupted = [isInt boolValue];
 }
--(void)setIsHeadSetInWP:(NSNumber *)num
+-(void)setIsHeadSetInWP:(NSString *)rt
 {
-    bool val = [num boolValue];
-    self.isHeadsetIn = val;
+	self.isMicAvailable = [rt isEqualToString:@"HeadsetInOut"];
+    self.isHeadsetIn    = [rt isEqualToString:@"HeadsetInOut"] || [rt isEqualToString:@"HeadphonesAndMicrophone"];
 }
 -(void)setVolumeWP:(NSNumber *)volume
 {
-    float val = [volume floatValue];
-    self.outputVolume = val;
+    self.outputVolume = [volume floatValue];
 }
 -(void)checkOSStatusError:(NSString *)message error:(OSStatus)error
 {
@@ -251,6 +251,7 @@ static void sessionPropertyChanged(void *inClientData,
 	self.outputVolume = volume;
 
 #if TARGET_IPHONE_SIMULATOR
+    self.isMicAvailable = true;
 	self.isHeadsetIn = true;
 #else // TARGET_IOS_IPHONE
 	size = sizeof(CFStringRef);
@@ -258,7 +259,8 @@ static void sessionPropertyChanged(void *inClientData,
 	error = AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 	[self checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
 	NSString *rt = (__bridge NSString *)route;
-	self.isHeadsetIn = [rt isEqualToString:@"HeadsetInOut"];
+
+    [self setIsHeadSetInWP:rt];
 #endif
 	
 	// add property listener

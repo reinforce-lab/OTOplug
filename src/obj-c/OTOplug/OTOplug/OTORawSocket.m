@@ -13,15 +13,13 @@
 #include "math.h"
 
 @interface OTORawSocket()
-@property (strong, nonatomic) id<SWMModem> modem;
-
 -(void)onReceivePacket;
+-(void)onSendBufferEmpty;
 @end
 
 @implementation OTORawSocket
-@synthesize delegate;
+@synthesize delegate = delegate_;
 @synthesize audioPHY;
-@synthesize modem;
 
 #pragma mark - Constructor
 // initializer
@@ -29,8 +27,8 @@
 {
     self = [super init];
     if(self) {
-        self.modem = _modem;
-        [self.modem setSocket:self];
+        modem_ = _modem;
+        [modem_ setSocket:self];
         
         maxPacketSize_ = [_modem getMaxPacketSize];
         rcvBuf_ = calloc(maxPacketSize_, sizeof(uint8_t));
@@ -40,7 +38,7 @@
         int audioBufferSize = [_modem getAudioBufferSize];
         self.audioPHY = [[AudioPHY alloc] initWithParameters:samplingRate audioBufferSize:audioBufferSize];
         self.audioPHY.delegate = self;
-        self.audioPHY.modem = _modem;
+        self.audioPHY.modem    = _modem;
 
         [self.audioPHY start];
     }
@@ -54,12 +52,20 @@
 #pragma mark - Private methods
 -(void)onReceivePacket
 {
-    [self.delegate readBytesAvailable:rcvSize_];
+    if([delegate_ respondsToSelector:@selector(readBytesAvailable:)]) {
+        [delegate_ readBytesAvailable:rcvSize_];
+    }
+}
+-(void)onSendBufferEmpty
+{
+    if([delegate_ respondsToSelector:@selector(sendBufferEmptyNotify)]){
+        [delegate_ sendBufferEmptyNotify];
+    }
 }
 #pragma mark - Public methods
 -(int)write:(uint8_t *)buf length:(int)length
 {
-    return [self.modem sendPacket:buf length:length];
+    return [modem_ sendPacket:buf length:length];
 }
 -(int)read:(uint8_t *)buf length:(int)length
 {
@@ -77,12 +83,21 @@
 #pragma mark - AudioPHYDelegate protocol
 -(void)outputVolumeChanged:(float)volume
 {
+    if([delegate_ respondsToSelector:@selector(outputVolumeChanged:)]) {
+        [delegate_ outputVolumeChanged:volume];
+    }
 }
 -(void)headSetInOutChanged:(BOOL)isHeadSetIn 
 { 
+    if([delegate_ respondsToSelector:@selector(headSetInOutChanged:isMicAvailable:)]){
+        [delegate_ headSetInOutChanged:isHeadSetIn isMicAvailable:audioPHY.isMicAvailable];
+    }
 }
 -(void)audioSessionInterrupted:(BOOL)interrupted
 {
+    if([delegate_ respondsToSelector:@selector(audioSessionInterrupted:)]) {
+        [delegate_ audioSessionInterrupted:interrupted];
+    }
 }
 
 #pragma mark - SWMSocket protocol
@@ -107,5 +122,6 @@
 }
 - (void)sendBufferEmptyNotify
 {
+    [self performSelectorOnMainThread:@selector(onSendBufferEmpty) withObject:nil waitUntilDone:NO];
 }
 @end

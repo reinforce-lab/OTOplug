@@ -171,8 +171,9 @@
 				bufWriteIndex_ = 0;
 			}
 		}
-        // clear right buffer
-        bzero(rightBuf, length * sizeof(AudioUnitSampleType));
+        memcpy(rightBuf, leftBuf, length * sizeof(AudioUnitSampleType));
+// clear right buffer
+// bzero(rightBuf, length * sizeof(AudioUnitSampleType));
 	}
 	// request next packet data
 	if(isBufferEmpty_) {

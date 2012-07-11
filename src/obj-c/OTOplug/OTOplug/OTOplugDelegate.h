@@ -7,6 +7,12 @@
 //
 
 @protocol OTOplugDelegate
+@optional
 // bytes are available to be read (user can call read:)
-- (void) readBytesAvailable:(int)length;
+-(void)readBytesAvailable:(int)length;
+-(void)sendBufferEmptyNotify;
+
+-(void)outputVolumeChanged:(float)volume;
+-(void)headSetInOutChanged:(BOOL)isHeadSetIn isMicAvailable:(BOOL)isMicAvailable;
+-(void)audioSessionInterrupted:(BOOL)interrupted;
 @end

@@ -1,0 +1,25 @@
+#######################################
+# Syntax Coloring Map For OTOReceiver1200
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+OTOReceiver1200                KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin                          KEYWORD2
+end                            KEYWORD2
+startADConversion              KEYWORD2
+readAnalogPin                  KEYWORD2
+attach                         KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+

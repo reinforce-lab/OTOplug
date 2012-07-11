@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+        
+        <h2><font face="arial, sans-serif">OTOsenseとは？</font></h2>
+        <div><font face="arial, sans-serif">"OTOsense"は、iPhoneのセンサーと処理能力をArduinoに与える、iOSアプリです。Arduinoに、とても簡単ななインタフェース回路を接続して、iPhoneがイヤホン端子から出力するデジタル信号変調信号を通じて、ArduinoがiPhoneにつながります。現在のiPhoneアプリ(ver 1.0)はArduino Uno/Duemilanoveで動作を確認しています。</font></div>
+        <h3><font face="arial, sans-serif">何ができるか？</font></h3>
+        <div><font face="arial, sans-serif">OTOsenseは、iPhoneまたはiPod touch (以下、iPhone)のセンサ情報を、Arduinoに伝達するアプリです。</font><span style="font-family:arial,sans-serif">対応OSバージョンはiOS5以降、機種はiPhone 3GS/4/4Sおよび第4世代iPod touch、です。</span></div>
+        <div><span style="font-family:arial,sans-serif">OTOsenseはArduinoに次のセンサ情報を伝搬します:</span></div>
+        <div>
+            <ul><li><font face="arial, sans-serif">タッチパネル (ボタン入力、スライドバー入力)</font></li>
+                <li><font face="arial, sans-serif">加速度センサ</font></li>
+                <li><font face="arial, sans-serif">ジャイロセンサ</font></li>
+                <li><font face="arial, sans-serif">磁気コンパス</font></li>
+                <li><font face="arial, sans-serif">顔検出(フロントカメラで検出した顔の位置と大きさ)</font></li></ul>
+            <div><font face="arial, sans-serif">Arduinoは、専用のインタフェース回路と、ライブラリを利用します。ライブラリおよびスケッチは、Arduino IDE 1.01 以降で動作します。動作を確認しているものは、Arduino Duemilanove/ Uno の2種類です。これ以外のArduinoでも、クロック周波数が16MHzもしくは8MHz(水晶および内蔵RC発振回路いずれか)、電源電圧5Vもしくは3.3Vのもので動作します。</font></div>
+        </div>
+        <div><font face="arial, sans-serif"><br>
+        </font></div>
+        <div><font face="arial, sans-serif">アプリケーションのデモンストレーション動画:</font></div>
+        <h3><font face="arial, sans-serif">使い方</font></h3>
+        <div><font face="arial, sans-serif">このOTOsenseを使うには、インタフェース回路の準備と、Arduino開発環境へのライブラリのインストールが必要です。</font></div>
+        <h4><font face="arial, sans-serif">インタフェース回路の用意</font></h4>
+        <div><font face="arial, sans-serif">インタフェース回路の回路図は以下のものです：</font></div>
+        <div><font face="arial, sans-serif">
+            <div style="display:block;margin-right:auto;text-align:left"><a href="https://sites.google.com/a/wa-fu-u.com/wa-fu-u/apps/otosense/%E5%90%8D%E7%A7%B0%E6%9C%AA%E8%A8%AD%E5%AE%9A.png?attredirects=0" imageanchor="1"><img border="0" height="164" src="https://sites.google.com/a/wa-fu-u.com/wa-fu-u/apps/otosense/%E5%90%8D%E7%A7%B0%E6%9C%AA%E8%A8%AD%E5%AE%9A.png?height=164&amp;width=320" width="320"></a></div>
+            <br>
+        </font></div>
+        <div><span style="font-family:arial,sans-serif">回路図のコンデンサC1は、どんな種類のものでも使えますが、積層セラミックコンデンサが安価で入手性がよいです。値は0.1uF以上のものを使ってください(値が0.1uF以上ならば、例えば1uFでも動作します)。 イヤホンジャックの音声出力端子は、左チャネルまたは右チャネルのいずれかをArduinoに接続してください。回路図では左チャネルを接続しています。アプリ OTOsense は左/右の両チャネルに同じ信仰を出力しています。</span></div>
+        <div><span style="font-family:arial,sans-serif">回路を自作するのが手間な場合は、OTOduinoシールドキット&nbsp;</span><span style="font-family:arial,sans-serif"><a href="http://www.switch-science.com/products/detail.php?product_id=557">http://www.switch-science.com/products/detail.php?product_id=557</a>&nbsp;が便利です。このシールドは、OTOduinoという別のアプリのために設計されたシールドですが、このOTOsenseでも問題なく使えます。</span></div>
+        <div><span style="font-family:arial,sans-serif">シールドとiPhoneの接続は、ステレオオーディオケーブルを使います。</span></div>
+        <div><font face="arial, sans-serif">
+            <h4><font face="arial, sans-serif">スケッチのアップロード</font></h4>
+            <div style="font-family:Lucida Grande,Lucida Sans,Verdana,Arial,sans-serif"><font face="arial, sans-serif">スケッチの書き込みには、まずライブラリの追加が必要です。Arduinoのライブラリフォルダに"OTOReceive1200"というディレクトリ(Macならば ~/Document/Arduino/libraries/ に) を作成します。次に、OTOReceiver1200.cppとOTOReceiver1200.h ファイルをレポジトリ <a href="https://github.com/reinforce-lab/OTOsenseClient">https://github.com/reinforce-lab/OTOsenseClient</a>&nbsp;からダウンロードします。</font></div>
+            <div style="font-family:Lucida Grande,Lucida Sans,Verdana,Arial,sans-serif"><font face="arial, sans-serif"><br>
+            </font></div>
+            <div style="font-family:Lucida Grande,Lucida Sans,Verdana,Arial,sans-serif"><font face="arial, sans-serif">次にスケッチをダウンロードして書き込みます。"OTOsense_base" というフォルダを作り、ファイル OTOsense_base.ino をレポジトリからダウンロードします。このスケッチをArduino IDEで開き、Verify/uploadして書き込みます。</font></div>
+            <h4><font face="arial, sans-serif">OTOsenseの使い方</font></h4>
+            <div style="font-family:Lucida Grande,Lucida Sans,Verdana,Arial,sans-serif"><font face="arial, sans-serif">iPhoneのイヤホン端子にジャックを挿入すると、アプリOTOsenseの画面左上の、イヤホン挿入表示が消えます。また、音量を最大にすると、音量再生設定の表示が消えます。この状態で、ボタンタブを選択して、適当なボタンを押せば、Arduinoシリアルコンソールにスイッチ情報が表示されます。このときArduinoに表示が出ない場合は、その</font><span style="font-family:arial,sans-serif">ほとんどの原因は、ヘッドホンの出力音量を最大値にしていないことです。</span></div>
+        </font></div>
+        <h4><font face="arial, sans-serif">ソースコードの公開とライセンス</font></h4>
+        <div><font face="arial, sans-serif">この"OTOsense"アプリは、Githubでソースコードを公開しています</font><span style="font-family:arial,sans-serif">&nbsp;<a href="https://github.com/reinforce-lab/OTOsenseClient">https://github.com/reinforce-lab/OTOsenseClient</a> 。このソースコードは、<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a> のもとで利用できます。</span></div>
+
+        
+</body>
+</html>
+

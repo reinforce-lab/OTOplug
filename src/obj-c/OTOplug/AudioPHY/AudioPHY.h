@@ -17,6 +17,7 @@
 
 @property(nonatomic, readonly) float outputVolume;
 @property(nonatomic, readonly) BOOL  isHeadsetIn;
+@property(nonatomic, readonly) BOOL  isMicAvailable;
 @property(nonatomic, readonly) BOOL  isInterrupted;
 
 @property(readonly,  nonatomic) BOOL isRunning;
