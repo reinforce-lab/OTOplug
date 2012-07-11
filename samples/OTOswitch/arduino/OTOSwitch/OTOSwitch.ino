@@ -1,5 +1,5 @@
 /*
- * OTOWwitch.ino - FSK 1200bps software modem sample sketch
+ * OTOSWwitch.ino - FSK 1200bps software modem sample sketch
  * Text send to Serial port is echo back as a modulated modem signal.
  * 
  *  Copyright 2010-2011 REINFORCE lab.
@@ -31,7 +31,7 @@ void setup()
   Serial.println("start");
   */
   for(int i=2; i < 13; i++) {
-    pinMode(i, INPUT);
+    pinMode(i, INPUT_PULLUP);
   }
   OTOplug1200Transmitter.begin();
 }
