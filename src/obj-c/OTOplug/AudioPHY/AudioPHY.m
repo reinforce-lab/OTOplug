@@ -189,7 +189,7 @@ static void sessionPropertyChanged(void *inClientData,
 		CFStringRef route;
 		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 //		NSLog(@"%s route channged: %@", __func__, (NSString *)route );
-		NSString *rt = (__bridge NSString *)route;
+		NSString *rt = (__bridge_transfer NSString *)route;
         [phy performSelectorOnMainThread:@selector(setIsHeadSetInWP:) 
                               withObject:rt
                            waitUntilDone:false];
@@ -258,7 +258,7 @@ static void sessionPropertyChanged(void *inClientData,
 	CFStringRef route;
 	error = AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 	[self checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
-	NSString *rt = (__bridge NSString *)route;
+	NSString *rt = (__bridge_transfer NSString *)route;
 
     [self setIsHeadSetInWP:rt];
 #endif
