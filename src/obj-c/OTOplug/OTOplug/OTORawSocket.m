@@ -52,7 +52,7 @@
 #pragma mark - Private methods
 -(void)onReceivePacket
 {
-    if([delegate_ respondsToSelector:@selector(readBytesAvailable:)]) {
+    if(rcvSize_ > 0 && [delegate_ respondsToSelector:@selector(readBytesAvailable:)]) {
         [delegate_ readBytesAvailable:rcvSize_];
     }
 }
@@ -107,18 +107,18 @@
         if(rcvSize_ == 0) {
             rcvSize_ = length;
             memcpy(rcvBuf_, buf, length * sizeof(uint8_t));
-            [self performSelectorOnMainThread:@selector(onReceivePacket) withObject:nil waitUntilDone:NO];
         }
-        /* debug, packet dump
-         NSMutableString *sb = [[NSMutableString alloc] initWithCapacity:100];
-         [sb appendFormat:@"Packet received: %d Packet:", length];
-         for(int i = 0; i < length; i++) {
-         [sb appendFormat:@"%02X,", buf[i]];
-         }
-         NSLog(@"%@", sb);
-         [sb release];
-         */
     }
+    [self performSelectorOnMainThread:@selector(onReceivePacket) withObject:nil waitUntilDone:NO];
+    /* debug, packet dump
+     NSMutableString *sb = [[NSMutableString alloc] initWithCapacity:100];
+     [sb appendFormat:@"Packet received: %d Packet:", length];
+     for(int i = 0; i < length; i++) {
+     [sb appendFormat:@"%02X,", buf[i]];
+     }
+     NSLog(@"%@", sb);
+     [sb release];
+     */
 }
 - (void)sendBufferEmptyNotify
 {

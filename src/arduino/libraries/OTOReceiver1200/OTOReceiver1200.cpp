@@ -266,9 +266,9 @@ void OTOReceiver1200Class::begin()
   // Setting Timer2,
 #if defined(__AVR_ATmega32U4__)  
     TCCR4A = 0x00; //B00000000;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
-    TCCR4B = 0x04; //B00000100;  // clock source clk/8,
+    TCCR4B = 0x03; //B00000100;  // clock source clk/8, (TBD)
     TCNT4  = 0;
-    OCR4A  = OCR1A_PERIOD;
+    OCR4C  = OCR1A_PERIOD;
     TIMSK4 = _BV(OCIE4A); // interrupt enable
 #else
   // Arduino Uno
@@ -279,9 +279,11 @@ void OTOReceiver1200Class::begin()
   TIMSK2 = _BV(OCIE2A); // interrupt enable
 #endif
     
-  _modem_pin = MODEM_DIN_PIN;
+
 #if defined(__AVR_ATmega32U4__)      
-  _modem_pin = analogPinToChannel(_modem_pin);
+  _modem_pin = analogPinToChannel(MODEM_DIN_PIN);
+#else
+  _modem_pin = MODEM_DIN_PIN;
 #endif    
   // Setting ADC
   ADMUX  = ANALOG_REFERENCE | _modem_pin; //B01000000; // AVcc with external capactor at AREF pin, ADC0

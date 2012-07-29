@@ -53,6 +53,7 @@ OTOplug1200TransmitterClass OTOplug1200Transmitter;
 #if F_CPU >= 16000000L
 // for 16MHz clock
 // 2 oversampling. 16MHz / ((44.1kHz / 36) * OVERSAMPLING) = 6530, when clock source is clk/64 -> OCR0A is 6530 / 64 = 102
+//#define OCR1A_PERIOD 102
 #define OCR1A_PERIOD 102
 #else
 // for 8MHz clock
@@ -61,11 +62,20 @@ OTOplug1200TransmitterClass OTOplug1200Transmitter;
 
 // **** 
 // Interrupt handlers
-// **** 
-ISR(TIMER1_COMPA_vect)
+// ****
+#if defined(__AVR_ATmega32U4__)
+ISR(TIMER4_COMPA_vect)
 {
-  OTOplug1200Transmitter._invokeInterruptHandler();
+    OTOplug1200Transmitter._invokeInterruptHandler();
 }
+#else
+// Arduino Uno
+ISR(TIMER2_COMPA_vect)
+{
+    OTOplug1200Transmitter._invokeInterruptHandler();
+}
+#endif
+
 void OTOplug1200TransmitterClass::_invokeInterruptHandler()
 {
   outModulatedSignal();
@@ -171,12 +181,21 @@ void OTOplug1200TransmitterClass::outModulatedSignal()
 // **** 
 void OTOplug1200TransmitterClass::begin()
 {
-  // Setting Timer0,
-  TCCR1A = 0x00; //B00000000;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
-  TCCR1B = 0x0b; //B00001011;  // clock source clk/8, 64
-  TCNT1  = 0;
-  OCR1A  = OCR1A_PERIOD;
-  TIMSK1 = _BV(OCIE1A); // interrupt enable
+    // Setting Timer2,
+#if defined(__AVR_ATmega32U4__)
+    TCCR4A = 0x00; //B00000000;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
+    TCCR4B = 0x06; //B00000110;  // clock source clk/32 (TBD)
+    TCNT4  = 0;
+    OCR4C  = OCR1A_PERIOD;
+    TIMSK4 = _BV(OCIE4A); // interrupt enable
+#else
+    // Arduino Uno
+    TCCR2A = 0x02; //B00000010;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
+    TCCR2B = 0x04; //B00000100;  // clock source clk/64,
+    TCNT2  = 0;
+    OCR2A  = OCR1A_PERIOD;
+    TIMSK2 = _BV(OCIE2A); // interrupt enable
+#endif
 
   // pin mode
   pinMode(MODEM_DOUT_PIN, OUTPUT);

@@ -20,7 +20,6 @@
 
 uint8_t crc_ibutton_update(uint8_t crc, uint8_t data);
 
-
 @implementation OTOPacketSocket
 
 #pragma mark - Constructor
@@ -59,11 +58,6 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
 	}
 	return cc;
 }
-#pragma mark - Private methods
--(void)onReceivePacket
-{
-    [self.delegate readBytesAvailable:(rcvSize_ -1)];
-}
 
 #pragma mark - Public methods
 -(int)write:(uint8_t *)buf length:(int)length
@@ -78,27 +72,24 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
     return [modem_ sendPacket:sndBuf_ length:(length +1)];
 }
 
-int maxPacketSize_;
-int rcvSize_;
-uint8_t *rcvBuf_;
 #pragma mark - AudioPHYDelegate protocol
 
 #pragma mark - SWMSocket protocol
 - (void)packetReceived:(uint8_t *)buf length:(int)length
 {
+    // check CRC8 checksum
+    uint8_t crcsum = [self calculateCRC8:buf length:length];
+    if(crcsum != 0 || length <= 1) return;
+    
     @synchronized(self) {
         if(rcvSize_ == 0) {
-            rcvSize_ = length;
-            memcpy(rcvBuf_, buf, length * sizeof(uint8_t));
-
-            // check CRC8 checksum
-            uint8_t crcsum = [self calculateCRC8:rcvBuf_ length:length];            
-            
-            if(crcsum == 0 && rcvSize_ > 0) {
-                [self performSelectorOnMainThread:@selector(onReceivePacket) withObject:nil waitUntilDone:NO];
-            }
+            rcvSize_ = length -1; //末尾はCRCチェックサム, 受信長を1減らす。
+            memcpy(rcvBuf_, buf, rcvSize_ * sizeof(uint8_t));
         }
     }
+    
+    // invoke delegate callback
+    [self performSelectorOnMainThread:@selector(onReceivePacket) withObject:nil waitUntilDone:NO];
 }
 
 @end

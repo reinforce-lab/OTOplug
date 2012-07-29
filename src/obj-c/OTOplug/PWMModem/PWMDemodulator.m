@@ -84,7 +84,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 					[modem_ packetReceived:rcvBuf_ length:rcvBufLength_];
 					rcvBufLength_ = 0;
 				}
-//NSLog(@"             ByteReceived:%d",(Byte)(rcvShiftReg_ >>8) );
+//NSLog(@"             ByteReceived:0x%02X",(Byte)(rcvShiftReg_ >>8) );
 			}
 			if(rcvMark1Count_ >= kSWMMaxMark1Length) {
 				rcvState_ = StuffingBit;

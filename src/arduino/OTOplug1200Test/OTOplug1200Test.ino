@@ -33,30 +33,34 @@ void loop()
 { 
   if(!OTOplug1200.writeAvailable()) return;  
   int numBytes = Serial.available();
-/*  
-  delay(15);
+  /*  
+   delay(15);
    {
-        sendBuf[0] = 0x00;
-        OTOplug1200.write(sendBuf,1);
+   sendBuf[0] = 0x00;
+   OTOplug1200.write(sendBuf,1);
    }
-*/   
-      
+   */
+
   if(numBytes > 0) {
-      // build a packet
-      for(int i = 0; i < numBytes ; i++) {
-        sendBuf[i] = Serial.read();
-      }
-      sendBuf[numBytes] = 0; // end of string 
-      // send to serial port
-      
-      OTOplug1200.write(sendBuf, numBytes);
-     
-      // echo back
-      Serial.write('<');
-      Serial.print(numBytes);
-      Serial.write(':');
-      Serial.write(sendBuf, numBytes);
-      Serial.println();
+    // build a packet
+    for(int i = 0; i < numBytes ; i++) {
+      sendBuf[i] = Serial.read();
+    }
+    sendBuf[numBytes] = 0; // end of string 
+    // send to serial port
+
+    OTOplug1200.write(sendBuf, numBytes);
+
+    // echo back
+    Serial.write('<');
+    Serial.print(numBytes);
+    Serial.print(':');     
+    for(int i=0; i < numBytes; i++){ 
+      Serial.print(sendBuf[i], HEX);
+      Serial.print(",");
+    }
+    Serial.println();
   }
 }
+
 

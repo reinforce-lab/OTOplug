@@ -32,6 +32,9 @@ void setup()
 void loop()
 { 
   if(!OTOplug1200Transmitter.writeAvailable()) return;  
+  /*sendBuf[0] = 0x64;
+  OTOplug1200Transmitter.write(sendBuf, 1);
+  return;*/
   int numBytes = Serial.available();
   
   /*
@@ -55,8 +58,11 @@ void loop()
       // echo back
       Serial.write('<');
       Serial.print(numBytes);
-      Serial.write(':');
-      Serial.write(sendBuf, numBytes);
+      Serial.print(':');
+      for(int i=0; i < numBytes; i++){ 
+        Serial.print(sendBuf[i], HEX);
+        Serial.print(",");
+      }
       Serial.println();
   }
 }

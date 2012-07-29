@@ -18,6 +18,7 @@
     PWMModem *modem_;
     NSMutableString *logText_;
     uint8_t *buf_;
+    int bufSize_;
 }
 
 -(void)updateConnectionStateLabel;
@@ -32,10 +33,6 @@
 - (void)dealloc
 {
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
 
 #pragma mark - View lifecycle
 - (void)viewDidLoad
@@ -47,7 +44,8 @@
 
 	modem_ = [[PWMModem alloc] init];
     
-    buf_ = calloc([modem_ getMaxPacketSize], sizeof(uint8_t));
+    bufSize_ = [modem_ getMaxPacketSize];
+    buf_ = calloc(bufSize_, sizeof(uint8_t));
     
     socket_ = [[OTOPacketSocket alloc] initWithModem:modem_];
     socket_.delegate = self;
@@ -91,22 +89,23 @@
 -(void)dumpPacket:(Byte *)buf length:(int)length
 {
 	NSMutableString *lineText = [NSMutableString stringWithCapacity:(length *4)];
-	for(int i = 0; i < length -1; i++) {
+	for(int i = 0; i < length; i++) {
 		if(isascii( buf[i])) {
 			[lineText appendFormat:@"%c", buf[i]];
 		} else {
-			[lineText appendFormat:@"% (0x%02X) ", buf[i]];
+			[lineText appendFormat:@" (0x%02X) ", buf[i]];
 		}
 	}
 	[logText_ appendString:lineText];
 	textView_.text = logText_;
+NSLog(@"%s %@", __func__, lineText);
 }
 
 #pragma mark - OTOplugDelegate
 - (void) readBytesAvailable:(int)length
 {
-    [socket_ read:buf_ length:length];
-	[self dumpPacket:buf_ length:length]; 
+    int len = [socket_ read:buf_ length:bufSize_];
+	[self dumpPacket:buf_ length:len];
 }
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

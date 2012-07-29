@@ -188,7 +188,7 @@ static void sessionPropertyChanged(void *inClientData,
 		UInt32 size = sizeof(CFStringRef);
 		CFStringRef route;
 		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
-//		NSLog(@"%s route channged: %@", __func__, (NSString *)route );
+//NSLog(@"%s route channged: %@", __func__, (__bridge NSString *)route );
 		NSString *rt = (__bridge_transfer NSString *)route;
         [phy performSelectorOnMainThread:@selector(setIsHeadSetInWP:) 
                               withObject:rt
@@ -204,8 +204,8 @@ static void sessionPropertyChanged(void *inClientData,
 }
 -(void)setIsHeadSetInWP:(NSString *)rt
 {
-	self.isMicAvailable = [rt isEqualToString:@"HeadsetInOut"];
-    self.isHeadsetIn    = [rt isEqualToString:@"HeadsetInOut"] || [rt isEqualToString:@"HeadphonesAndMicrophone"];
+    self.isMicAvailable = [rt isEqualToString:@"HeadphonesAndMicrophone"];
+	self.isHeadsetIn    = [rt isEqualToString:@"HeadsetInOut"] || [rt isEqualToString:@"HeadphonesAndMicrophone"];
 }
 -(void)setVolumeWP:(NSNumber *)volume
 {
