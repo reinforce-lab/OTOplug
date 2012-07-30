@@ -86,7 +86,7 @@ void OTOplug1200Class::_invokeInterruptHandler()
     switch(_analogPinReadingStat)  {
         case startReading:
             // set ADMUX
-            ADMUX  = ANALOG_REFERENCE | _analogPinNumber; //B01000000; // AVcc with external capactor at AREF pin, ADC0
+            ADMUX  = ANALOG_REFERENCE | analogPinToChannel(_analogPinNumber); //B01000000; // AVcc with external capactor at AREF pin, ADC0
             _analogPinReadingStat = changedADMUX;
             break;
         case changedADMUX:

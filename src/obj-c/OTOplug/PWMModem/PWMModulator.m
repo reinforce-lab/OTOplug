@@ -152,12 +152,12 @@
 		isBufferEmpty_ = (bufReadIndex_ == bufWriteIndex_);
 		if(isBufferEmpty_ || mute_) {
 			// waveform buffer is empty
-			bzero(leftBuf, sizeof(AudioUnitSampleType) * length);
+            memset(leftBuf, 0, sizeof(AudioUnitSampleType) * length);
 		} else {
 			// fill buffer tail
 			int fill_size = (bufReadIndex_ + kPWMAudioBufferSize) - bufWriteIndex_;
 			if(fill_size > 0) {
-				bzero(&buf_[bufWriteIndex_] , fill_size * sizeof(AudioUnitSampleType));
+                memset(&buf_[bufWriteIndex_] , 0, fill_size * sizeof(AudioUnitSampleType));
 				bufWriteIndex_ += fill_size;
 				resyncRequired_ = TRUE;
 			}
