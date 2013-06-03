@@ -78,7 +78,7 @@
 {
     AudioPHY *phy = socket_.audioPHY;
 //    BOOL isss = [phy getIsHeadesetIn];
-    NSLog(@"%d", phy.isHeadsetIn);
+    DLog(@"%d", phy.isHeadsetIn);
 	statusLabelView_.text = socket_.audioPHY.isHeadsetIn ? @"Connected" : @"Not connected";
 }
 -(void)clearTextView

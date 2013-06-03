@@ -9,34 +9,35 @@
 /* Begin PBXBuildFile section */
 		F84D745B140F5CA000D607A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D745A140F5CA000D607A5 /* UIKit.framework */; };
 		F84D745D140F5CA000D607A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D745C140F5CA000D607A5 /* Foundation.framework */; };
-		F84D7463140F5CA000D607A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F84D7461140F5CA000D607A5 /* InfoPlist.strings */; };
-		F84D7465140F5CA000D607A5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7464140F5CA000D607A5 /* main.m */; };
-		F84D7469140F5CA000D607A5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7468140F5CA000D607A5 /* AppDelegate.m */; };
-		F84D7493140F5D0E00D607A5 /* TestClientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F84D7491140F5D0E00D607A5 /* TestClientViewController.m */; };
-		F84D7494140F5D0E00D607A5 /* TestClientViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F84D7492140F5D0E00D607A5 /* TestClientViewController.xib */; };
-		F84D74A6140F5DB600D607A5 /* libOTOplug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D74A5140F5DB600D607A5 /* libOTOplug.a */; };
 		F84D74A9140F5DC400D607A5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D74A8140F5DC400D607A5 /* AudioToolbox.framework */; };
 		F84D74AB140F5DC900D607A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84D74AA140F5DC900D607A5 /* AVFoundation.framework */; };
+		F87D4507175C472D00828DD2 /* libOTOplug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F87D4502175C471000828DD2 /* libOTOplug.a */; };
+		F87D450A175C479A00828DD2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F87D4508175C479A00828DD2 /* AppDelegate.m */; };
+		F87D450D175C47B700828DD2 /* TestClientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F87D450B175C47B700828DD2 /* TestClientViewController.m */; };
+		F87D450F175C47BF00828DD2 /* TestClientViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F87D450E175C47BF00828DD2 /* TestClientViewController.xib */; };
+		F87D4511175C47D600828DD2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F87D4510175C47D600828DD2 /* main.m */; };
+		F87D4514175C48A300828DD2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F87D4512175C48A300828DD2 /* InfoPlist.strings */; };
+		F87D4516175C48C200828DD2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F87D4515175C48C200828DD2 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F8DEFAD815C4EBF700F8756C /* PBXContainerItemProxy */ = {
+		F87D4501175C471000828DD2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F8DEFAD015C4EBF700F8756C /* OTOplug.xcodeproj */;
+			containerPortal = F87D44FC175C471000828DD2 /* OTOplug.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8B086E8140C93D8001632F1;
 			remoteInfo = OTOplug;
 		};
-		F8DEFADA15C4EBF700F8756C /* PBXContainerItemProxy */ = {
+		F87D4503175C471000828DD2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F8DEFAD015C4EBF700F8756C /* OTOplug.xcodeproj */;
+			containerPortal = F87D44FC175C471000828DD2 /* OTOplug.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F84D7387140F11F700D607A5;
 			remoteInfo = OTOplugLogicTests;
 		};
-		F8DEFADD15C4EE3B00F8756C /* PBXContainerItemProxy */ = {
+		F87D4505175C472800828DD2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F8DEFAD015C4EBF700F8756C /* OTOplug.xcodeproj */;
+			containerPortal = F87D44FC175C471000828DD2 /* OTOplug.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = F8B086E7140C93D8001632F1;
 			remoteInfo = OTOplug;
@@ -48,18 +49,18 @@
 		F84D745A140F5CA000D607A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F84D745C140F5CA000D607A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F84D7460140F5CA000D607A5 /* TestClient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestClient-Info.plist"; sourceTree = "<group>"; };
-		F84D7462140F5CA000D607A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F84D7464140F5CA000D607A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F84D7466140F5CA000D607A5 /* TestClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestClient-Prefix.pch"; sourceTree = "<group>"; };
-		F84D7467140F5CA000D607A5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		F84D7468140F5CA000D607A5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F84D7490140F5D0E00D607A5 /* TestClientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClientViewController.h; sourceTree = "<group>"; };
-		F84D7491140F5D0E00D607A5 /* TestClientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClientViewController.m; sourceTree = "<group>"; };
-		F84D7492140F5D0E00D607A5 /* TestClientViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestClientViewController.xib; sourceTree = "<group>"; };
-		F84D74A5140F5DB600D607A5 /* libOTOplug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOTOplug.a; path = "../../OTOplug/build/Release-iphoneos/libOTOplug.a"; sourceTree = "<group>"; };
 		F84D74A8140F5DC400D607A5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F84D74AA140F5DC900D607A5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		F8DEFAD015C4EBF700F8756C /* OTOplug.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OTOplug.xcodeproj; path = ../../OTOplug/OTOplug.xcodeproj; sourceTree = "<group>"; };
+		F87D44FC175C471000828DD2 /* OTOplug.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OTOplug.xcodeproj; path = ../OTOplug/OTOplug.xcodeproj; sourceTree = "<group>"; };
+		F87D4508175C479A00828DD2 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		F87D4509175C479A00828DD2 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		F87D450B175C47B700828DD2 /* TestClientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClientViewController.m; sourceTree = SOURCE_ROOT; };
+		F87D450C175C47B700828DD2 /* TestClientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClientViewController.h; sourceTree = SOURCE_ROOT; };
+		F87D450E175C47BF00828DD2 /* TestClientViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestClientViewController.xib; sourceTree = SOURCE_ROOT; };
+		F87D4510175C47D600828DD2 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = SOURCE_ROOT; };
+		F87D4513175C48A300828DD2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		F87D4515175C48C200828DD2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,9 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F87D4507175C472D00828DD2 /* libOTOplug.a in Frameworks */,
 				F84D74AB140F5DC900D607A5 /* AVFoundation.framework in Frameworks */,
 				F84D74A9140F5DC400D607A5 /* AudioToolbox.framework in Frameworks */,
-				F84D74A6140F5DB600D607A5 /* libOTOplug.a in Frameworks */,
 				F84D745B140F5CA000D607A5 /* UIKit.framework in Frameworks */,
 				F84D745D140F5CA000D607A5 /* Foundation.framework in Frameworks */,
 			);
@@ -81,7 +82,7 @@
 		F84D744B140F5CA000D607A5 = {
 			isa = PBXGroup;
 			children = (
-				F8DEFAD015C4EBF700F8756C /* OTOplug.xcodeproj */,
+				F87D44FC175C471000828DD2 /* OTOplug.xcodeproj */,
 				F84D745E140F5CA000D607A5 /* TestClient */,
 				F84D7459140F5CA000D607A5 /* Frameworks */,
 				F84D7457140F5CA000D607A5 /* Products */,
@@ -99,7 +100,6 @@
 		F84D7459140F5CA000D607A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F84D74A5140F5DB600D607A5 /* libOTOplug.a */,
 				F84D74AA140F5DC900D607A5 /* AVFoundation.framework */,
 				F84D74A8140F5DC400D607A5 /* AudioToolbox.framework */,
 				F84D745A140F5CA000D607A5 /* UIKit.framework */,
@@ -111,11 +111,11 @@
 		F84D745E140F5CA000D607A5 /* TestClient */ = {
 			isa = PBXGroup;
 			children = (
-				F84D7490140F5D0E00D607A5 /* TestClientViewController.h */,
-				F84D7491140F5D0E00D607A5 /* TestClientViewController.m */,
-				F84D7492140F5D0E00D607A5 /* TestClientViewController.xib */,
-				F84D7467140F5CA000D607A5 /* AppDelegate.h */,
-				F84D7468140F5CA000D607A5 /* AppDelegate.m */,
+				F87D450E175C47BF00828DD2 /* TestClientViewController.xib */,
+				F87D450B175C47B700828DD2 /* TestClientViewController.m */,
+				F87D450C175C47B700828DD2 /* TestClientViewController.h */,
+				F87D4508175C479A00828DD2 /* AppDelegate.m */,
+				F87D4509175C479A00828DD2 /* AppDelegate.h */,
 				F84D745F140F5CA000D607A5 /* Supporting Files */,
 			);
 			path = TestClient;
@@ -124,19 +124,20 @@
 		F84D745F140F5CA000D607A5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F87D4515175C48C200828DD2 /* Default-568h@2x.png */,
+				F87D4512175C48A300828DD2 /* InfoPlist.strings */,
+				F87D4510175C47D600828DD2 /* main.m */,
 				F84D7460140F5CA000D607A5 /* TestClient-Info.plist */,
-				F84D7461140F5CA000D607A5 /* InfoPlist.strings */,
-				F84D7464140F5CA000D607A5 /* main.m */,
 				F84D7466140F5CA000D607A5 /* TestClient-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F8DEFAD115C4EBF700F8756C /* Products */ = {
+		F87D44FD175C471000828DD2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F8DEFAD915C4EBF700F8756C /* libOTOplug.a */,
-				F8DEFADB15C4EBF700F8756C /* OTOplugLogicTests.octest */,
+				F87D4502175C471000828DD2 /* libOTOplug.a */,
+				F87D4504175C471000828DD2 /* OTOplugLogicTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,7 +156,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F8DEFADE15C4EE3B00F8756C /* PBXTargetDependency */,
+				F87D4506175C472800828DD2 /* PBXTargetDependency */,
 			);
 			name = TestClient;
 			productName = TestClient;
@@ -182,8 +183,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = F8DEFAD115C4EBF700F8756C /* Products */;
-					ProjectRef = F8DEFAD015C4EBF700F8756C /* OTOplug.xcodeproj */;
+					ProductGroup = F87D44FD175C471000828DD2 /* Products */;
+					ProjectRef = F87D44FC175C471000828DD2 /* OTOplug.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -194,18 +195,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		F8DEFAD915C4EBF700F8756C /* libOTOplug.a */ = {
+		F87D4502175C471000828DD2 /* libOTOplug.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libOTOplug.a;
-			remoteRef = F8DEFAD815C4EBF700F8756C /* PBXContainerItemProxy */;
+			remoteRef = F87D4501175C471000828DD2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F8DEFADB15C4EBF700F8756C /* OTOplugLogicTests.octest */ = {
+		F87D4504175C471000828DD2 /* OTOplugLogicTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = OTOplugLogicTests.octest;
-			remoteRef = F8DEFADA15C4EBF700F8756C /* PBXContainerItemProxy */;
+			remoteRef = F87D4503175C471000828DD2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -215,8 +216,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F84D7463140F5CA000D607A5 /* InfoPlist.strings in Resources */,
-				F84D7494140F5D0E00D607A5 /* TestClientViewController.xib in Resources */,
+				F87D450F175C47BF00828DD2 /* TestClientViewController.xib in Resources */,
+				F87D4514175C48A300828DD2 /* InfoPlist.strings in Resources */,
+				F87D4516175C48C200828DD2 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,27 +229,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F84D7465140F5CA000D607A5 /* main.m in Sources */,
-				F84D7469140F5CA000D607A5 /* AppDelegate.m in Sources */,
-				F84D7493140F5D0E00D607A5 /* TestClientViewController.m in Sources */,
+				F87D450A175C479A00828DD2 /* AppDelegate.m in Sources */,
+				F87D450D175C47B700828DD2 /* TestClientViewController.m in Sources */,
+				F87D4511175C47D600828DD2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F8DEFADE15C4EE3B00F8756C /* PBXTargetDependency */ = {
+		F87D4506175C472800828DD2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = OTOplug;
-			targetProxy = F8DEFADD15C4EE3B00F8756C /* PBXContainerItemProxy */;
+			targetProxy = F87D4505175C472800828DD2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F84D7461140F5CA000D607A5 /* InfoPlist.strings */ = {
+		F87D4512175C48A300828DD2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F84D7462140F5CA000D607A5 /* en */,
+				F87D4513175C48A300828DD2 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -277,7 +279,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "../../OTOplug/**";
+				USER_HEADER_SEARCH_PATHS = "../OTOplug/**";
 			};
 			name = Debug;
 		};
@@ -297,7 +299,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "../../OTOplug/**";
+				USER_HEADER_SEARCH_PATHS = "../OTOplug/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -306,8 +308,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TestClient/TestClient-Prefix.pch";
-				INFOPLIST_FILE = "TestClient/TestClient-Info.plist";
+				GCC_PREFIX_HEADER = "TestClient-Prefix.pch";
+				INFOPLIST_FILE = "./TestClient-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -317,8 +319,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TestClient/TestClient-Prefix.pch";
-				INFOPLIST_FILE = "TestClient/TestClient-Info.plist";
+				GCC_PREFIX_HEADER = "TestClient-Prefix.pch";
+				INFOPLIST_FILE = "./TestClient-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
