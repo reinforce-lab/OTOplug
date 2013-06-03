@@ -76,9 +76,9 @@
 #pragma mark - Private methods
 -(void)updateConnectionStateLabel
 {
-    AudioPHY *phy = socket_.audioPHY;
+//    AudioPHY *phy = socket_.audioPHY;
 //    BOOL isss = [phy getIsHeadesetIn];
-    DLog(@"%d", phy.isHeadsetIn);
+//    DLog(@"%d", phy.isHeadsetIn);
 	statusLabelView_.text = socket_.audioPHY.isHeadsetIn ? @"Connected" : @"Not connected";
 }
 -(void)clearTextView
@@ -98,7 +98,7 @@
 	}
 	[logText_ appendString:lineText];
 	textView_.text = logText_;
-NSLog(@"%s %@", __func__, lineText);
+//NSLog(@"%s %@", __func__, lineText);
 }
 
 #pragma mark - OTOplugDelegate
