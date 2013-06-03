@@ -417,13 +417,13 @@ void OTOplug1200Class::write(const uint8_t *buf, uint8_t length)
     // check whether the buffer is available
     if(_sendBufLen > 0) {
         return;
-    } 
+    }
     // copy buffer
     uint8_t crc = 0;
     for(int i =0; i < length; i++) {
         crc = _crc_ibutton_update(crc, buf[i]);
         _sendBuffer[i] = buf[i];
-    } 
+    }
     _sendBuffer[length] = crc;
     _sendBufLen = length + 1;
     //Serial.print("setSendQueue:len:");
