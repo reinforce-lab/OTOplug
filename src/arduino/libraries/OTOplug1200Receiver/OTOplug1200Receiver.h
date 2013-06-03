@@ -23,7 +23,7 @@
 #define MODEM_DIN_PIN  0
 
 // version of this library
-#define OTOReceiver1200_VERSION 1 
+#define OTOplug1200Receiver_VERSION 1 
 
 // **** 
 // FSK parameter definitions
@@ -38,7 +38,7 @@ extern "C" {
 
 typedef enum byteDecoderStatus      { START = 0, ReadingBit = 1, StuffingBit = 2 } byteDecoderStatusType;
 typedef enum analogPinReadingStatus { modemSampling=0, startReading=1, changedADMUX=2, analogValueAvailable} analogPinReadingStatusType;
-class OTOReceiver1200Class
+class OTOplug1200ReceiverClass
 {
  private:
   // variables of an input signal filter
@@ -81,7 +81,7 @@ class OTOReceiver1200Class
  public:  
   bool IgnoreCRCCheckSum;
 
-  OTOReceiver1200Class();
+  OTOplug1200ReceiverClass();
 
   void begin();
   void end();
@@ -98,7 +98,7 @@ class OTOReceiver1200Class
 };
 
 // instance of this class (singleton is required to handle an timer interruption.)
-extern OTOReceiver1200Class OTOReceiver1200;
+extern OTOplug1200ReceiverClass OTOplug1200Receiver;
 
 #endif
 

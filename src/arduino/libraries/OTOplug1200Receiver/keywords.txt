@@ -1,12 +1,12 @@
 #######################################
-# Syntax Coloring Map For OTOReceiver1200
+# Syntax Coloring Map For OTOplug1200Receiver
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
 
-OTOReceiver1200                KEYWORD1
+OTOplug1200Receiver            KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

@@ -1,5 +1,5 @@
 /*
- *  OTOReceiver1200.cpp - FSK 1200bps Arduino(TM) software sound modem library
+ *  OTOplug1200Receiver.cpp - FSK 1200bps Arduino(TM) software sound modem library
  *  
  *  Copyright 2010-2011 REINFORCE lab.
  *  Copyright 2012 WA-FU-U, LLC.
@@ -8,7 +8,7 @@
  *
  */
 
-#include "OTOReceiver1200.h"
+#include "OTOplug1200Receiver.h"
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -20,7 +20,7 @@
 //#include <HardwareSerial.h>
 
 // single instance of this class
-OTOReceiver1200Class OTOReceiver1200;
+OTOplug1200ReceiverClass OTOplug1200Receiver;
 
 // **** 
 // Parameter definitions
@@ -66,17 +66,17 @@ OTOReceiver1200Class OTOReceiver1200;
 #if defined(__AVR_ATmega32U4__)  
 ISR(TIMER4_COMPA_vect)
 {
-    OTOReceiver1200._invokeInterruptHandler();
+    OTOplug1200Receiver._invokeInterruptHandler();
 }
 #else
 // Arduino Uno
 ISR(TIMER2_COMPA_vect)
 {
-    OTOReceiver1200._invokeInterruptHandler();
+    OTOplug1200Receiver._invokeInterruptHandler();
 }
 #endif
 
-void OTOReceiver1200Class::_invokeInterruptHandler()
+void OTOplug1200ReceiverClass::_invokeInterruptHandler()
 {
   // Reading ADC
   uint8_t high, low;
@@ -162,13 +162,13 @@ void OTOReceiver1200Class::_invokeInterruptHandler()
 // **** 
 // Construcotrs
 // **** 
-OTOReceiver1200Class::OTOReceiver1200Class() 
+OTOplug1200ReceiverClass::OTOplug1200ReceiverClass() 
 {
 }
 // **** 
 // Private methdods
 // **** 
-void OTOReceiver1200Class::byteDecode(bool isMark1)
+void OTOplug1200ReceiverClass::byteDecode(bool isMark1)
 {
   // bit shifter
   _decodingBitLength++;
@@ -218,19 +218,19 @@ void OTOReceiver1200Class::byteDecode(bool isMark1)
     break;
   }
 }
-void OTOReceiver1200Class::lostCarrier() {
+void OTOplug1200ReceiverClass::lostCarrier() {
   _byteDecodingStatus = START;
   endOfFrame();
 }
 // Frame data receiver
-void OTOReceiver1200Class::receiveByte(uint8_t data)
+void OTOplug1200ReceiverClass::receiveByte(uint8_t data)
 {
   if(data == SYNC_SYMBOL) { endOfFrame(); }  
   _rcvBuf[_rcvLength++] = data;
   _crcChecksum  = _crc_ibutton_update(_crcChecksum, data);
   if(_rcvLength >= MAX_PACKET_SIZE)  { endOfFrame(); }
 }
-void OTOReceiver1200Class::endOfFrame()
+void OTOplug1200ReceiverClass::endOfFrame()
 {
   if(_rcvLength == 0) return;
 
@@ -261,7 +261,7 @@ void OTOReceiver1200Class::endOfFrame()
 // **** 
 // Public methods
 // **** 
-void OTOReceiver1200Class::begin()
+void OTOplug1200ReceiverClass::begin()
 {
   // Setting Timer2,
 #if defined(__AVR_ATmega32U4__)  
@@ -289,13 +289,13 @@ void OTOReceiver1200Class::begin()
   ADMUX  = ANALOG_REFERENCE | _modem_pin; //B01000000; // AVcc with external capactor at AREF pin, ADC0
   ADCSRA = ADCSTART;
 }
-void OTOReceiver1200Class::end()
+void OTOplug1200ReceiverClass::end()
 {
   // TODO (disable Timer1 interrupt...)
 }
 
 // send a request to read an analog pin
-void OTOReceiver1200Class::startADConversion(uint8_t pin_number)
+void OTOplug1200ReceiverClass::startADConversion(uint8_t pin_number)
 {
   if(_analogPinReadingStat == modemSampling) {
 #if defined(__AVR_ATmega32U4__)      
@@ -307,7 +307,7 @@ void OTOReceiver1200Class::startADConversion(uint8_t pin_number)
   }
 }
 // reading analog pin value , true if value is valid
-bool OTOReceiver1200Class::readAnalogPin(uint8_t *pinum, uint16_t *value)
+bool OTOplug1200ReceiverClass::readAnalogPin(uint8_t *pinum, uint16_t *value)
 {
   if(_analogPinReadingStat != analogValueAvailable) return false;
   
@@ -318,7 +318,7 @@ bool OTOReceiver1200Class::readAnalogPin(uint8_t *pinum, uint16_t *value)
   return true;
 }
 
-void OTOReceiver1200Class::attach(receiveCallbackFunction fnc)
+void OTOplug1200ReceiverClass::attach(receiveCallbackFunction fnc)
 {
   currentReceiveCallback = fnc;
 }
