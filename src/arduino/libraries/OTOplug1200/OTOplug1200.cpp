@@ -357,7 +357,7 @@ void OTOplug1200Class::begin()
     TIMSK4 = _BV(OCIE4A); // interrupt enable
 #else
     // Arduino Uno
-    TCCR2A = 0x00; //B00000000;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
+    TCCR2A = 0x02; //B00000010;  // OC0A disconnected, OC0B disconnected, CTC mode (TOP OCR1A),
     TCCR2B = 0x0a; //B00001010;  // clock source clk/8,
     TCNT2  = 0;
     OCR2A  = OCR1A_PERIOD;
