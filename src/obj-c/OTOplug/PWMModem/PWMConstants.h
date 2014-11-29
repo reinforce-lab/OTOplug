@@ -6,7 +6,7 @@
 //  Copyright 2010 REINFORCE Lab. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import <AudioToolbox/AudioToolbox.h>
+@import AudioToolbox;
 
 #define kSWMSamplingRate    44100.0
 #define kSWMSyncCode        0x7e
@@ -18,11 +18,7 @@
 #define kPWMBaudRate       (kSWMSamplingRate / kPWMMark1Samples)
 
 // constants for implementation
-#if TARGET_IPHONE_SIMULATOR
-#define kPWMSliceLevel ((1 << kAudioUnitSampleFractionBits) / 250)
-#else
-#define kPWMSliceLevel ((1 << kAudioUnitSampleFractionBits) / 2.5)
-#endif
+#define kPWMSliceLevel (1.0f / 250.0f)
 
 #define kPWMAudioBufferSize 512
 #define kPWMLostCarrierDuration   (kPWMMark0Samples * 1.5)

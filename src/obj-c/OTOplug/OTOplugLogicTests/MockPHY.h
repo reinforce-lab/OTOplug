@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AudioToolbox/AudioToolbox.h>
+@import AudioToolbox;
 
 @protocol AudioPHYDelegate, SWMModem;
 

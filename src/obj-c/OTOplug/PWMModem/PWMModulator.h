@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AudioToolbox/AudioToolbox.h>
+@import AudioToolbox;
 
 @protocol SWMModem;
 
@@ -20,5 +20,5 @@
 -(id)initWithModem:(id<SWMModem>)modem;
 -(int)sendPacket:(Byte[])buf length:(int)length;
 // Modem instance calls this method from audio rendering thread.
--(void)modulate:(UInt32)length leftBuf:(AudioUnitSampleType *)leftBuf rightBuf:(AudioUnitSampleType *)rightBuf;
+-(void)modulate:(UInt32)length leftBuf:(Float32 *)leftBuf rightBuf:(Float32 *)rightBuf;
 @end

@@ -6,6 +6,7 @@
 //  Copyright 2010 REINFORCE Lab. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+@import AudioToolbox;
 
 @protocol AudioPHYDelegate, SWMModem;
 
@@ -15,6 +16,8 @@
 @property(unsafe_unretained, nonatomic) id<AudioPHYDelegate> delegate;
 @property(unsafe_unretained, nonatomic) id<SWMModem> modem;
 
+@property(nonatomic, readonly) AudioStreamBasicDescription outputFormat;
+
 @property(nonatomic, readonly) float outputVolume;
 @property(nonatomic, readonly) BOOL  isHeadsetIn;
 @property(nonatomic, readonly) BOOL  isMicAvailable;
@@ -23,7 +26,7 @@
 @property(readonly,  nonatomic) BOOL isRunning;
 
 //|length| audio buffer length.
--(id)initWithParameters:(float)samplingRate audioBufferSize:(int)audioBufferSize;
+-(id)initWithSamplingRate:(float)samplingRate audioBufferSize:(int)audioBufferSize;
 -(void) start;
 -(void) stop;
 @end

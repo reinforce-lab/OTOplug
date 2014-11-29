@@ -6,8 +6,7 @@
 //  Copyright 2010 REINFORCE Lab. All rights reserved.
 //
 
-#import <AudioToolbox/AudioToolbox.h>
-
+@import AudioToolbox;
 #import "PWMModem.h"
 #import "PWMConstants.h"
 
@@ -30,7 +29,7 @@
 {
     self = [super init];
 	if(self) {
-		modulator_ = [[PWMModulator alloc] initWithModem:self];
+		modulator_   = [[PWMModulator alloc] initWithModem:self];
 		demodulator_ = [[PWMDemodulator alloc] initWithModem:self];
 	}
    return self;
@@ -56,11 +55,11 @@
     socket_ = socket;
 }
 
--(void)demodulate:(UInt32)length buf:(AudioUnitSampleType *)buf
+-(void)demodulate:(UInt32)length buf:(Float32 *)buf
 {
     [demodulator_ demodulate:length buf:buf];
 }
--(void)modulate:(UInt32)length leftBuf:(AudioUnitSampleType *)leftBuf rightBuf:(AudioUnitSampleType *)rightBuf
+-(void)modulate:(UInt32)length leftBuf:(Float32 *)leftBuf rightBuf:(Float32 *)rightBuf
 {
     [modulator_ modulate:length leftBuf:leftBuf rightBuf:rightBuf];
 }

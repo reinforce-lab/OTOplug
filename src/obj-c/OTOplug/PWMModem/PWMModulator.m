@@ -13,9 +13,9 @@
 
 // Private method declarations
 @interface PWMModulator() {		    
-	AudioUnitSampleType *buf_;
+	Float32 *buf_;
 	int bufReadIndex_, bufWriteIndex_;
-	AudioUnitSampleType *mark0_, *mark1_;
+	Float32 *mark0_, *mark1_;
 	int mark0Length_, mark1Length_;
 	int mark1Cnt_;
 	BOOL resyncRequired_;
@@ -24,11 +24,11 @@
     __unsafe_unretained id<SWMModem> modem_;
 }
 
--(AudioUnitSampleType *)allocAndInitSineWaveform:(int)length;
+-(Float32 *)allocAndInitSineWaveform:(int)length;
 -(void)addRawByte:(Byte)value;
 -(void)addByte:(Byte)value;
 -(void)addBytes:(Byte[])buf length:(int)length;
--(void)addWaveform:(AudioUnitSampleType *)buf length:(int)length;
+-(void)addWaveform:(Float32 *)buf length:(int)length;
 @end
 
 @implementation PWMModulator
@@ -45,7 +45,7 @@
 		resyncRequired_ = TRUE;
 		modem_ = m;
 		mark1Cnt_ = 0;
-		buf_ = calloc(kPWMModulatorBufferLength, sizeof(AudioUnitSampleType));
+		buf_ = calloc(kPWMModulatorBufferLength, sizeof(Float32));
 		
 		// template waveform, '1' , '0', preamble (0xA5)
 		mark0Length_ = kPWMMark0Samples;
@@ -56,12 +56,12 @@
 	return self;
 }
 // allocats and initializes packet buffer
--(AudioUnitSampleType *)allocAndInitSineWaveform:(int)length
+-(Float32 *)allocAndInitSineWaveform:(int)length
 {
-	AudioUnitSampleType *buf = calloc(length, sizeof(AudioUnitSampleType));
+	Float32 *buf = calloc(length, sizeof(Float32));
 	float dw = 2 * M_PI / length;
 	for(int i=0; i < length;i++) {
-		buf[i] = sin(i * dw) * (1 << kAudioUnitSampleFractionBits);
+        buf[i] = sin(i * dw);
 	}
 	return buf;
 }
@@ -72,9 +72,9 @@
 	free(buf_);
 }
 #pragma mark Private methods
--(void)addWaveform:(AudioUnitSampleType *)buf length:(int)length
+-(void)addWaveform:(Float32 *)buf length:(int)length
 {
-	memcpy(&buf_[bufWriteIndex_], buf, length * sizeof(AudioUnitSampleType));
+	memcpy(&buf_[bufWriteIndex_], buf, length * sizeof(Float32));
 	bufWriteIndex_ += length;
 }
 -(void)addByte:(Byte) value
@@ -145,24 +145,24 @@
 	}
 }
 // This method is invoked on audio rendering thread
--(void)modulate:(UInt32)length leftBuf:(AudioUnitSampleType *)leftBuf rightBuf:(AudioUnitSampleType *)rightBuf
+-(void)modulate:(UInt32)length leftBuf:(Float32 *)leftBuf rightBuf:(Float32 *)rightBuf
 {
 	// fill left channel buffer
 	@synchronized(self) {
 		isBufferEmpty_ = (bufReadIndex_ == bufWriteIndex_);
 		if(isBufferEmpty_ || mute_) {
 			// waveform buffer is empty
-            memset(leftBuf, 0, sizeof(AudioUnitSampleType) * length);
+            memset(leftBuf, 0, sizeof(Float32) * length);
 		} else {
 			// fill buffer tail
 			int fill_size = (bufReadIndex_ + kPWMAudioBufferSize) - bufWriteIndex_;
 			if(fill_size > 0) {
-                memset(&buf_[bufWriteIndex_] , 0, fill_size * sizeof(AudioUnitSampleType));
+                memset(&buf_[bufWriteIndex_] , 0, fill_size * sizeof(Float32));
 				bufWriteIndex_ += fill_size;
 				resyncRequired_ = TRUE;
 			}
 			// copy buffer setment
-			memcpy(leftBuf, &buf_[bufReadIndex_], kPWMAudioBufferSize * sizeof(AudioUnitSampleType));
+			memcpy(leftBuf, &buf_[bufReadIndex_], kPWMAudioBufferSize * sizeof(Float32));
 			bufReadIndex_ += kPWMAudioBufferSize;
 			// is buffer empty?
 			isBufferEmpty_ = (bufReadIndex_ == bufWriteIndex_);
@@ -171,9 +171,9 @@
 				bufWriteIndex_ = 0;
 			}
 		}
-        memcpy(rightBuf, leftBuf, length * sizeof(AudioUnitSampleType));
+        memcpy(rightBuf, leftBuf, length * sizeof(Float32));
 // clear right buffer
-// bzero(rightBuf, length * sizeof(AudioUnitSampleType));
+// bzero(rightBuf, length * sizeof(Float32));
 	}
 	// request next packet data
 	if(isBufferEmpty_) {

@@ -93,8 +93,8 @@
 }
 -(void)transfer:(int)length {
 	int i = 0;
-	AudioUnitSampleType *lbuf = calloc(audioBufferSize_,sizeof(AudioUnitSampleType));
-    AudioUnitSampleType *rbuf = calloc(audioBufferSize_,sizeof(AudioUnitSampleType));
+	Float32 *lbuf = calloc(audioBufferSize_,sizeof(Float32));
+    Float32 *rbuf = calloc(audioBufferSize_,sizeof(Float32));
 	for(i=0; i < length;i+=audioBufferSize_) {
         [self.modem modulate:audioBufferSize_ leftBuf:lbuf rightBuf:rbuf];
 		for(int k=0; k < audioBufferSize_; k++) {

@@ -41,6 +41,8 @@
 		F890893D14126F2B0038E6C0 /* AudioPHYDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F890893B14126F2B0038E6C0 /* AudioPHYDelegate.h */; };
 		F89089531414AC8C0038E6C0 /* OTORawSocketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F89089501414AC8C0038E6C0 /* OTORawSocketTests.m */; };
 		F8B086EC140C93D8001632F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B086EB140C93D8001632F1 /* Foundation.framework */; };
+		F8CA7CEA1A246AE200F7034D /* OTOplugUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = F8CA7CE81A246AE200F7034D /* OTOplugUtility.h */; };
+		F8CA7CEB1A246AE200F7034D /* OTOplugUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CA7CE91A246AE200F7034D /* OTOplugUtility.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,8 @@
 		F8B086EB140C93D8001632F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F8B086EF140C93D8001632F1 /* OTOplug-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OTOplug-Prefix.pch"; sourceTree = "<group>"; };
 		F8B086F9140C93D8001632F1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		F8CA7CE81A246AE200F7034D /* OTOplugUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTOplugUtility.h; sourceTree = SOURCE_ROOT; };
+		F8CA7CE91A246AE200F7034D /* OTOplugUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTOplugUtility.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,12 +145,12 @@
 			isa = PBXGroup;
 			children = (
 				F890892A1410F44C0038E6C0 /* PWMConstants.h */,
-				F890892B1410F44C0038E6C0 /* PWMDemodulator.h */,
-				F890892C1410F44C0038E6C0 /* PWMDemodulator.m */,
 				F890892D1410F44C0038E6C0 /* PWMModem.h */,
 				F890892E1410F44C0038E6C0 /* PWMModem.m */,
 				F890892F1410F44C0038E6C0 /* PWMModulator.h */,
 				F89089301410F44C0038E6C0 /* PWMModulator.m */,
+				F890892B1410F44C0038E6C0 /* PWMDemodulator.h */,
+				F890892C1410F44C0038E6C0 /* PWMDemodulator.m */,
 			);
 			name = PWMModem;
 			path = OTOplug;
@@ -189,6 +193,8 @@
 		F8B086ED140C93D8001632F1 /* OTOplug */ = {
 			isa = PBXGroup;
 			children = (
+				F8CA7CE81A246AE200F7034D /* OTOplugUtility.h */,
+				F8CA7CE91A246AE200F7034D /* OTOplugUtility.m */,
 				F89089281410ECE50038E6C0 /* OTOplugDelegate.h */,
 				F89088EF1410DAE00038E6C0 /* OTORawSocket.h */,
 				F89088F01410DAE00038E6C0 /* OTORawSocket.m */,
@@ -233,6 +239,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8CA7CEA1A246AE200F7034D /* OTOplugUtility.h in Headers */,
 				F84D7355140DE8CD00D607A5 /* AudioPHY.h in Headers */,
 				F84D735F140DE91100D607A5 /* SWMSocket.h in Headers */,
 				F89088F11410DAE00038E6C0 /* OTORawSocket.h in Headers */,
@@ -267,7 +274,7 @@
 			name = OTOplugLogicTests;
 			productName = OTOplugLogicTests;
 			productReference = F84D7387140F11F700D607A5 /* OTOplugLogicTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		F8B086E7140C93D8001632F1 /* OTOplug */ = {
 			isa = PBXNativeTarget;
@@ -292,7 +299,8 @@
 		F8B086DF140C93D8001632F1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastTestingUpgradeCheck = 0610;
+				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = F8B086E2140C93D8001632F1 /* Build configuration list for PBXProject "OTOplug" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -363,6 +371,7 @@
 				F89088F71410DAF70038E6C0 /* OTOPacketSocket.m in Sources */,
 				F89089331410F44C0038E6C0 /* PWMDemodulator.m in Sources */,
 				F89089361410F44C0038E6C0 /* PWMModem.m in Sources */,
+				F8CA7CEB1A246AE200F7034D /* OTOplugUtility.m in Sources */,
 				F89089391410F44C0038E6C0 /* PWMModulator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,13 +432,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -439,11 +452,15 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -452,18 +469,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;

@@ -14,7 +14,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 
 @interface PWMDemodulator () 
 {	
-	AudioUnitSampleType lpfSig_, sliceLevel_;
+	Float32 lpfSig_, sliceLevel_;
 	BOOL isSignHigh_, lostCarrier_, isPreviousPulseNarrow_;
 	int clockPhase_, pllPhase_;
 	enum PWMByteReceiverState rcvState_;
@@ -22,7 +22,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 	int rcvBitLength_, rcvMark1Count_;
 	uint8_t *rcvBuf_;
 	int rcvBufLength_;
-	AudioUnitSampleType signalLevel_;
+	Float32 signalLevel_;
 
     __unsafe_unretained id<SWMModem> modem_;
 }
@@ -121,16 +121,16 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 	}
 }
 #pragma mark Public methods
--(void)demodulate:(UInt32)length buf:(AudioUnitSampleType *)buf
+-(void)demodulate:(UInt32)length buf:(Float32 *)buf
 {	
-	assert(kPWMAudioBufferSize == length);
-	
-	AudioUnitSampleType sigLevel = self.signalLevel;
+//	assert(kPWMAudioBufferSize == length);
+	Float32 sigLevel = self.signalLevel;
+//NSLog(@"sig:%f", sigLevel);
 	for(int i=0; i < length;i++) {
 		// Low-pass filter
- 		AudioUnitSampleType sig = buf[i];
+ 		Float32 sig = buf[i];
 		lpfSig_ += (sig - lpfSig_) / 512 ; // LPF time constant 44.1kHz/512 =86Hz
-		AudioUnitSampleType diff = sig - lpfSig_;
+		Float32 diff = sig - lpfSig_;
 
 		// Signal level
 		sigLevel += (abs(diff) - sigLevel) / (4*1024); // LPF time constant 44.1kHz/(4*1024) = 11Hz
@@ -149,7 +149,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 			} 
 		}
 
-//NSLog(@"AMP:%ld", diff);
+//NSLog(@"AMP:%f", diff);
 		// bit decoding
 		if(edgeDetection) {
 			BOOL isNarrowPulse = (clockPhase_ <= (kPWMPulseWidthThreashold /2));

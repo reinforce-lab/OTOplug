@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AudioToolbox/AudioToolbox.h>
+@import AudioToolbox;
 
 @protocol SWMModem;
 
 @interface PWMDemodulator : NSObject
-// Average signal amplitude in an unit of AudioUnitSampleType.
-@property AudioUnitSampleType signalLevel;
+// Average signal amplitude in an unit of Float32.
+@property Float32 signalLevel;
 
 -(id)initWithModem:(id<SWMModem>)mdoem;
--(void)demodulate:(UInt32)length buf:(AudioUnitSampleType *)buf;
+-(void)demodulate:(UInt32)length buf:(Float32 *)buf;
 @end

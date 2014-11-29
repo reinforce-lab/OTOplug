@@ -29,7 +29,7 @@
     bufLength_ = 0;
     
     phy_ = [[MockPHY alloc] 
-            initWithParameters:[modem_ getAudioSamplingRate]
+            initWithSamplingRate:[modem_ getAudioSamplingRate]
             audioBufferSize:[modem_ getAudioBufferSize]];
 
     socket_ = [[OTORawSocket alloc] initWithModem:modem_];

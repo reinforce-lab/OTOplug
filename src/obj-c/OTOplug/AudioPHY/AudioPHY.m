@@ -6,11 +6,13 @@
 //  Copyright 2010 REINFORCE Lab. All rights reserved.
 //
 
-#import <AudioToolbox/AudioToolbox.h>
+@import AudioToolbox;
+#import "OTOplugUtility.h"
 #import "AudioPHYDelegate.h"
 #import "AudioPHY.h"
 #import "SWMModem.h"
 
+// FIXME オーディオのサンプルタイプはFloat32に統一(iOS8以降)
 // Private methods
 @interface AudioPHY ()
 {
@@ -37,7 +39,6 @@
 -(BOOL)isInterrupted;
 -(void)setIsInterrupted:(BOOL)isInterrupted;
 
--(void)checkOSStatusError:(NSString*)message error:(OSStatus)error;
 -(void)prepareAudioSession:(float)samplingRate audioBufferSize:(int)audioBufferSize;
 -(void)prepareAudioUnit:(float)samplingRate;
 @end
@@ -92,7 +93,7 @@ static void sessionPropertyChanged(void *inClientData,
 }
 
 #pragma mark - Constructor
--(id)initWithParameters:(float)samplingRate audioBufferSize:(int)audioBufferSize
+-(id)initWithSamplingRate:(float)samplingRate audioBufferSize:(int)audioBufferSize
 {
     self = [super init];
 	if(self) {
@@ -137,21 +138,21 @@ static OSStatus renderCallback(void * inRefCon,
 					inNumberFrames,
 					ioData
 					);
-	[phy checkOSStatusError:@"Microphone audio rendering" error:error]; 	
+    [OTOplugUtility checkOSStatusError:__PRETTY_FUNCTION__  message:@"Microphone audio rendering" error:error];
 	if(error) {
 		return error;
 	}
 	
 	// demodulate
-	AudioUnitSampleType *outL = ioData->mBuffers[0].mData;
-	AudioUnitSampleType *outR = ioData->mBuffers[1].mData;
+	Float32 *outL = ioData->mBuffers[0].mData;
+	Float32 *outR = ioData->mBuffers[1].mData;
 	[phy.modem demodulate:inNumberFrames buf:outL];
 	
 	// modulate
 	[phy.modem modulate:inNumberFrames leftBuf:outL rightBuf:outR];
 	
 // clear right channel
-//	bzero(outR, inNumberFrames * sizeof(AudioUnitSampleType));
+//	bzero(outR, inNumberFrames * sizeof(Float32));
     
 	return noErr;
 }
@@ -160,16 +161,12 @@ static void sessionInterruption(void *inClientData,
 {
     AudioPHY *phy = (__bridge AudioPHY *)inClientData;
 	if(inInterruptionState == kAudioSessionBeginInterruption) {
-        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:) 
-                              withObject:[NSNumber numberWithBool:YES]
-                              waitUntilDone:NO];
+        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:)  withObject:[NSNumber numberWithBool:YES] waitUntilDone:NO];
 		NSLog(@"Begin AudioSession interruption.");
 	} else {
 		NSLog(@"End AudioSession interruption.");
 		AudioSessionSetActive(YES); // re-activate and re-start audio play&recording
-        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:) 
-                              withObject:[NSNumber numberWithBool:NO]
-                           waitUntilDone:NO];        
+        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:) withObject:[NSNumber numberWithBool:NO] waitUntilDone:NO];
 	}
 }
 static void sessionPropertyChanged(void *inClientData,
@@ -180,9 +177,7 @@ static void sessionPropertyChanged(void *inClientData,
 	AudioPHY *phy = (__bridge AudioPHY *)inClientData;
 	if(inID ==kAudioSessionProperty_CurrentHardwareOutputVolume ) {	
 		float volume = *((float *)inData);
-        [phy performSelectorOnMainThread:@selector(setVolumeWP:) 
-                              withObject:[NSNumber numberWithFloat:volume]
-                           waitUntilDone:false];        
+        [phy performSelectorOnMainThread:@selector(setVolumeWP:) withObject:[NSNumber numberWithFloat:volume] waitUntilDone:false];
 	} else if( inID == kAudioSessionProperty_AudioRouteChange ) {
 #if !(TARGET_IPHONE_SIMULATOR)
 		UInt32 size = sizeof(CFStringRef);
@@ -190,9 +185,7 @@ static void sessionPropertyChanged(void *inClientData,
 		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
 //NSLog(@"%s route channged: %@", __func__, (__bridge NSString *)route );
 		NSString *rt = (__bridge_transfer NSString *)route;
-        [phy performSelectorOnMainThread:@selector(setIsHeadSetInWP:) 
-                              withObject:rt
-                           waitUntilDone:false];
+        [phy performSelectorOnMainThread:@selector(setIsHeadSetInWP:)  withObject:rt waitUntilDone:false];
 #endif		
 	}
 }
@@ -204,50 +197,45 @@ static void sessionPropertyChanged(void *inClientData,
 }
 -(void)setIsHeadSetInWP:(NSString *)rt
 {
-    self.isMicAvailable = [rt isEqualToString:@"HeadphonesAndMicrophone"];
+    self.isMicAvailable = [rt isEqualToString:@"HeadsetInOut"] || [rt isEqualToString:@"HeadphonesAndMicrophone"];
 	self.isHeadsetIn    = [rt isEqualToString:@"HeadsetInOut"] || [rt isEqualToString:@"HeadphonesAndMicrophone"];
 }
 -(void)setVolumeWP:(NSNumber *)volume
 {
     self.outputVolume = [volume floatValue];
 }
--(void)checkOSStatusError:(NSString *)message error:(OSStatus)error
-{
-	if(error) {
-		NSLog(@"AudioPHY error message:%@ OSStatus:%d.",message, (int)error);
-	}
-}
+
 -(void)prepareAudioSession:(float)samplingRate audioBufferSize:(int)audioBufferSize
 {
 	OSStatus error;
 	
 	error = AudioSessionInitialize(NULL, NULL, sessionInterruption, (__bridge void*)self);
-	[self checkOSStatusError:@"AudioSessionInitialize()" error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioSessionInitialize()" error:error];
 	
 	// Setting Audio Session Category (play and record)
 	UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
 	error = AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
 							sizeof(sessionCategory),
 							&sessionCategory);
-	[self checkOSStatusError:@"AudioSessionSetProperty() sets category" error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioSessionSetProperty() sets category" error:error];
 
 	// set hardware sampling rate
 	/*
 	Float64 sampleRate = kSWMSamplingRate;
 	error = AudioSessionSetProperty(kAudioSessionProperty_CurrentHardwareSampleRate, sizeof(Float64), &sampleRate);
-	[self checkOSStatusError:@"AudioSessionSetProperty() sets currentHardwareSampleRate" error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioSessionSetProperty() sets currentHardwareSampleRate" error:error];
 	*/
 	
 	// set audio buffer size
 	Float32 duration = audioBufferSize / samplingRate;
 	error = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(Float32), &duration);
-	[self checkOSStatusError:@"AudioSessionSetProperty() sets preferredHardwareIOBufferDuration" error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioSessionSetProperty() sets preferredHardwareIOBufferDuration" error:error];
 	
 	// read properties
 	UInt32 size = sizeof(float);
 	float volume;
 	error = AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareOutputVolume, &size, &volume);
-	[self checkOSStatusError:@"AudioSessionGetProperty() current hardware volume." error:error];	
+	[OTOplugUtility checkOSStatusError:@"AudioSessionGetProperty() current hardware volume." error:error];	
 	self.outputVolume = volume;
 
 #if TARGET_IPHONE_SIMULATOR
@@ -257,7 +245,7 @@ static void sessionPropertyChanged(void *inClientData,
 	size = sizeof(CFStringRef);
 	CFStringRef route;
 	error = AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
-	[self checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
 	NSString *rt = (__bridge_transfer NSString *)route;
 
     [self setIsHeadSetInWP:rt];
@@ -269,19 +257,44 @@ static void sessionPropertyChanged(void *inClientData,
 	
 	// activation
 	error = AudioSessionSetActive( YES );
-	[self checkOSStatusError:@"AudioSessionSetActive()" error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioSessionSetActive()" error:error];
 }
 -(void)prepareAudioUnit:(float)samplingRate
 {
+    // applying speaker-out audio format, stereo channels
+    _outputFormat.mSampleRate         = samplingRate;
+    _outputFormat.mFormatID           = kAudioFormatLinearPCM;
+    _outputFormat.mFormatFlags        = kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked |  kAudioFormatFlagIsNonInterleaved;
+    // フレームはAudioUnitの最小のデータ単位。L/Rの2チャンネル分のデータがあるので、2をかける。
+    _outputFormat.mChannelsPerFrame   = 2;
+    _outputFormat.mBytesPerFrame      = sizeof(Float32);
+    // パケットはフレームの集まり。Linear PCMでは常に1パケット1フレーム。MP3などでは異なるが。
+    _outputFormat.mFramesPerPacket    = 1;
+    _outputFormat.mBytesPerPacket     = sizeof(Float32);
+    _outputFormat.mBitsPerChannel     = 8 * sizeof(Float32);
+    _outputFormat.mReserved           = 0;    
+    
+    // マイク入力のASBD。入力は1チャネルしかない。
+    AudioStreamBasicDescription inputFormat;
+    inputFormat.mSampleRate         = samplingRate;
+    inputFormat.mFormatID           = kAudioFormatLinearPCM;
+    inputFormat.mFormatFlags        = kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked |  kAudioFormatFlagIsNonInterleaved;
+    inputFormat.mChannelsPerFrame   = 2;
+    inputFormat.mBytesPerFrame      = sizeof(Float32);
+    inputFormat.mFramesPerPacket    = 1;
+    inputFormat.mBytesPerPacket     = sizeof(Float32);
+    inputFormat.mBitsPerChannel     = 8 * sizeof(Float32);
+    inputFormat.mReserved           = 0;
+    
 	OSStatus error;
 	//Getting RemoteIO Audio Unit (speaker out) AudioComponentDescription
     AudioComponentDescription cd;
 	{
-		cd.componentType = kAudioUnitType_Output;
-		cd.componentSubType = kAudioUnitSubType_RemoteIO;
+		cd.componentType         = kAudioUnitType_Output;
+		cd.componentSubType      = kAudioUnitSubType_RemoteIO;
 		cd.componentManufacturer = kAudioUnitManufacturer_Apple;
-		cd.componentFlags = 0;
-		cd.componentFlagsMask = 0;
+		cd.componentFlags        = 0;
+		cd.componentFlagsMask    = 0;
 	}
     
     //Getting AudioComponent
@@ -289,7 +302,7 @@ static void sessionPropertyChanged(void *inClientData,
 	
     //Getting audioUnit
     error = AudioComponentInstanceNew(component, &audioUnit_);
-	[self checkOSStatusError:@"AudioComponentInstanceNew" error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioComponentInstanceNew" error:error];
 
 	// turning on a microphone
 	UInt32 enableOutput = 1; // TRUE
@@ -299,7 +312,7 @@ static void sessionPropertyChanged(void *inClientData,
 						 1, // microphone
 						 &enableOutput,
 						 sizeof(enableOutput));
-	[self checkOSStatusError:@"AudioUnitSetProperty() turning on microphone" error:error];
+	[OTOplugUtility checkOSStatusError:@"AudioUnitSetProperty() turning on microphone" error:error];
 	
     // sets a callback method
     AURenderCallbackStruct callbackStruct;
@@ -311,28 +324,15 @@ static void sessionPropertyChanged(void *inClientData,
                          0,   // speaker
                          &callbackStruct,
                          sizeof(AURenderCallbackStruct));
-	[self checkOSStatusError:@"AduioUnitSetProperty sets a callback method" error:error];
-    
-	// applying speaker-out audio format, stereo channels
-    AudioStreamBasicDescription audioFormat;
-	{
-		audioFormat.mSampleRate         = samplingRate;
-		audioFormat.mFormatID           = kAudioFormatLinearPCM;
-		audioFormat.mFormatFlags        = kAudioFormatFlagsAudioUnitCanonical;
-		audioFormat.mChannelsPerFrame   = 2;
-		audioFormat.mBytesPerPacket     = sizeof(AudioUnitSampleType);
-		audioFormat.mBytesPerFrame      = sizeof(AudioUnitSampleType);
-		audioFormat.mFramesPerPacket    = 1;
-		audioFormat.mBitsPerChannel     = 8 * sizeof(AudioUnitSampleType);
-		audioFormat.mReserved           = 0;
-	}    
+	[OTOplugUtility checkOSStatusError:@"AduioUnitSetProperty sets a callback method" error:error];
+
     error = AudioUnitSetProperty(audioUnit_,
                          kAudioUnitProperty_StreamFormat,
                          kAudioUnitScope_Input, // input port of the speaker
                          0, // speaker
-                         &audioFormat,
-                         sizeof(audioFormat));
-	[self checkOSStatusError:@"AudioUnitSetProperty() sets speaker audio format" error:error];
+                         &_outputFormat,
+                         sizeof(_outputFormat));
+	[OTOplugUtility checkOSStatusError:@"AudioUnitSetProperty() sets speaker audio format" error:error];
 
 	// applying microphone audio format, monoral channel
 	//	audioFormat.mChannelsPerFrame = 1;
@@ -340,13 +340,13 @@ static void sessionPropertyChanged(void *inClientData,
 						 kAudioUnitProperty_StreamFormat,
 						 kAudioUnitScope_Output,
 						 1, // microphone
-						 &audioFormat,
-						 sizeof(audioFormat));
-	[self checkOSStatusError:@"AudioUnitSetProperty() sets microphone audio format" error:error];
+						 &inputFormat,
+						 sizeof(inputFormat));
+	[OTOplugUtility checkOSStatusError:@"AudioUnitSetProperty() sets microphone audio format" error:error];
 
 	//AudioUnit initialization
     error = AudioUnitInitialize(audioUnit_);
-	[self checkOSStatusError:@"AudioUnitInitialize" error:error];	
+	[OTOplugUtility checkOSStatusError:@"AudioUnitInitialize" error:error];	
 	/*
 	uint flag = 0;
 	AudioUnitGetProperty(audioUnit, kAudioUnitProperty_ShouldAllocateBuffer, kAudioUnitScope_Input, 0, &flag, sizeof(uint));

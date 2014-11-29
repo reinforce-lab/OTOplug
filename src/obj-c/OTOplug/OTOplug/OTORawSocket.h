@@ -58,4 +58,7 @@
  @abstract Flush all tx/rx buffer data. If audio jack is not connected, tx buffer is simply cleared.
  */
 -(void)flush;
+
+
+-(void)onReceivePacket;
 @end
