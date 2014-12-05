@@ -129,11 +129,11 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 	for(int i=0; i < length;i++) {
 		// Low-pass filter
  		Float32 sig = buf[i];
-		lpfSig_ += (sig - lpfSig_) / 512 ; // LPF time constant 44.1kHz/512 =86Hz
+		lpfSig_ += (sig - lpfSig_) / 512.0 ; // LPF time constant 44.1kHz/512 =86Hz
 		Float32 diff = sig - lpfSig_;
 
 		// Signal level
-		sigLevel += (abs(diff) - sigLevel) / (4*1024); // LPF time constant 44.1kHz/(4*1024) = 11Hz
+		sigLevel += (fabsf(diff) - sigLevel) / (4.0 * 1024.0 ); // LPF time constant 44.1kHz/(4*1024) = 11Hz
 		
 		// edge detection
 		BOOL edgeDetection = false;
@@ -149,7 +149,7 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 			} 
 		}
 
-//NSLog(@"AMP:%f", diff);
+//NSLog(@"AMP:%f SIG:%f", diff, sigLevel);
 		// bit decoding
 		if(edgeDetection) {
 			BOOL isNarrowPulse = (clockPhase_ <= (kPWMPulseWidthThreashold /2));
@@ -185,6 +185,16 @@ enum PWMByteReceiverState { Start = 0, BitReceiving, StuffingBit };
 		}
 	}
 	self.signalLevel = sigLevel;
+
+// デバッグ
+/*
+    static int cnt =0;
+    cnt++;
+    if(cnt > 50) {
+        NSLog(@"signalLevel: %e", self.signalLevel);
+        cnt = 0;
+    }
+*/
 }
 
 @end

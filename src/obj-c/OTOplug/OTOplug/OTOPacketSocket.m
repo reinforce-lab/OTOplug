@@ -79,7 +79,25 @@ uint8_t crc_ibutton_update(uint8_t crc, uint8_t data)
 {
     // check CRC8 checksum
     uint8_t crcsum = [self calculateCRC8:buf length:length];
-    if(crcsum != 0 || length <= 1) return;
+
+    // デバッグ
+/*
+    NSMutableString *str = [[NSMutableString alloc] init];
+    if(crcsum != 0) {
+        [str appendString:@"!! wrong packet:"];
+    } else {
+        [str appendString:@""];
+    }
+    for(int i=0; i < length;i++) {
+        [str appendFormat:@"0x%02x,", buf[i]];
+    }
+    if(crcsum != 0) {
+        NSLog(@"%@ length:%d crcsum:0x%02x", str, length, crcsum);
+    }
+*/
+    if(crcsum != 0 || length <= 1) {
+        return;
+    }
     
     @synchronized(self) {
         if(rcvSize_ == 0) {

@@ -18,7 +18,8 @@
 #define kPWMBaudRate       (kSWMSamplingRate / kPWMMark1Samples)
 
 // constants for implementation
-#define kPWMSliceLevel (1.0f / 250.0f)
+//#define kPWMSliceLevel (1.0f / 250.0f)
+#define kPWMSliceLevel (0.04)
 
 #define kPWMAudioBufferSize 512
 #define kPWMLostCarrierDuration   (kPWMMark0Samples * 1.5)
