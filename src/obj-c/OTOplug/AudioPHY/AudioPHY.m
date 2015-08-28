@@ -19,7 +19,8 @@
     AudioUnit audioUnit_;
     float outputVolume_;
     BOOL isHeadsetIn_;
-    BOOL isInterrupted_; 
+    BOOL isInterrupted_;
+    bool _shouldResume;
 }
 
 @property(nonatomic, assign) float outputVolume;
@@ -27,64 +28,48 @@
 @property(nonatomic, assign) BOOL isMicAvailable;
 @property(nonatomic, assign) BOOL isInterrupted;
 @property(nonatomic, assign) BOOL isRunning;
-
--(void)setIsHeadSetInWP:(NSString *)route;
--(void)setVolumeWP:(NSNumber *)volume;
--(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInterrupted;
-
--(float)outputVolume;
--(void)setOutputVolume:(float)outputVolume;
--(BOOL)isHeadsetIn;
--(void)setIsHeadsetIn:(BOOL)isHeadsetIn;
--(BOOL)isInterrupted;
--(void)setIsInterrupted:(BOOL)isInterrupted;
-
--(void)prepareAudioSession:(float)samplingRate audioBufferSize:(int)audioBufferSize;
--(void)prepareAudioUnit:(float)samplingRate;
 @end
-
-// function declarations
-static void sessionPropertyChanged(void *inClientData,
-								   AudioSessionPropertyID inID,
-								   UInt32 inDataSize,
-								   const void *inData);
 
 @implementation AudioPHY
 #pragma mark - Properties
 @synthesize delegate;
 @synthesize modem;
+@synthesize isMicAvailable;
+@synthesize isRunning;
 
 @dynamic outputVolume;
 @dynamic isHeadsetIn;
-@synthesize isMicAvailable;
 @dynamic isInterrupted;
-
-@synthesize isRunning;
 
 -(float)outputVolume
 {
     return outputVolume_;
 }
+
 -(void)setOutputVolume:(float)outputVolume
 {
     outputVolume_ = outputVolume;
     [self.modem outputVolumeChanged:outputVolume_];
     [self.delegate outputVolumeChanged:outputVolume_];
 }
+
 -(BOOL)isHeadsetIn
 {
     return isHeadsetIn_;
 }
+
 -(void)setIsHeadsetIn:(BOOL)isHeadsetIn
 {
     isHeadsetIn_ = isHeadsetIn;
     [self.modem headSetInOutChanged:isHeadsetIn_];
     [self.delegate headSetInOutChanged:isHeadsetIn_];
 }
+
 -(BOOL)isInterrupted
 {
     return isInterrupted_;
 }
+
 -(void)setIsInterrupted:(BOOL)isInterrupted
 {
     isInterrupted_ = isInterrupted;
@@ -106,13 +91,14 @@ static void sessionPropertyChanged(void *inClientData,
 -(void)dealloc {
 	// deallocating AudioUnit 
 	[self stop]; // stopping audiounit
-
-	// remove property listeners	
-	AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_CurrentHardwareOutputVolume, sessionPropertyChanged, (__bridge void *)self);
-	AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_AudioRouteChange, sessionPropertyChanged, (__bridge void*)self);
 	
 	AudioUnitUninitialize(audioUnit_);
 	AudioComponentInstanceDispose(audioUnit_);
+
+    // 通知の登録解除
+    [[AVAudioSession sharedInstance] removeObserver:self forKeyPath:@"outputVolume"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
 }
 
 #pragma mark render callback
@@ -156,109 +142,133 @@ static OSStatus renderCallback(void * inRefCon,
     
 	return noErr;
 }
-static void sessionInterruption(void *inClientData,
-								UInt32 inInterruptionState)
-{
-    AudioPHY *phy = (__bridge AudioPHY *)inClientData;
-	if(inInterruptionState == kAudioSessionBeginInterruption) {
-        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:)  withObject:[NSNumber numberWithBool:YES] waitUntilDone:NO];
-		NSLog(@"Begin AudioSession interruption.");
-	} else {
-		NSLog(@"End AudioSession interruption.");
-		AudioSessionSetActive(YES); // re-activate and re-start audio play&recording
-        [phy performSelectorOnMainThread:@selector(setIsAudioSessionInterruptedWP:) withObject:[NSNumber numberWithBool:NO] waitUntilDone:NO];
-	}
-}
-static void sessionPropertyChanged(void *inClientData,
-								   AudioSessionPropertyID inID,
-								   UInt32 inDataSize,
-								   const void *inData)
-{
-	AudioPHY *phy = (__bridge AudioPHY *)inClientData;
-	if(inID ==kAudioSessionProperty_CurrentHardwareOutputVolume ) {	
-		float volume = *((float *)inData);
-        [phy performSelectorOnMainThread:@selector(setVolumeWP:) withObject:[NSNumber numberWithFloat:volume] waitUntilDone:false];
-	} else if( inID == kAudioSessionProperty_AudioRouteChange ) {
-#if !(TARGET_IPHONE_SIMULATOR)
-		UInt32 size = sizeof(CFStringRef);
-		CFStringRef route;
-		AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
-//NSLog(@"%s route channged: %@", __func__, (__bridge NSString *)route );
-		NSString *rt = (__bridge_transfer NSString *)route;
-        [phy performSelectorOnMainThread:@selector(setIsHeadSetInWP:)  withObject:rt waitUntilDone:false];
-#endif		
-	}
-}
 
 #pragma mark - private methods
--(void)setIsAudioSessionInterruptedWP:(NSNumber *)isInt
+-(void)sessionDidInterrupt:(NSNotification *)notification
 {
-    self.isInterrupted = [isInt boolValue];
+    NSError *error;
+    
+    AVAudioSessionInterruptionType intrruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue];
+    switch (intrruptionType) {
+        case AVAudioSessionInterruptionTypeBegan:
+//            NSLog(@"Begin AudioSession interruption.");
+            self.isInterrupted = YES;
+            _shouldResume = self.isRunning;
+            [self stop];
+            break;
+
+        default:
+        case AVAudioSessionInterruptionTypeEnded:
+//            NSLog(@"End AudioSession interruption.");
+            self.isInterrupted = NO;
+            [[AVAudioSession sharedInstance] setActive:true error:&error];
+            [OTOplugUtility checkNSError:@"setActive:error:" error:error];
+            if(_shouldResume) {
+                [self start];
+            }
+            break;
+    }
 }
--(void)setIsHeadSetInWP:(NSString *)rt
+
+-(void)sessionDidRouteChange:(NSNotification *)notification
 {
-    self.isMicAvailable = [rt isEqualToString:@"HeadsetInOut"] || [rt isEqualToString:@"HeadphonesAndMicrophone"];
-	self.isHeadsetIn    = [rt isEqualToString:@"HeadsetInOut"] || [rt isEqualToString:@"HeadphonesAndMicrophone"];
+    [self checkAndRequestHeadsetInput];
 }
--(void)setVolumeWP:(NSNumber *)volume
+
+
+// ヘッドセット入力が利用可能かを確認する。利用できるなら、その入力に切り替える。
+// isHeadsetIn プロパティを、状況をあらわすように値を設定する。
+-(void)checkAndRequestHeadsetInput
 {
-    self.outputVolume = [volume floatValue];
+    NSError *error;
+    bool result;
+    
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+
+    // 入力を設定
+    result = false;
+    for(AVAudioSessionPortDescription *portDesc in session.currentRoute.inputs) {
+//        NSLog(@"input: name:%@, type:%@.", portDesc.portName, portDesc.portType);
+        if([portDesc.portType isEqualToString:AVAudioSessionPortLineIn] || [portDesc.portType isEqualToString:AVAudioSessionPortHeadsetMic]) {
+            result = true;
+            // 入力設定
+            [session setPreferredInput:portDesc error:&error];
+            [OTOplugUtility checkNSError:@"setPreferredInput:error:" error:error];
+        }
+    }
+    self.isMicAvailable = result;
+    
+    // 出力を設定
+    result = false;
+    for(AVAudioSessionPortDescription *portDesc in session.currentRoute.outputs) {
+//        NSLog(@"output: name:%@, type:%@.", portDesc.portName, portDesc.portType);
+        if([portDesc.portType isEqualToString:AVAudioSessionPortLineOut] || [portDesc.portType isEqualToString:AVAudioSessionPortHeadphones]) {
+            result = true;
+        }
+    }
+    self.isHeadsetIn = result;
 }
 
 -(void)prepareAudioSession:(float)samplingRate audioBufferSize:(int)audioBufferSize
 {
-	OSStatus error;
-	
-	error = AudioSessionInitialize(NULL, NULL, sessionInterruption, (__bridge void*)self);
-	[OTOplugUtility checkOSStatusError:@"AudioSessionInitialize()" error:error];
-	
-	// Setting Audio Session Category (play and record)
-	UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
-	error = AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
-							sizeof(sessionCategory),
-							&sessionCategory);
-	[OTOplugUtility checkOSStatusError:@"AudioSessionSetProperty() sets category" error:error];
+    NSError *error;
+    bool result;
+    
+    // Audio sessionを取得
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    
+    // Audio Session Categoryを設定
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+    [OTOplugUtility checkNSError:@"setCategory:" error:error];
+    
+    // モードセット
+    result = [session setMode:AVAudioSessionModeMeasurement error:&error];
+    [OTOplugUtility checkNSError:@"setMode:error:" error:error];
+    if( ! result ) {
+        NSLog(@"audio session mode was not accepted.");
+    }
+    
+    // ハードウェアサンプリング・レートを設定する
+    result =[session setPreferredHardwareSampleRate:samplingRate error:&error];
+    [OTOplugUtility checkNSError:@"setPreferredHardwareSampleRate:error:" error:error];
+    if( ! result ) {
+        NSLog(@"reqested hardware sampling rate was not accepted. reqested sampling rate: %f", samplingRate);
+    }
+    
+    // オーディオバッファサイズを指定します。時間で指定します。
+    NSTimeInterval duration = audioBufferSize / samplingRate;
+    result = [session setPreferredIOBufferDuration:duration error:&error];
+    [OTOplugUtility checkNSError:@"setPreferredIOBufferDuration:error:" error:error];
+    if( ! result ) {
+        NSLog(@"reqested buffer size hardware sampling rate was not accepted.");
+    }
 
-	// set hardware sampling rate
-	/*
-	Float64 sampleRate = kSWMSamplingRate;
-	error = AudioSessionSetProperty(kAudioSessionProperty_CurrentHardwareSampleRate, sizeof(Float64), &sampleRate);
-	[OTOplugUtility checkOSStatusError:@"AudioSessionSetProperty() sets currentHardwareSampleRate" error:error];
-	*/
-	
-	// set audio buffer size
-	Float32 duration = audioBufferSize / samplingRate;
-	error = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(Float32), &duration);
-	[OTOplugUtility checkOSStatusError:@"AudioSessionSetProperty() sets preferredHardwareIOBufferDuration" error:error];
-	
-	// read properties
-	UInt32 size = sizeof(float);
-	float volume;
-	error = AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareOutputVolume, &size, &volume);
-	[OTOplugUtility checkOSStatusError:@"AudioSessionGetProperty() current hardware volume." error:error];	
-	self.outputVolume = volume;
-
+    // AudioSessionをアクティベート
+    result = [session setActive:YES error:&error];
+    [OTOplugUtility checkNSError:@"setActive:error:" error:error];
+    if( ! result ) {
+        NSLog(@"session activation not accepted.");
+    }
+/*
 #if TARGET_IPHONE_SIMULATOR
     self.isMicAvailable = true;
-	self.isHeadsetIn = true;
+	self.isHeadsetIn    = true;
 #else // TARGET_IOS_IPHONE
-	size = sizeof(CFStringRef);
-	CFStringRef route;
-	error = AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &route);
-	[OTOplugUtility checkOSStatusError:@"AudioSessionGetProperty() audio route." error:error];
-	NSString *rt = (__bridge_transfer NSString *)route;
-
-    [self setIsHeadSetInWP:rt];
+    [self checkAndRequestHeadsetInput];
 #endif
-	
-	// add property listener
-	AudioSessionAddPropertyListener(kAudioSessionProperty_CurrentHardwareOutputVolume, sessionPropertyChanged, (__bridge void*)self);
-	AudioSessionAddPropertyListener(kAudioSessionProperty_AudioRouteChange, sessionPropertyChanged, (__bridge void*)self);
-	
-	// activation
-	error = AudioSessionSetActive( YES );
-	[OTOplugUtility checkOSStatusError:@"AudioSessionSetActive()" error:error];
+*/
+    [self checkAndRequestHeadsetInput];
+    
+    // KVOを登録、プロパティの初期値を設定。
+    self.outputVolume = session.outputVolume;
+    [session addObserver:self forKeyPath:@"outputVolume" options:NSKeyValueObservingOptionNew context:(__bridge void*)self];
+    
+    // audio session の interupt notification を登録
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionDidInterrupt:) name:AVAudioSessionInterruptionNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionDidRouteChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+    
 }
+
 -(void)prepareAudioUnit:(float)samplingRate
 {
     // applying speaker-out audio format, stereo channels
@@ -351,6 +361,17 @@ static void sessionPropertyChanged(void *inClientData,
 	uint flag = 0;
 	AudioUnitGetProperty(audioUnit, kAudioUnitProperty_ShouldAllocateBuffer, kAudioUnitScope_Input, 0, &flag, sizeof(uint));
 	NSLog(@"Should allocate buffer is %d.\n",flag);	*/
+}
+
+#pragma KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+//    NSLog(@"%s %@.", __PRETTY_FUNCTION__, keyPath);
+    if( [keyPath isEqualToString:@"outputVolume"]) {
+        self.outputVolume = [AVAudioSession sharedInstance].outputVolume;
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark public methods

@@ -20,6 +20,12 @@
     }
 }
 
++(void)checkNSError:(NSString *)message error:(NSError *)error {
+    if(error != nil) {
+        NSLog(@"AudioPHY error message:%@ error:%@.", message, [error description]);
+    }
+}
+
 +(void)checkOSStatusError:(const char [])prettyFunction message:(NSString *)message error:(OSStatus)error {
     if(error) {
         [OTOplugUtility checkOSStatusError:[NSString stringWithFormat:@"%s %@", prettyFunction, message] error:error];

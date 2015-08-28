@@ -6,7 +6,9 @@
 //  Copyright 2010 REINFORCE Lab. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+@import AVFoundation;
 @import AudioToolbox;
+
 
 @protocol AudioPHYDelegate, SWMModem;
 
