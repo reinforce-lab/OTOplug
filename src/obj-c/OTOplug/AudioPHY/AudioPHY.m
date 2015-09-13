@@ -229,7 +229,7 @@ static OSStatus renderCallback(void * inRefCon,
     }
     
     // ハードウェアサンプリング・レートを設定する
-    result =[session setPreferredHardwareSampleRate:samplingRate error:&error];
+    result =[session setPreferredSampleRate:samplingRate error:&error];
     [OTOplugUtility checkNSError:@"setPreferredHardwareSampleRate:error:" error:error];
     if( ! result ) {
         NSLog(@"reqested hardware sampling rate was not accepted. reqested sampling rate: %f", samplingRate);

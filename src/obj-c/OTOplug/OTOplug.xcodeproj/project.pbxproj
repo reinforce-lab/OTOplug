@@ -299,8 +299,8 @@
 		F8B086DF140C93D8001632F1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0640;
-				LastUpgradeCheck = 0630;
+				LastTestingUpgradeCheck = 0700;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = F8B086E2140C93D8001632F1 /* Build configuration list for PBXProject "OTOplug" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -408,6 +408,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OTOplugLogicTests/OTOplugLogicTests-Prefix.pch";
 				INFOPLIST_FILE = "OTOplugLogicTests/OTOplugLogicTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reinforce-lab.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -423,6 +424,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OTOplugLogicTests/OTOplugLogicTests-Prefix.pch";
 				INFOPLIST_FILE = "OTOplugLogicTests/OTOplugLogicTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reinforce-lab.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -443,6 +445,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
