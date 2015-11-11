@@ -299,7 +299,7 @@
 		F8B086DF140C93D8001632F1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0700;
+				LastTestingUpgradeCheck = 0710;
 				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = F8B086E2140C93D8001632F1 /* Build configuration list for PBXProject "OTOplug" */;
