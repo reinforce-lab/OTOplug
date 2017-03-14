@@ -8,12 +8,12 @@
 #import <Foundation/Foundation.h>
 @import AudioToolbox;
 
-#define kSWMSamplingRate    44100.0
+#define kSWMSamplingRate    48000.0
 #define kSWMSyncCode        0x7e
 #define kSWMMaxMark1Length  5
 
 #define kPWMMaxPacketSize  32
-#define kPWMMark1Samples   36
+#define kPWMMark1Samples   40
 #define kPWMMark0Samples   (kPWMMark1Samples *2)
 #define kPWMBaudRate       (kSWMSamplingRate / kPWMMark1Samples)
 
